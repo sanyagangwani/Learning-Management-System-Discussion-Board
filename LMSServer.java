@@ -3,16 +3,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class LMSServer implements Runnable{
+public class LMSServer implements Runnable {
 
     private User activeUser;
     private String activeCourse;
+    private int voteCount;
     private Socket socket;
     private static Object guard = new Object();
+
     public LMSServer(Socket socket) {
         this.socket = socket;
         this.activeUser = null;
         this.activeCourse = null;
+        this.voteCount = 0;
     }
 
     private static ArrayList<User> users = readUserDatabase();
@@ -27,7 +30,7 @@ public class LMSServer implements Runnable{
 
     private static ArrayList<VotersList> votersList = readVotersListDatabase();
 
-    private static ArrayList<Grades> grades =  readGradesDatabase();
+    private static ArrayList<Grades> grades = readGradesDatabase();
 
     public static void main(String[] args) {
 
@@ -40,7 +43,7 @@ public class LMSServer implements Runnable{
                 thread.start();
                 //thread.join(); (do we use this or not?) coz if we do, it means one client will run fully and then the other, but we don't want that
             }
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
 
@@ -55,7 +58,7 @@ public class LMSServer implements Runnable{
             pw = new PrintWriter(socket.getOutputStream());
             pw.flush();
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
@@ -329,6 +332,7 @@ public class LMSServer implements Runnable{
 
                             if (activeUser.getRole().equals("t")) {
 
+                                this.activeCourse = null;
                                 String goToCourseExit = "";
                                 String addGoExit = "";
                                 if (courses.isEmpty()) {
@@ -660,11 +664,11 @@ public class LMSServer implements Runnable{
                                                 return;
                                             }
                                         }
-                                        if (goToDFexit.equals("gotodf") || discussionForumMenu.equals("gotoforum")) {
+                                        if (discussionForumMenu.equals("gotoforum") || goToDFexit.equals("gotodf")) {
                                             int c = 0;
 
                                             for (int i = 0; i < discussionTopics.size(); i++) {
-                                                if (discussionTopics.get(i).getCourseName().equals(activeCourse)) {
+                                                if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
                                                     c++;
                                                 }
                                             }
@@ -749,69 +753,71 @@ public class LMSServer implements Runnable{
                                                         for (int i = 0; i < comments.size(); i++) {
                                                             if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
                                                                 if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
-                                                                   pw.write(comments.get(i).toString()); //42 send (loop)
+                                                                    pw.write(comments.get(i).toString()); //42 send (loop)
                                                                     pw.println();
-                                                                   pw.flush();
+                                                                    pw.flush();
                                                                 }
                                                             }
                                                         }
-                                                        String commentorExit = br.readLine(); //43 (a,b) read
-                                                        if (commentorExit.equals("exit")) {
-                                                            synchronized (guard) {
-                                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
-                                                            }
-                                                            this.activeUser = null;
-                                                            this.activeCourse = null;
-                                                            return;
-                                                        } else if (commentorExit.equals("moveahead")) {
+                                                    }
 
-                                                        } else if (commentorExit.equals("teacherwantstocomment")) {
-                                                            pw.write(activeUser.getUsername()); //44 write
-                                                            pw.println();
-                                                            pw.flush();
-                                                            Comments teacherCommentObj = readCommentsString(br.readLine()); //45 read
-                                                            synchronized (guard) {
-                                                                comments.add(teacherCommentObj); //synchronise
+                                                    String commentorExit = br.readLine(); //43 (a,b) read
 
-                                                                writeToCommentsDatabase(comments);
-                                                            }
+                                                    if (commentorExit.equals("exit")) {
 
-                                                            for (int i = 0; i < replies.size(); i++) {
-                                                                if (replies.get(i).getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                                    if (replies.get(i).getReply().equals(teacherCommentObj.getPost().getReply())) {
-                                                                        pw.write(replies.get(i).toString()); //46 write
-                                                                        pw.println();
-                                                                        pw.flush();
-                                                                    }
+                                                        synchronized (guard) {
+
+                                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                        }
+                                                        this.activeUser = null;
+                                                        this.activeCourse = null;
+                                                        return;
+                                                    } else if (commentorExit.equals("moveahead")) {
+
+                                                    } else if (commentorExit.equals("teacherwantstocomment")) {
+                                                        pw.write(activeUser.getUsername()); //44 write
+                                                        pw.println();
+                                                        pw.flush();
+                                                        Comments teacherCommentObj = readCommentsString(br.readLine()); //45 read
+                                                        synchronized (guard) {
+                                                            comments.add(teacherCommentObj); //synchronise
+
+                                                            writeToCommentsDatabase(comments);
+                                                        }
+
+                                                        for (int i = 0; i < replies.size(); i++) {
+                                                            if (replies.get(i).getUsername().equals(teacherCommentObj.getPost().getUsername())) {
+                                                                if (replies.get(i).getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                                    pw.write(replies.get(i).toString()); //46 write
+                                                                    pw.println();
+                                                                    pw.flush();
                                                                 }
                                                             }
-
-                                                            int numOfCommentsTeacherComment = 0;
-                                                            for (int i = 0; i < comments.size(); i++) {
-                                                                if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                                    if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
-                                                                        numOfCommentsTeacherComment++;
-                                                                    }
+                                                        }
+                                                        int numOfCommentsTeacherComment = 0;
+                                                        for (int i = 0; i < comments.size(); i++) {
+                                                            if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
+                                                                if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                                    numOfCommentsTeacherComment++;
                                                                 }
+
                                                             }
-                                                            pw.write(String.valueOf(numOfCommentsTeacherComment)); //47 write
-                                                            pw.println();
-                                                            pw.flush();
-                                                            for (int i = 0; i < comments.size(); i++) {
-                                                                if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                                    if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
-                                                                        pw.write(comments.get(i).toString()); //48 write (loop)
-                                                                        pw.println();
-                                                                        pw.flush();
-                                                                    }
+                                                        }
+                                                        pw.write(String.valueOf(numOfCommentsTeacherComment)); //47 write
+                                                        pw.println();
+                                                        pw.flush();
+                                                        for (int i = 0; i < comments.size(); i++) {
+                                                            if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
+                                                                if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                                    pw.write(comments.get(i).toString()); //48 write (loop)
+                                                                    pw.println();
+                                                                    pw.flush();
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 }
-
                                             }
-
                                         }
                                         //ask if teacher wants to check votes
                                         int numOfDf = 0;
@@ -831,7 +837,7 @@ public class LMSServer implements Runnable{
 
                                             String checkVotesAns = br.readLine(); // 50 (a,b,c) read
                                             if (checkVotesAns.equals("exit")) {
-                                                synchronized (guard){
+                                                synchronized (guard) {
                                                     writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
@@ -1446,7 +1452,6 @@ public class LMSServer implements Runnable{
                                     }
                                 }
                             } //student part ends here
-                          
 
 
                             loopingBackOrExit = br.readLine(); //69 (a,b) read
@@ -1465,7 +1470,8 @@ public class LMSServer implements Runnable{
             }
         } catch (IOException e) {
             e.printStackTrace();
-        };
+        }
+        ;
 
 
     }
@@ -1755,7 +1761,6 @@ public class LMSServer implements Runnable{
     }
 
 
-
     public static ArrayList<DiscussionTopic> readDiscussionTopicDatabase() {
 
         ArrayList<DiscussionTopic> dt = new ArrayList<>();
@@ -1800,7 +1805,7 @@ public class LMSServer implements Runnable{
     }
 
 
-    public static Replies readRepliesString (String s) {
+    public static Replies readRepliesString(String s) {
         int index;
         Replies replyObject = null;
         if (s != null && !s.isEmpty()) {
@@ -1894,7 +1899,7 @@ public class LMSServer implements Runnable{
     }
 
 
-    public static Comments readCommentsString (String s) {
+    public static Comments readCommentsString(String s) {
         int index;
         Comments commentObject = null;
         if (s != null && !s.isEmpty()) {
@@ -1941,8 +1946,6 @@ public class LMSServer implements Runnable{
         }
         return commentObject;
     }
-
-
 
 
     public static ArrayList<Comments> readCommentsDatabase() {
@@ -2016,7 +2019,7 @@ public class LMSServer implements Runnable{
     }
 
 
-    public static VotersList readVotersListString (String s) {
+    public static VotersList readVotersListString(String s) {
         int commaIndex;
         VotersList vlObject = null;
         if (s != null && !s.isEmpty()) {
@@ -2080,7 +2083,7 @@ public class LMSServer implements Runnable{
     }
 
 
-    public static Grades readGradesString (String s) {
+    public static Grades readGradesString(String s) {
         int commaIndex;
         Grades gradeObject = null;
         if (s != null && !s.isEmpty()) {
@@ -2213,6 +2216,14 @@ public class LMSServer implements Runnable{
 //check if you're writing to database after every edit
 //make sure to account for cross on top of panel for GUIs
 //students: voting, round variable (to check the number of current round)
+//account for cross button on top everytime, send a new code to server
+//add this.voteCount = 0; everythwere exiting
+//for places where changes are made to static variables in a for loop, do we synchronise the whole for loop, or just the statement in the for loop that makes changes
+//server shows exception when we abruptly stop client
+
+//can we call the edt multiple times using the swing.invoke method at all those places where we need a jframe?
+//can we creat jframe in the main method at those places where we need it instead of calling it on edt?
+//or can we put the entire main method in the run method of event dispatch thread? and keep creating jframes where required
 
 
 //active dtreplies will be made everytime
