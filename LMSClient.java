@@ -816,6 +816,7 @@ public class LMSClient {
                                     System.out.printf("1. Add a Discussion Forum\n2. " +
                                             "Edit a Discussion Forum\n" +
                                             "3. Delete a Discussion Forum\n4. Go to a Discussion Forum\n5. Exit");
+                                    System.out.println();
                                     discussionForumMenu = scanner.nextLine();
                                     if (discussionForumMenu.equals("1")) {
                                         pw.write("addforum"); //25 a write
@@ -1043,7 +1044,7 @@ public class LMSClient {
                                             return;
                                         }
                                     }
-                                    if (goToDFexit.equals("1") || discussionForumMenu.equals("4")) {
+                                    if (discussionForumMenu.equals("4") || goToDFexit.equals("1")) {
                                         String dteon = br.readLine(); //33(a,b) read
                                         if (dteon.equals("nodf")) {
                                             System.out.println("Sorry there are no discussion forums in this course anymore.");
@@ -1126,7 +1127,7 @@ public class LMSClient {
                                                             String commenterUsername = activeReplyComments.get(l).getUsername();
                                                             String commentTimestamp = activeReplyComments.get(l).getTimestamp();
                                                             String comment = activeReplyComments.get(l).getComment();
-                                                            System.out.printf(" %s (%s)\n%s\n\n", commenterUsername,
+                                                            System.out.printf("  %s (%s)\n  %s\n\n", commenterUsername,
                                                                     commentTimestamp, comment);
                                                         }
                                                     }
@@ -1178,7 +1179,7 @@ public class LMSClient {
                                                                 String commenterUsername = activeReplyComments.get(l).getUsername();
                                                                 String commentTimestamp = activeReplyComments.get(l).getTimestamp();
                                                                 String comment = activeReplyComments.get(l).getComment();
-                                                                System.out.printf(" %s (%s)\n%s\n\n", commenterUsername,
+                                                                System.out.printf("  %s (%s)\n  %s\n\n", commenterUsername,
                                                                         commentTimestamp, comment);
                                                             }
                                                         }
@@ -1222,7 +1223,7 @@ public class LMSClient {
                                                             String commentTimestamp = editedComments.get(l).
                                                                     getTimestamp();
                                                             String comment = editedComments.get(l).getComment();
-                                                            System.out.printf(" %s (%s)\n%s\n\n", commenterUsername,
+                                                            System.out.printf("  %s (%s)\n  %s\n\n", commenterUsername,
                                                                     commentTimestamp, comment);
                                                         }
                                                     }
@@ -1891,7 +1892,7 @@ public class LMSClient {
                                     }
                                 }
                             }
-                        }
+                        } // student part ends here
 
                         System.out.println("You've reached the end of the menu!");
                         System.out.println("1. Go back to the main page\n2. Exit");
