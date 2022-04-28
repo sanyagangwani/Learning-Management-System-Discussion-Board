@@ -993,8 +993,460 @@ public class LMSServer implements Runnable{
                                     return;
                                 }
 
-                            }
-                            //teacher part ends here
+                            } else if (activeUser.getRole().equals("s")) {//teacher part ends here and student part begins
+                                this.activeCourse = null;
+                                if (courses.isEmpty() || courses == null) {
+                                    pw.write("nocourses"); //s1a send
+                                    pw.println();
+                                    pw.flush();
+                                    synchronized (guard) {
+                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                    }
+                                    this.activeUser = null;
+                                    this.activeCourse = null;
+                                    return;
+                                } else if (!courses.isEmpty()) {
+                                    pw.write("yescourses"); //s1b send
+                                    pw.println();
+                                    pw.flush();
+
+                                    pw.write(String.valueOf(courses.size())); //s2 send
+                                    pw.println();
+                                    pw.flush();
+
+                                    for (int i = 0; i < courses.size(); i++) {
+                                        pw.write(courses.get(i)); //s3 send (loop)
+                                        pw.println();
+                                        pw.flush();
+                                    }
+
+
+                                    String courseOrExit = br.readLine(); //s4 (a,b) read
+                                    if (courseOrExit.equals("exit")) {
+                                        synchronized (guard) {
+                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                        }
+                                        this.activeUser = null;
+                                        this.activeCourse = null;
+                                        return;
+                                    } else {
+                                        this.activeCourse = courseOrExit;
+
+                                        int counter = 0;
+                                        for (int j = 0; j < discussionTopics.size(); j++) {
+                                            if (discussionTopics.get(j).getCourseName().equals(this.activeCourse)) {
+                                                counter++;
+                                            }
+                                        }
+                                        if (counter == 0) {
+                                            pw.write("nodtopics"); // s5a send
+                                            pw.println();
+                                            pw.flush();
+                                        } else if (counter > 0) {
+                                            pw.write("yesdtopics"); //s5b send
+                                            pw.println();
+                                            pw.flush();
+
+                                            pw.write(String.valueOf(counter)); // s6 send
+                                            pw.println();
+                                            pw.flush();
+
+                                            for (int k = 0; k < discussionTopics.size(); k++) {
+                                                pw.write(discussionTopics.get(k).toString()); //s7 send (loop)
+                                                pw.println();
+                                                pw.flush();
+                                            }
+
+                                            String exitOrGotodf = br.readLine(); //s8 (a,b) read
+                                            if (exitOrGotodf.equals("exit")) {
+                                                synchronized (guard) {
+                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                }
+                                                this.activeUser = null;
+                                                this.activeCourse = null;
+                                                return;
+                                            } else if (exitOrGotodf.equals("dfselected")) {
+                                                String topicTitle = br.readLine(); //s9 read
+                                                String topicDescription = br.readLine(); //s10 read
+
+                                                int numOfReplies = 0;
+                                                for (int m = 0; m < replies.size(); m++) {
+                                                    if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
+                                                        if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            numOfReplies++;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (numOfReplies == 0) {
+
+                                                    pw.write("noreplies"); // 37a send
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (numOfReplies > 0) {
+                                                    pw.write("yesreplies"); //37b send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    pw.write(String.valueOf(numOfReplies)); // 38 send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    for (int j = 0; j < replies.size(); j++) {
+                                                        if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
+                                                            if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                pw.write(replies.get(j).toString()); //39 send (loop)
+                                                                pw.println();
+                                                                pw.flush();
+                                                            }
+                                                        }
+                                                    }
+                                                    int numOfComments = 0;
+                                                    for (int k = 0; k < comments.size(); k++) {
+                                                        if (comments.get(k).getPost().getDt().getTopicTitle().equals(topicTitle)) {
+                                                            if (comments.get(k).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                                numOfComments++;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    if (numOfComments == 0) {
+                                                        pw.write("nocomments"); //40a send
+                                                        pw.println();
+                                                        pw.flush();
+                                                    } else if (numOfComments > 0) {
+                                                        pw.write("yescomments"); //40b write
+                                                        pw.println();
+                                                        pw.flush();
+
+                                                        pw.write(String.valueOf(numOfComments)); //41 write
+                                                        pw.println();
+                                                        pw.flush();
+                                                        for (int l = 0; l < comments.size(); l++) {
+                                                            if (comments.get(l).getPost().getDt().getTopicTitle().equals(topicTitle)) {
+                                                                if (comments.get(l).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                                    pw.write(comments.get(l).toString()); //42 send (loop)
+                                                                    pw.println();
+                                                                    pw.flush();
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                String addToDF = br.readLine(); //s11 (a,b,c) read
+                                                if (addToDF.equals("studentwillpost")) {
+                                                    pw.write(this.activeUser.getUsername()); //s12 send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    String reply = br.readLine();//s13 read
+                                                    Replies replyObj = readRepliesString(reply);
+                                                    synchronized (guard) {
+                                                        replies.add(replyObj);
+                                                        writeToRepliesDatabase(replies);
+                                                    }
+
+                                                    numOfReplies = 0;
+                                                    for (int m = 0; m < replies.size(); m++) {
+                                                        if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
+                                                            if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                numOfReplies++;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    pw.write(String.valueOf(numOfReplies)); // 38 send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    for (int j = 0; j < replies.size(); j++) {
+                                                        if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
+                                                            if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                pw.write(replies.get(j).toString()); //39 send (loop)
+                                                                pw.println();
+                                                                pw.flush();
+                                                            }
+                                                        }
+                                                    }
+
+
+                                                } else if (addToDF.equals("studentwillnotpost")) {
+
+                                                } else if (addToDF.equals("exit")) {
+                                                    synchronized (guard) {
+                                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    }
+                                                    this.activeUser = null;
+                                                    this.activeCourse = null;
+                                                    return;
+                                                }
+                                                //comments
+                                                numOfReplies = 0;
+                                                for (int m = 0; m < replies.size(); m++) {
+                                                    if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
+                                                        if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            numOfReplies++;
+                                                        }
+                                                    }
+                                                }
+                                                if (numOfReplies == 0) {
+                                                    pw.write("norepliestocommenton"); //s15a send
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (numOfReplies > 0) {
+                                                    pw.write("yesrepliestocommenton"); //s15b send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    String commentOrNot = br.readLine(); //s16 (a,b,c) read
+                                                    if (commentOrNot.equals("studentwantstocomment")) {
+
+                                                        pw.write(this.activeUser.getUsername()); //s20 send
+                                                        pw.println();
+                                                        pw.flush();
+                                                        numOfReplies = 0;
+                                                        for (int m = 0; m < replies.size(); m++) {
+                                                            if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
+                                                                if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                    numOfReplies++;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        pw.write(String.valueOf(numOfReplies)); // 38 send
+                                                        pw.println();
+                                                        pw.flush();
+
+                                                        for (int j = 0; j < replies.size(); j++) {
+                                                            if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
+                                                                if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                    pw.write(replies.get(j).toString()); //39 send (loop)
+                                                                    pw.println();
+                                                                    pw.flush();
+                                                                }
+                                                            }
+                                                        }
+                                                        int numOfComments = 0;
+                                                        for (int k = 0; k < comments.size(); k++) {
+                                                            if (comments.get(k).getPost().getDt().getTopicTitle().equals(topicTitle)) {
+                                                                if (comments.get(k).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                                    numOfComments++;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        if (numOfComments == 0) {
+                                                            pw.write("nocomments"); //40a send
+                                                            pw.println();
+                                                            pw.flush();
+                                                        } else if (numOfComments > 0) {
+                                                            pw.write("yescomments"); //40b write
+                                                            pw.println();
+                                                            pw.flush();
+
+                                                            pw.write(String.valueOf(numOfComments)); //41 write
+                                                            pw.println();
+                                                            pw.flush();
+                                                            for (int l = 0; l < comments.size(); l++) {
+                                                                if (comments.get(l).getPost().getDt().getTopicTitle().equals(topicTitle)) {
+                                                                    if (comments.get(l).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                                        pw.write(comments.get(l).toString()); //42 send (loop)
+                                                                        pw.println();
+                                                                        pw.flush();
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        String studentComment = br.readLine(); //s21 read
+                                                        Comments studentCommentObj = readCommentsString(studentComment);
+                                                        synchronized (guard) {
+                                                            comments.add(studentCommentObj);
+                                                            writeToCommentsDatabase(comments);
+                                                        }
+                                                        String replierUsername = studentCommentObj.getPost().getUsername();
+                                                        String reply = studentCommentObj.getPost().getReply();
+
+                                                        int commentCounter = 0;
+                                                        for (int o = 0; o < comments.size(); o++) {
+                                                            if (comments.get(o).getPost().getUsername().equals(replierUsername)) {
+                                                                if (comments.get(o).getPost().getReply().equals(reply)) {
+                                                                    commentCounter++;
+                                                                }
+                                                            }
+                                                        }
+                                                        pw.write(String.valueOf(commentCounter)); //s22 write
+                                                        pw.println();
+                                                        pw.flush();
+
+                                                        for (int p = 0; p < comments.size(); p++) {
+                                                            if (comments.get(p).getPost().getUsername().equals(replierUsername)) {
+                                                                if (comments.get(p).getPost().getReply().equals(reply)) {
+                                                                    pw.write(comments.get(p).toString()); //s23 write(loop)
+                                                                    pw.println();
+                                                                    pw.flush();
+                                                                }
+                                                            }
+                                                        }
+
+                                                    } else if (commentOrNot.equals("studentdoesntwanttocomment")) {
+
+                                                    } else if (commentOrNot.equals("exit")) {
+                                                        synchronized (guard) {
+                                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                        }
+                                                        this.activeUser = null;
+                                                        this.activeCourse = null;
+                                                        return;
+                                                    }
+                                                }
+                                                //voting
+                                                String askForVotingOrNot;
+                                                if (this.voteCount == 0) {
+                                                    numOfReplies = 0;
+                                                    for (int m = 0; m < replies.size(); m++) {
+                                                        if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
+                                                            if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                numOfReplies++;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (numOfReplies > 0) {
+                                                        askForVotingOrNot = "askforvoting";
+                                                        pw.write(askForVotingOrNot); //s40a send
+                                                        pw.println();
+                                                        pw.flush();
+
+                                                        String studentWantsToVote = br.readLine(); //s41 (a,b,c) read
+                                                        if (studentWantsToVote.equals("studentwantstovote")) {
+
+                                                            numOfReplies = 0;
+                                                            for (int m = 0; m < replies.size(); m++) {
+                                                                if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
+                                                                    if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                        numOfReplies++;
+                                                                    }
+                                                                }
+                                                            }
+                                                            pw.write(String.valueOf(numOfReplies)); //s42 send
+                                                            pw.println();
+                                                            pw.flush();
+
+                                                            for (int j = 0; j < replies.size(); j++) {
+                                                                if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
+                                                                    if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                        pw.write(replies.get(j).toString()); //39 send (loop)
+                                                                        pw.println();
+                                                                        pw.flush();
+                                                                    }
+                                                                }
+                                                            }
+                                                            String upvotedPostString = br.readLine(); //s43 read
+                                                            Replies upvotedPost = readRepliesString(upvotedPostString);
+                                                            synchronized (guard) {
+                                                                for (int i = 0; i < replies.size(); i++) {
+                                                                    if (replies.get(i).getReply().equals(upvotedPost.getReply())) {
+                                                                        if (replies.get(i).getDt().getCourseName().equals(upvotedPost.
+                                                                                getDt().getCourseName())) {
+                                                                            if (replies.get(i).getDt().getTopicTitle().equals(upvotedPost.
+                                                                                    getDt().getTopicTitle())) {
+                                                                                if (replies.get(i).getUsername().equals(upvotedPost.getUsername())) {
+
+                                                                                    replies.get(i).setVotes(replies.get(i).getVotes() + 1);
+
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                writeToRepliesDatabase(replies);
+                                                            }
+
+                                                            VotersList vlObject = new VotersList(upvotedPost.getDt().getCourseName(),
+                                                                    upvotedPost.getDt().getTopicTitle(),
+                                                                    upvotedPost.getReply(), activeUser.getUsername());
+                                                            synchronized (guard) {
+                                                                votersList.add(vlObject);
+                                                                writeToVotersListDatabase(votersList);
+                                                            }
+                                                            this.voteCount++;
+                                                            pw.write("successfullyvoted"); //s44 send
+                                                            pw.println();
+                                                            pw.flush();
+
+                                                        } else if (studentWantsToVote.equals("studentdoesntwanttovote")) {
+
+                                                        } else if (studentWantsToVote.equals("exit")) {
+                                                            synchronized (guard) {
+                                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                            }
+                                                            this.activeUser = null;
+                                                            this.activeCourse = null;
+                                                            return;
+                                                        }
+
+                                                    } else if (numOfReplies == 0) {
+                                                        askForVotingOrNot = "dontaskforvoting";
+                                                        pw.write(askForVotingOrNot); //s40b send
+                                                        pw.println();
+                                                        pw.flush();
+                                                    }
+                                                } else {
+                                                    askForVotingOrNot = "dontaskforvoting";
+                                                    pw.write(askForVotingOrNot); //s40c send
+                                                    pw.println();
+                                                    pw.flush();
+                                                }
+                                            }
+                                            //GRADES CHECK
+                                            String checkGradesOrNot = br.readLine(); //s30 (a,b,c) read
+                                            if (checkGradesOrNot.equals("studentwantstocheckgrades")) {
+
+                                                ArrayList<Grades> studentGrades = new ArrayList<>();
+                                                for (int i = 0; i < grades.size(); i++) {
+                                                    if (grades.get(i).getCourseName().equals(activeCourse)) {
+                                                        if (grades.get(i).getUsername().equals(activeUser.getUsername())) {
+                                                            studentGrades.add(grades.get(i));
+                                                        }
+                                                    }
+                                                }
+
+                                                if (studentGrades.isEmpty()) {
+                                                    pw.write("nogrades"); //s31a send
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (!studentGrades.isEmpty()) {
+                                                    pw.write("yesgrades"); //s31b send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    pw.write(String.valueOf(studentGrades.size())); //s32 send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    for(int i = 0; i < studentGrades.size(); i++) {
+                                                        pw.write(studentGrades.get(i).toString()); //s33 send (loop)
+                                                        pw.println();
+                                                        pw.flush();
+                                                    }
+                                                }
+
+                                            } else if (checkGradesOrNot.equals("studentdoesntwanttocheckgrades")) {
+
+                                            } else if (checkGradesOrNot.equals("exit")) {
+                                                synchronized (guard) {
+                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                }
+                                                this.activeUser = null;
+                                                this.activeCourse = null;
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            } //student part ends here
+                          
 
 
                             loopingBackOrExit = br.readLine(); //69 (a,b) read
