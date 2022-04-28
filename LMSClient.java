@@ -1413,7 +1413,485 @@ public class LMSClient {
                                 return;
                             }
 
-                        }// teacher part ends here
+                        } else if (roleOfUser.equals("student")){// teacher part ends here
+
+                            //ask student for voting when he is in the discussion forum and grading (7th line) even if he's out of the discussion forum
+                            String coursesOrNot = br.readLine(); //s1 (a,b) read
+                            if (coursesOrNot.equals("nocourses")) {
+                                System.out.println("Sorry, no courses have been added yet.\nVisit after some time!");
+                                displayFarewell();
+                                return;
+                            } else if (coursesOrNot.equals("yescourses")) {
+                                int coursesSize = Integer.parseInt(br.readLine()); // s2 read
+                                ArrayList<String> courses = new ArrayList<>();
+                                for (int i = 0; i < coursesSize; i++) {
+                                    courses.add(br.readLine()); //s3 read (loop)
+                                }
+                                System.out.println("0. Exit"); //button or dropdown
+                                for (int i = 0; i < courses.size(); i++) {
+                                    System.out.printf("%d. %s\n", i + 1, courses.get(i)); //(buttons/dropdown)
+                                }
+                                System.out.println("Click on the course you'd like to go to"); //simple gui or a label (just a plain message)
+                                int courseChoice = Integer.parseInt(scanner.nextLine());
+                                if (courseChoice == 0) {
+                                    pw.write("exit"); //s4a send
+                                    pw.println();
+                                    pw.flush();
+                                    displayFarewell();
+                                    return;
+                                } else {
+                                    String activeCourse = courses.get(courseChoice - 1);
+                                    pw.write(activeCourse); //s4b send
+                                    pw.println();
+                                    pw.flush();
+
+                                    String dTopicsOrNot = br.readLine(); //s5 (a,b) read
+                                    if (dTopicsOrNot.equals("nodtopics")) {
+                                        System.out.println("No Discussion Forums have been added to this course yet!\\n\" +\n" +
+                                                "                                        \"Please visit after some time!");
+                                    } else if (dTopicsOrNot.equals("yesdtopics")) {
+                                        int activeCourseDTopicsSize = Integer.parseInt(br.readLine()); // s6 read
+                                        ArrayList<DiscussionTopic> activeCourseDTopics = new ArrayList<>();
+
+                                        for (int i = 0; i < activeCourseDTopicsSize; i++) {
+                                            DiscussionTopic dtObj = readDiscussionTopicString(br.readLine()); // s7 read(loop)
+                                            activeCourseDTopics.add(dtObj);
+                                        }
+
+                                        System.out.println("0. Exit"); //button/fropdown menu
+                                        for (int i = 0; i < activeCourseDTopics.size(); i++) {
+                                            //buttons or drop down menu
+                                            System.out.printf("%d. %s (%s)\n%s\n", i + 1,
+                                                    activeCourseDTopics.get(i).getTopicTitle(),
+                                                    activeCourseDTopics.get(i).getTimestamp(),
+                                                    activeCourseDTopics.get(i).getTopicDescription());
+                                        }
+                                        System.out.println("click on/ select the discussion forum you'd like to go to"); //simple gui or jlabe (just a message
+
+                                        int dtChoice = Integer.parseInt(scanner.nextLine());
+                                        if (dtChoice == 0) {
+                                            pw.write("exit"); //s8a send
+                                            pw.println();
+                                            pw.flush();
+                                            displayFarewell();
+                                            return;
+                                        } else {
+                                            pw.write("dfselected"); //s8b send
+                                            pw.println();
+                                            pw.flush();
+
+                                            String topicTitle = activeCourseDTopics.get(dtChoice - 1).getTopicTitle();
+                                            String topicDescription = activeCourseDTopics.get(dtChoice - 1).getTopicDescription();
+                                            String topicTimestamp = activeCourseDTopics.get(dtChoice - 1).getTimestamp();
+
+                                            pw.write(topicTitle); //s9 send
+                                            pw.println();
+                                            pw.flush();
+
+                                            pw.write(topicDescription); //s10 send
+                                            pw.println();
+                                            pw.flush();
+
+                                            String repliesExistOrNot = br.readLine(); //37 (a,b) read
+                                            if (repliesExistOrNot.equals("noreplies")) {
+                                                System.out.println("Sorry, there are no replies to this Discussion Forum yet!");
+                                                //we want to ask the end question of looping back after this
+                                            } else if (repliesExistOrNot.equals("yesreplies")) {
+                                                ArrayList<Replies> activeDTReplies = new ArrayList<>();
+                                                ArrayList<Comments> activeDTComments = new ArrayList<>();
+                                                int activeDTRepliesSize = Integer.parseInt(br.readLine());  //38 read
+
+                                                for (int i = 0; i < activeDTRepliesSize; i++) {
+                                                    String replyObjString = br.readLine(); //39 read (loop)
+                                                    Replies replyObject = readRepliesString(replyObjString);
+                                                    activeDTReplies.add(replyObject);
+                                                }
+                                                String commentsExistOrNot = br.readLine(); //40 (a,b) read
+                                                if (commentsExistOrNot.equals("yescomments")) {
+                                                    int commentsALSize = Integer.parseInt(br.readLine()); //41 read
+                                                    for (int i = 0; i < commentsALSize; i++) {
+                                                        Comments commentObject = readCommentsString(br.readLine()); //42 read (loop)
+                                                        activeDTComments.add(commentObject);
+                                                    }
+                                                }
+
+                                                System.out.printf("Discussion Forum\nTopic: %s (%s)\nDescription: %s\n\n",
+                                                        topicTitle, topicTimestamp, topicDescription);
+                                                int k = 1;
+                                                for (int i = activeDTReplies.size() - 1; i >= 0; i--) {
+                                                    String replierUsername = activeDTReplies.get(i).getUsername();
+                                                    String replyTimestamp = activeDTReplies.get(i).getTimestamp();
+                                                    String reply = activeDTReplies.get(i).getReply();
+
+                                                    ArrayList<Comments> activeReplyComments = new ArrayList<>();
+                                                    if (!activeDTComments.isEmpty()) {
+                                                        for (int j = 0; j < activeDTComments.size(); j++) {
+                                                            if (activeDTComments.get(j).getPost().getUsername().equals(replierUsername)) {
+                                                                if (activeDTComments.get(j).getPost().getReply().equals(reply)) {
+                                                                    activeReplyComments.add(activeDTComments.get(j));
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    System.out.printf("%d. %s (%s)\n%s\n\n", k, replierUsername,
+                                                            replyTimestamp, reply);
+                                                    k++;
+                                                    if (!activeReplyComments.isEmpty()) {
+                                                        for (int l = activeReplyComments.size() - 1; l >= 0; l--) {
+                                                            String commenterUsername = activeReplyComments.get(l).getUsername();
+                                                            String commentTimestamp = activeReplyComments.get(l).getTimestamp();
+                                                            String comment = activeReplyComments.get(l).getComment();
+                                                            System.out.printf("  %s (%s)\n  %s\n\n", commenterUsername,
+                                                                    commentTimestamp, comment);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            System.out.println("Would you like to add a post to this Discussion Forum?\n1. " +
+                                                    "Yes\n2. No\n3. Exit\n");
+                                            String addToDF;
+                                            addToDF = scanner.nextLine();
+                                            if (addToDF.equals("1")) {
+                                                pw.write("studentwillpost"); //s11a send
+                                                pw.println();
+                                                pw.flush();
+                                                String activeUserUsername = br.readLine(); //s12 read
+
+                                                System.out.println("Note: Please write the post as a single line!"); //simple gui or plain text message
+                                                System.out.println("Would you like to write the post:\n1. In the text box\n2. " +
+                                                        "Import a file for it?");
+
+                                                String addPostOptions = scanner.nextLine();
+                                                String newPost = null;
+                                                Replies reply = null;
+                                                if (addPostOptions.equals("1")) {
+                                                    System.out.println("Please enter your post in a single line in the Text box");
+                                                    newPost = scanner.nextLine();
+                                                    reply = new Replies(activeCourseDTopics.get(dtChoice - 1),
+                                                            activeUserUsername, newPost);
+                                                } else if (addPostOptions.equals("2")) {
+                                                    System.out.println("Please enter the file pathname.");
+                                                    boolean errorInFileImport = false;
+                                                    do {
+                                                        String f = scanner.nextLine();
+
+                                                        try {
+                                                            File file = new File(f);
+                                                            FileReader fr = new FileReader(file);
+                                                            BufferedReader brr = new BufferedReader(fr);
+                                                            String s = brr.readLine();
+                                                            if (s == null || s.isEmpty()) {
+                                                                System.out.println("This first line of this file is empty.\n" +
+                                                                        "Please " +
+                                                                        "enter the file path of a non-empty file.");
+                                                                errorInFileImport = true;
+                                                            } else if (!s.isEmpty() && s != null) {
+                                                                newPost = s;
+                                                                errorInFileImport = false;
+                                                            }
+                                                            brr.close();
+                                                            fr.close();
+                                                        } catch (FileNotFoundException fnfe) {
+                                                            System.out.println("No file with this name was found.\nPlease enter " +
+                                                                    "the correct file path.");
+                                                            errorInFileImport = true;
+                                                        } catch (IOException ioe) {
+                                                            ioe.printStackTrace();
+                                                            System.out.println("\nThere was an error reading your file, " +
+                                                                    "please enter the path name of a valid file again");
+                                                            errorInFileImport = true;
+                                                        }
+
+                                                    } while (errorInFileImport);
+                                                    reply = new Replies(activeCourseDTopics.get(dtChoice - 1),
+                                                            activeUserUsername, newPost);
+                                                }
+
+                                                pw.write(reply.toString());//s13 write
+                                                pw.println();
+                                                pw.flush();
+
+                                                ArrayList<Replies> activeDTReplies = new ArrayList<>();
+                                                int activeDTRepliesSize = Integer.parseInt(br.readLine());  //38 read
+
+                                                for (int i = 0; i < activeDTRepliesSize; i++) {
+                                                    String replyObjString = br.readLine(); //39 read (loop)
+                                                    Replies replyObject = readRepliesString(replyObjString);
+                                                    activeDTReplies.add(replyObject);
+                                                }
+
+                                                System.out.printf("Discussion Forum\nTopic: %s (%s)\nDescription: %s\n\n",
+                                                        topicTitle, topicTimestamp, topicDescription);
+                                                int k = 1;
+                                                for (int i = activeDTReplies.size() - 1; i >= 0; i--) {
+                                                    String replierUsername = activeDTReplies.get(i).getUsername();
+                                                    String replyTimestamp = activeDTReplies.get(i).getTimestamp();
+                                                    String replyy = activeDTReplies.get(i).getReply();
+
+
+
+                                                    System.out.printf("%d. %s (%s)\n%s\n\n", k, replierUsername,
+                                                            replyTimestamp, replyy);
+                                                    k++;
+                                                }
+
+                                                System.out.println("Your reply was successfully posted!");
+
+                                            } else if (addToDF.equals("2")) {
+                                                pw.write("studentwillnotpost"); //s11b send
+                                                pw.println();
+                                                pw.flush();
+                                            } else if (addToDF.equals("3")) {
+                                                pw.write("exit"); //s11c send
+                                                pw.println();
+                                                pw.flush();
+                                                displayFarewell();
+                                                return;
+                                            }
+                                            //comments
+                                            String askForCommentsOrNot = br.readLine(); //s15 (a,b) read
+                                            if (askForCommentsOrNot.equals("norepliestocommenton")) {
+
+                                            } else if (askForCommentsOrNot.equals("yesrepliestocommenton")) {
+                                                System.out.println("Would you like to comment on a student post?\n1. " +
+                                                        "Yes\n2. No\n3. Exit");
+                                                String commentAns = scanner.nextLine();
+                                                if (commentAns.equals("1")) {
+                                                    pw.write("studentwantstocomment"); //s16a send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    String activeUserUsername = br.readLine(); //s20 read
+                                                    ArrayList<Replies> activeDTReplies = new ArrayList<>();
+                                                    ArrayList<Comments> activeDTComments = new ArrayList<>();
+                                                    int activeDTRepliesSize = Integer.parseInt(br.readLine());  //38 read
+
+                                                    for (int i = 0; i < activeDTRepliesSize; i++) {
+                                                        String replyObjString = br.readLine(); //39 read (loop)
+                                                        Replies replyObject = readRepliesString(replyObjString);
+                                                        activeDTReplies.add(replyObject);
+                                                    }
+                                                    String commentsExistOrNot = br.readLine(); //40 (a,b) read
+                                                    if (commentsExistOrNot.equals("yescomments")) {
+                                                        int commentsALSize = Integer.parseInt(br.readLine()); //41 read
+                                                        for (int i = 0; i < commentsALSize; i++) {
+                                                            Comments commentObject = readCommentsString(br.readLine()); //42 read (loop)
+                                                            activeDTComments.add(commentObject);
+                                                        }
+                                                    }
+
+                                                    System.out.printf("Discussion Forum\nTopic: %s (%s)\nDescription: %s\n\n",
+                                                            topicTitle, topicTimestamp, topicDescription);
+                                                    int k = 1;
+                                                    for (int i = activeDTReplies.size() - 1; i >= 0; i--) {
+                                                        String replierUsername = activeDTReplies.get(i).getUsername();
+                                                        String replyTimestamp = activeDTReplies.get(i).getTimestamp();
+                                                        String reply = activeDTReplies.get(i).getReply();
+
+                                                        ArrayList<Comments> activeReplyComments = new ArrayList<>();
+                                                        if (!activeDTComments.isEmpty()) {
+                                                            for (int j = 0; j < activeDTComments.size(); j++) {
+                                                                if (activeDTComments.get(j).getPost().getUsername().equals(replierUsername)) {
+                                                                    if (activeDTComments.get(j).getPost().getReply().equals(reply)) {
+                                                                        activeReplyComments.add(activeDTComments.get(j));
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        System.out.printf("%d. %s (%s)\n%s\n\n", k, replierUsername,
+                                                                replyTimestamp, reply);
+                                                        k++;
+                                                        if (!activeReplyComments.isEmpty()) {
+                                                            for (int l = activeReplyComments.size() - 1; l >= 0; l--) {
+                                                                String commenterUsername = activeReplyComments.get(l).getUsername();
+                                                                String commentTimestamp = activeReplyComments.get(l).getTimestamp();
+                                                                String comment = activeReplyComments.get(l).getComment();
+                                                                System.out.printf("  %s (%s)\n  %s\n\n", commenterUsername,
+                                                                        commentTimestamp, comment);
+                                                            }
+                                                        }
+                                                    }
+                                                    System.out.println("Which post would you like to comment on?");
+                                                    int postNum = Integer.parseInt(scanner.nextLine());
+                                                    String studentComment;
+                                                    System.out.println("Please enter your comment in a single line.");
+                                                    do {
+                                                        studentComment = scanner.nextLine();
+                                                        if (studentComment.isEmpty() || studentComment == null) {
+                                                            System.out.println("Comment can not be empty.");
+                                                        }
+                                                    } while (studentComment.isEmpty() || studentComment == null);
+
+                                                    Replies studentReply = activeDTReplies.get(activeDTReplies.size() - postNum);
+                                                    Comments studentCommentObj = new Comments(studentReply,
+                                                            activeUserUsername, studentComment);
+
+                                                    pw.write(studentCommentObj.toString());//s21 send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    int commentSize = Integer.parseInt(br.readLine()); //s22 read
+                                                    ArrayList<Comments> editedCommentsList = new ArrayList<>();
+
+                                                    for (int i = 0; i < commentSize; i++) {
+                                                        String comment = br.readLine(); //s23 read (loop)
+                                                        Comments commentObj = readCommentsString(comment);
+                                                        editedCommentsList.add(commentObj);
+                                                    }
+
+                                                    String replierUsername = editedCommentsList.get(0).getPost().getUsername();
+                                                    String replyTimestamp = editedCommentsList.get(0).getPost().getTimestamp();
+                                                    String reply = editedCommentsList.get(0).getPost().getReply();
+                                                    System.out.printf("%s (%s)\n%s\n\n", replierUsername,
+                                                            replyTimestamp, reply);
+
+                                                    for (int l = editedCommentsList.size() - 1; l >= 0; l--) {
+                                                        String commenterUsername = editedCommentsList.get(l).getUsername();
+                                                        String commentTimestamp = editedCommentsList.get(l).getTimestamp();
+                                                        String comment = editedCommentsList.get(l).getComment();
+                                                        System.out.printf("  %s (%s)\n  %s\n\n", commenterUsername,
+                                                                commentTimestamp, comment);
+                                                    }
+
+                                                    System.out.println("Your comment was successfully added!");
+
+                                                } else if (commentAns.equals("2")) {
+                                                    pw.write("studentdoesntwanttocomment"); //s16b send
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (commentAns.equals("3")) {
+                                                    pw.write("exit"); //s16c send
+                                                    pw.println();
+                                                    pw.flush();
+                                                    displayFarewell();
+                                                    return;
+                                                }
+                                            }
+                                            //voting
+                                            String askForVotingOrNot = br.readLine(); //s40 (a,b,c) read
+                                            if (askForVotingOrNot.equals("askforvoting")) {
+
+                                                System.out.println("Would you like to upvote any post?\n1. Yes\n2. No\n3. " +
+                                                        "Exit");
+                                                String votingAns = scanner.nextLine();
+
+                                                if (votingAns.equals("1")) {
+                                                    pw.write("studentwantstovote"); //s41a write
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    int numOfReplies = Integer.parseInt(br.readLine()); //s42 read
+                                                    ArrayList<Replies> activeDTreplies = new ArrayList<>();
+
+                                                    for (int i = 0; i < numOfReplies; i++) {
+                                                        String replyObjString = br.readLine(); //39 read (loop)
+                                                        Replies replyObject = readRepliesString(replyObjString);
+                                                        activeDTreplies.add(replyObject);
+                                                    }
+                                                    topicTitle = activeDTreplies.get(0).getDt().getTopicTitle();
+                                                    topicTimestamp = activeDTreplies.get(0).getDt().getTimestamp();
+                                                    topicDescription = activeDTreplies.get(0).getDt().getTopicDescription();
+
+                                                    System.out.printf("%s (%s)\n%s\n", topicTitle, topicTimestamp,
+                                                            topicDescription);
+                                                    int k = 1;
+                                                    for (int i = activeDTreplies.size() - 1; i >= 0; i--) {
+
+                                                        if (k == 1) {
+                                                            System.out.printf("%d. %s (%s)\n%s", k,
+                                                                    activeDTreplies.get(i).getUsername(),
+                                                                    activeDTreplies.get(i).getTimestamp(),
+                                                                    activeDTreplies.get(i).getReply());
+                                                            k++;
+                                                        } else {
+                                                            System.out.printf("\n%d. %s (%s)\n%s", k,
+                                                                    activeDTreplies.get(i).getUsername(),
+                                                                    activeDTreplies.get(i).getTimestamp(),
+                                                                    activeDTreplies.get(i).getReply());
+                                                            k++;
+                                                        }
+                                                    }
+
+                                                    System.out.println("\n\nWhich post would you like to upvote for?\n" +
+                                                            "(You can only upvote one post of these)\n");
+
+                                                    int upvotedPostNum = Integer.parseInt(scanner.nextLine());
+                                                    Replies upvotedPost = activeDTreplies.get(
+                                                            activeDTreplies.size() - upvotedPostNum);
+
+                                                    pw.write(upvotedPost.toString()); //s43 send
+                                                    pw.println();
+                                                    pw.flush();
+                                                    String successfullyVotedOrNot = br.readLine();//s44 read
+                                                    if (successfullyVotedOrNot.equals("successfullyvoted")) {
+                                                        System.out.println("Hurray, you've successfully voted!");
+                                                    }
+
+                                                } else if (votingAns.equals("2")) {
+                                                    pw.write("studentdoesntwanttovote"); //s41b write
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (votingAns.equals("3")) {
+                                                    pw.write("exit"); //s41c write
+                                                    pw.println();
+                                                    pw.flush();
+                                                    displayFarewell();
+                                                    return;
+                                                }
+
+                                            } else if (askForVotingOrNot.equals("dontaskforvoting")) {
+
+                                            }
+                                        }
+                                        //CHECK GRADES
+
+                                        System.out.println("Would you like to check your grades for this course?\n1. Yes\n2. " +
+                                                "No\n3. Exit");
+                                        String checkGrades = scanner.nextLine();
+                                        if (checkGrades.equals("1")) {
+                                            pw.write("studentwantstocheckgrades"); //s30a write
+                                            pw.println();
+                                            pw.flush();
+
+                                            String gradedOrNot = br.readLine(); //s31 (a,b) read
+
+                                            if (gradedOrNot.equals("nogrades")) {
+                                                System.out.println("Either you have not made any posts in this course " +
+                                                        "or your teacher has not graded your work yet!");
+                                            } else if (gradedOrNot.equals("yesgrades")) {
+                                                int studentGradeSize = Integer.parseInt(br.readLine()); //s32 read
+                                                ArrayList<Grades> studentGrades = new ArrayList<>();
+
+                                                for (int i = 0; i < studentGradeSize; i++) {
+                                                    String grade = br.readLine(); //s33 read (loop)
+                                                    Grades studentGrade = readGradesString(grade);
+                                                    studentGrades.add(studentGrade);
+                                                }
+                                                for (int i = 0; i < studentGrades.size(); i++) {
+                                                    System.out.printf("Topic: %s\nYour Post: %s\n\nGrade: %.1f/10.0\n\n",
+                                                            studentGrades.get(i).getTopicTitle(),
+                                                            studentGrades.get(i).getReply(),
+                                                            studentGrades.get(i).getGrade());
+                                                }
+                                            }
+
+                                        } else if (checkGrades.equals("2")) {
+                                            pw.write("studentdoesntwanttocheckgrades"); //s30b write
+                                            pw.println();
+                                            pw.flush();
+                                        } else if (checkGrades.equals("3")) {
+                                            pw.write("exit"); //s30c write
+                                            pw.println();
+                                            pw.flush();
+                                            displayFarewell();
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                         System.out.println("You've reached the end of the menu!");
                         System.out.println("1. Go back to the main page\n2. Exit");
