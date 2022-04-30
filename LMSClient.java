@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -110,12 +109,23 @@ public class LMSClient {
             pw = new PrintWriter(socket.getOutputStream());
             pw.flush();
             br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("1. Log In\n2. Sign Up");
-        String loginSignupInput = scanner.nextLine();
+        String result = "";
+        String loginSignupInput = "";
+        String[] options = {"Log In", "Sign Up"};
+        try {
+            result = (String) JOptionPane.showInputDialog(null, "Would you like to...", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options, null);
+            if (result.equals("Log In")) {
+                loginSignupInput = "1";
+            } else {
+                loginSignupInput = "2";
+            }
+        } catch (NullPointerException e) {
+            displayFarewell();
+        }
         if (loginSignupInput.equals("2")) {
             pw.write("signup"); //1st send
             pw.println();
@@ -127,22 +137,29 @@ public class LMSClient {
         }
 
         if (loginSignupInput.equals("2")) {
-            String name;
+            String name = "";
             boolean f = false;
             do {
-                System.out.println("Please enter your full name:\n(Warning: You will not be able to " +
-                        "change your name later)");
-                name = scanner.nextLine();
-                f = false;
-                if (name == null || name.isEmpty()) {
-                    System.out.println("Name can not be empty");
-                    f = true;
-                } else if (name.indexOf(" ") == -1) {
-                    System.out.println("Please enter your firstname and lastname separated by a space.");
-                    f = true;
-                } else if (name.indexOf(',') != -1) {
-                    System.out.println("Please DO NOT use any commas in your name!");
-                    f = true;
+                try {
+                    name = JOptionPane.showInputDialog(null, "Please enter your full name:\n(Warning: You will not be able to " +
+                            "change your name later)", "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                    f = false;
+                    if (name == null || name.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Name can not be empty", "Learning" +
+                                "Management System", JOptionPane.ERROR_MESSAGE);
+                        f = true;
+                    } else if (name.indexOf(" ") == -1) {
+                        JOptionPane.showMessageDialog(null, "Please enter your firstname and lastname separated by a space.",
+                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                        f = true;
+                    } else if (name.indexOf(',') != -1) {
+                        JOptionPane.showMessageDialog(null, "Please DO NOT use any commas in your name!",
+                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                        f = true;
+                    }
+                } catch (NullPointerException e) {
+                    displayFarewell();
+                    return;
                 }
             } while (f);
             pw.write(name); //send 1a (name)
@@ -151,20 +168,25 @@ public class LMSClient {
 
             boolean c = false;
             int roleInt = 6;
+            String roleString = "";
+            String[] options2 = {"Teacher", "Student"};
             do {
-                System.out.println("Are you a\n1. Teacher\n2. Student ?\n(Warning: You will not be able to " +
-                            "change your role later!)");
-                String roleString = scanner.nextLine();
                 try {
-                    roleInt = Integer.parseInt(roleString);
+                    roleString = (String) JOptionPane.showInputDialog(null, "Please select your role", "Learning Management System",
+                            JOptionPane.PLAIN_MESSAGE, null, options2, null);
+                    if (roleString.equals("Teacher")) {
+                        roleInt = 1;
+                    } else {
+                        roleInt = 2;
+                    }
                     c = false;
                     if (roleInt != 2 && roleInt != 1) {
-                        System.out.println("Please enter 1 or 2");
+                        JOptionPane.showMessageDialog(null, "Please enter 1 or 2",
+                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
                         c = true;
                     }
-                } catch (Exception e) {
-                    System.out.println("Please enter 1 or 2\n");
-                    c = true;
+                } catch (NullPointerException e) {
+                    displayFarewell();
                 }
             } while (c);
             String role = "";
@@ -183,17 +205,20 @@ public class LMSClient {
             boolean unExists = false;
             do {
                 do {
-                    System.out.println("Please enter a username:");
-
-                    username = scanner.nextLine();
-                    d = false;
-
-                    if (username == null || username.isEmpty()) {
-                        System.out.println("Username can not be blank!");
-                        d = true;
-                    } else if (username.indexOf(',') != -1) {
-                        System.out.println("Please do not use any commas in your username!");
-                        d = true;
+                    try {
+                        username = JOptionPane.showInputDialog(null, "Please enter a username",
+                                "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                        d = false;
+                        if (username == null || username.isEmpty()) {
+                            System.out.println("Username can not be blank!");
+                            d = true;
+                        } else if (username.indexOf(',') != -1) {
+                            System.out.println("Please do not use any commas in your username!");
+                            d = true;
+                        }
+                    } catch (NullPointerException e) {
+                        displayFarewell();
+                        return;
                     }
                 } while (d);
                 pw.write(username); //send 1c (Username for checking if it's not already taken)
@@ -207,19 +232,26 @@ public class LMSClient {
                 }
                 if (unameExists.equals("unexists")) {
                     unExists = true;
-                    System.out.println("Oops, this username is already taken! Try again.");
+                    JOptionPane.showMessageDialog(null, "Oops, this username is already taken! Try again.",
+                            "Learning Management System", JOptionPane.ERROR_MESSAGE);
                 } else if (unameExists.equals("undexist")) {
                     unExists = false;
                 }
 
             } while (unExists);
 
-            String password;
+            String password = "";
             do {
-                System.out.println("Please enter a 6 characters password(DO NOT USE ANY COMMAS):");
-                password = scanner.nextLine();
-                if (password.length() != 6 || password.indexOf(',') != -1) {
-                    System.out.println("Password should be 6 characters long and without a comma!");
+                try {
+                    password = JOptionPane.showInputDialog(null, "Please enter a 6 characters password(DO NOT USE ANY COMMAS):",
+                            "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                    if (password.length() != 6 || password.indexOf(',') != -1) {
+                        JOptionPane.showMessageDialog(null, "Password should be 6 characters long and without a comma!",
+                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NullPointerException e) {
+                    displayFarewell();
+                    return;
                 }
             } while (password.length() != 6 || password.indexOf(',') != -1);
 
@@ -228,12 +260,23 @@ public class LMSClient {
             pw.flush();
 
             if (br.readLine().equals("usercreated")) { //1e read
-                System.out.println("Hurray, account successfully created!");
+                JOptionPane.showMessageDialog(null, "Hurray, account successfully created!",
+                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
             }
 
             String logInExitAns;
-            System.out.println("Do you want to:\n1. Log In\n2. Exit");
-            logInExitAns = scanner.nextLine();
+            String[] options3 = {"Log in", "Exit"};
+            try {
+                result = (String) JOptionPane.showInputDialog(null, "Would you like to ...", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options3, null);
+                if (result.equals("Log in")) {
+                    logInExitAns = "1";
+                } else {
+                    logInExitAns = "2";
+                }
+            } catch (NullPointerException e) {
+                displayFarewell();
+                return;
+            }
 
             if (logInExitAns.equals("2")) {
                 pw.write("exit"); //1fi write
@@ -254,24 +297,32 @@ public class LMSClient {
 
             String isUsersEmpty = br.readLine();// login read 1i
             if (isUsersEmpty.equals("empty")) {
-                System.out.println("You will first need to Sign Up");
+                JOptionPane.showMessageDialog(null, "You will first need to Sign Up",
+                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
 
-                String name;
+                String name = "";
                 boolean f = false;
                 do {
-                    System.out.println("Please enter your full name:\n(Warning: You will not be able to " +
-                            "change your name later)");
-                    name = scanner.nextLine();
-                    f = false;
-                    if (name == null || name.isEmpty()) {
-                        System.out.println("Name can not be empty");
-                        f = true;
-                    } else if (name.indexOf(" ") == -1) {
-                        System.out.println("Please enter your firstname and lastname separated by a space.");
-                        f = true;
-                    } else if (name.indexOf(',') != -1) {
-                        System.out.println("Please DO NOT use any commas in your name!");
-                        f = true;
+                    try {
+                        name = JOptionPane.showInputDialog(null, "Please enter your full name:\n(Warning: You will not be able to " +
+                                "change your name later)", "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                        f = false;
+                        if (name == null || name.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Name can not be empty",
+                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                            f = true;
+                        } else if (name.indexOf(" ") == -1) {
+                            JOptionPane.showMessageDialog(null, "Please enter your firstname and lastname separated by a space.",
+                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                            f = true;
+                        } else if (name.indexOf(',') != -1) {
+                            JOptionPane.showMessageDialog(null, "Please DO NOT use any commas in your name!",
+                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                            f = true;
+                        }
+                    } catch (NullPointerException e) {
+                        displayFarewell();
+                        return;
                     }
                 } while (f);
                 pw.write(name); //send 1a (name)
@@ -280,20 +331,25 @@ public class LMSClient {
 
                 boolean c = false;
                 int roleInt = 6;
+                String roleString = "";
+                String[] options2 = {"Teacher", "Student"};
                 do {
-                    System.out.println("Are you a\n1. Teacher\n2. Student ?\n(Warning: You will not be able to " +
-                            "change your role later!)");
-                    String roleString = scanner.nextLine();
                     try {
-                        roleInt = Integer.parseInt(roleString);
+                        roleString = (String) JOptionPane.showInputDialog(null, "Please select your role", "Learning Management System",
+                                JOptionPane.PLAIN_MESSAGE, null, options2, null);
+                        if (roleString.equals("Teacher")) {
+                            roleInt = 1;
+                        } else {
+                            roleInt = 2;
+                        }
                         c = false;
                         if (roleInt != 2 && roleInt != 1) {
-                            System.out.println("Please enter 1 or 2");
+                            JOptionPane.showMessageDialog(null, "Please enter 1 or 2",
+                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
                             c = true;
                         }
-                    } catch (Exception e) {
-                        System.out.println("Please enter 1 or 2\n");
-                        c = true;
+                    } catch (NullPointerException e) {
+                        displayFarewell();
                     }
                 } while (c);
                 String role = "";
@@ -307,14 +363,13 @@ public class LMSClient {
                 pw.println();
                 pw.flush();
 
-                String username;
+                String username = "";
                 boolean d = false;
                 boolean unExists = false;
                 do {
                     do {
-                        System.out.println("Please enter a username:");
-
-                        username = scanner.nextLine();
+                        username = JOptionPane.showInputDialog(null, "Please enter a username:",
+                                "Learning Management System", JOptionPane.QUESTION_MESSAGE);
                         d = false;
 
                         if (username == null || username.isEmpty()) {
@@ -336,19 +391,26 @@ public class LMSClient {
                     }
                     if (unameExists.equals("unexists")) {
                         unExists = true;
-                        System.out.println("Oops, this username is already taken! Try again.");
+                        JOptionPane.showMessageDialog(null, "Oops, this username is already taken! Try again.",
+                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
                     } else if (unameExists.equals("undexist")) {
                         unExists = false;
                     }
 
                 } while (unExists);
 
-                String password;
+                String password = "";
                 do {
-                    System.out.println("Please enter a 6 characters password(DO NOT USE ANY COMMAS):");
-                    password = scanner.nextLine();
-                    if (password.length() != 6 || password.indexOf(',') != -1) {
-                        System.out.println("Password should be 6 characters long and without a comma!");
+                    try {
+                        password = (String) JOptionPane.showInputDialog(null, "Please enter a 6 characters password(DO NOT USE ANY COMMAS):",
+                                "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                        if (password.length() != 6 || password.indexOf(',') != -1) {
+                            JOptionPane.showMessageDialog(null, "Password should be 6 characters long and without a comma!",
+                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (NullPointerException e) {
+                        displayFarewell();
+                        return;
                     }
                 } while (password.length() != 6 || password.indexOf(',') != -1);
 
@@ -357,23 +419,30 @@ public class LMSClient {
                 pw.flush();
 
                 if (br.readLine().equals("usercreated")) { //1e read
-                    System.out.println("Hurray, account successfully created!\nYou can now log in.");
+                    JOptionPane.showMessageDialog(null, "Hurray, account successfully created!\nYou can now log in.",
+                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                     isUsersEmpty = "notempty";
                 }
 
             }
 
-            String username;
-            String password;
+            String username = "";
+            String password = "";
             boolean unExists = true;
 
             if (isUsersEmpty.equals("notempty")) {
                 do {
                     do {
-                        System.out.println("Username: ");
-                        username = scanner.nextLine();
-                        if (username.isEmpty()) {
-                            System.out.println("Username can not be empty!");
+                        try {
+                            username = (String) JOptionPane.showInputDialog(null, "Username: ",
+                                    "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                            if (username.isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Username can not be empty!",
+                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (NullPointerException e) {
+                            displayFarewell();
+                            return;
                         }
                     } while (username.isEmpty());
 
@@ -385,7 +454,8 @@ public class LMSClient {
 
                     unameExists = br.readLine(); //1g read
                     if (unameExists.equals("undexist")) {
-                        System.out.println("Oops! This username doesn't exist.\nPlease try again!");
+                        JOptionPane.showMessageDialog(null, "Oops! This username doesn't exist.\nPlease try again!",
+                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
                         unExists = false;
                     } else if (unameExists.equals("unexists")) {
                         unExists = true;
@@ -395,10 +465,17 @@ public class LMSClient {
                 boolean isPswdCorrect = true;
                 do {
                     do {
-                        System.out.println("Password:");
-                        password = scanner.nextLine();
-                        if (password.length() != 6) {
-                            System.out.println("Please enter your 6 characters password!");
+                        try {
+
+                            password = (String) JOptionPane.showInputDialog(null, "Password: ",
+                                    "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                            if (password.length() != 6) {
+                                JOptionPane.showMessageDialog(null, "Please enter your 6 characters password!",
+                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (NullPointerException e) {
+                            displayFarewell();
+                            return;
                         }
                     } while (password.length() != 6);
                     pw.write(password); //1h write password
@@ -415,70 +492,94 @@ public class LMSClient {
 
                 String loggedIn = br.readLine(); // 2nd read
                 if (loggedIn.equals("loggedin")) {
-                    System.out.println("Hurray, you've successfully logged in!");
+                    JOptionPane.showMessageDialog(null, "Hurray, you've successfully logged in!",
+                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                String afterLogIn;
-                System.out.println("What would you like to do?\n1. Edit your account\n2. Delete your account\n" +
-                        "3. Go to the Main Page\n4. Exit");
-                afterLogIn = scanner.nextLine();
-                if (afterLogIn.equals("1")) {
-                    pw.write("editaccount"); //3a write
-                    pw.println();
-                    pw.flush();
-                } else if (afterLogIn.equals("2")) {
-                    pw.write("deleteaccount");//3b write
-                    pw.println();
-                    pw.flush();
-                } else if (afterLogIn.equals("3")) {
-                    pw.write("gotomainpage"); //3c write
-                    pw.println();
-                    pw.flush();
-                } else if (afterLogIn.equals("4")) {
-                    pw.write("exit"); //3d write
-                    pw.println();
-                    pw.flush();
+                String afterLogIn = "";
+                String[] options3 = {"Edit account", "Delete account", "Go to the main page", "Exit"};
+                try {
+                    afterLogIn = (String) JOptionPane.showInputDialog(null, "What would you like to do", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options3, null);
+                    if (afterLogIn.equals("Edit account")) {
+                        afterLogIn = "1";
+                        pw.write("editaccount"); //3a write
+                        pw.println();
+                        pw.flush();
+                    } else if (afterLogIn.equals("Delete account")) {
+                        afterLogIn = "2";
+                        pw.write("deleteaccount");//3b write
+                        pw.println();
+                        pw.flush();
+                    } else if (afterLogIn.equals("Go to the main page")) {
+                        afterLogIn = "3";
+                        pw.write("gotomainpage"); //3c write
+                        pw.println();
+                        pw.flush();
+                    } else {
+                        afterLogIn = "4";
+                        pw.write("exit"); //3d write
+                        pw.println();
+                        pw.flush();
+                    }
+                } catch (NullPointerException e) {
+                    displayFarewell();
+                    return;
                 }
 
-                if (afterLogIn.equals("4")){
+                if (afterLogIn.equals("4")) {
                     displayFarewell();
                     return;
                 } else if (afterLogIn.equals("2")) {
                     String accDeleted = br.readLine(); //3e read
                     if (accDeleted.equals("accountdeleted")) {
-                        System.out.println("You've successfully deleted your account.");
+                        JOptionPane.showMessageDialog(null, "You've successfully deleted your account.",
+                                "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                         displayFarewell();
                         return;
                     }
                 } else if (afterLogIn.equals("1")) {
-                    String changeDetailsInput;
-                    System.out.println("What would you like to change?\n1. Username\n2. Password\n3. Both");
-                    changeDetailsInput = scanner.nextLine();
-                    if (changeDetailsInput.equals("1")) {
-                        pw.write("changeusername"); // 4a send
-                        pw.println();
-                        pw.flush();
-                    } else if (changeDetailsInput.equals("2")) {
-                        pw.write("changepassword"); // 4b send
-                        pw.println();
-                        pw.flush();
-                    } else if (changeDetailsInput.equals("3")) {
-                        pw.write("changeboth"); // 4c send
-                        pw.println();
-                        pw.flush();
+                    String changeDetailsInput = "";
+                    String[] options4 = {"Username", "Password", "Both"};
+                    try {
+                        changeDetailsInput = (String) JOptionPane.showInputDialog(null, "What would you like to change?", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options4, null);
+                        if (changeDetailsInput.equals("Username")) {
+                            changeDetailsInput = "1";
+                            pw.write("changeusername"); // 4a send
+                            pw.println();
+                            pw.flush();
+                        } else if (changeDetailsInput.equals("Password")) {
+                            changeDetailsInput = "2";
+                            pw.write("changepassword"); // 4b send
+                            pw.println();
+                            pw.flush();
+                        } else {
+                            changeDetailsInput = "3";
+                            pw.write("changeboth"); // 4c send
+                            pw.println();
+                            pw.flush();
+                        }
+                    } catch (NullPointerException e) {
+                        displayFarewell();
+                        return;
                     }
                     if (changeDetailsInput.equals("1")) {
                         boolean b = false;
                         boolean c = false;
-                        String newUsername;
+                        String newUsername = "";
                         do {
                             do {
-                                System.out.println("Please enter the new username");
-                                newUsername = scanner.nextLine();
-                                b = false;
-                                if (newUsername.isEmpty()) {
-                                    System.out.println("Username can not be empty!");
-                                    b = true;
+                                try {
+                                    newUsername = (String) JOptionPane.showInputDialog(null, "Please enter the new username",
+                                            "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                    b = false;
+                                    if (newUsername.isEmpty()) {
+                                        JOptionPane.showMessageDialog(null, "Username can not be empty!",
+                                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                        b = true;
+                                    }
+                                } catch (NullPointerException e) {
+                                    displayFarewell();
+                                    return;
                                 }
                             } while (b);
                             pw.write(newUsername); // 5th send
@@ -487,7 +588,8 @@ public class LMSClient {
 
                             String promptAgain = br.readLine(); // 6 (a,b) read
                             if (promptAgain.equals("unexists")) {
-                                System.out.println("Sorry, this username already exists.\nTry another one.");
+                                JOptionPane.showMessageDialog(null, "Sorry, this username already exists.\nTry another one.",
+                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
                                 c = true;
                             } else if (promptAgain.equals("undexist")) {
                                 c = false;
@@ -496,12 +598,18 @@ public class LMSClient {
                         } while (c);
 
                     } else if (changeDetailsInput.equals("2")) {
-                        String newPassword;
+                        String newPassword = "";
                         do {
-                            System.out.println("Please enter a new 6 characters password(DO NOT USE ANY COMMAS):");
-                            newPassword = scanner.nextLine();
-                            if (newPassword.length() != 6 || newPassword.indexOf(',') != -1) {
-                                System.out.println("Password should be 6 characters long and without a comma!");
+                            try {
+                                newPassword = (String) JOptionPane.showInputDialog(null, "Please enter a new 6 characters password(DO NOT USE ANY COMMAS):",
+                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                if (newPassword.length() != 6 || newPassword.indexOf(',') != -1) {
+                                    JOptionPane.showMessageDialog(null, "Password should be 6 characters long and without a comma!",
+                                            "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } catch (NullPointerException e) {
+                                displayFarewell();
+                                return;
                             }
                         } while (newPassword.length() != 6 || newPassword.indexOf(',') != -1);
                         pw.write(newPassword); //7th send
@@ -510,15 +618,21 @@ public class LMSClient {
                     } else if (changeDetailsInput.equals("3")) {
                         boolean b = false;
                         boolean c = false;
-                        String newUsername;
+                        String newUsername = "";
                         do {
                             do {
-                                System.out.println("Please enter the new username");
-                                newUsername = scanner.nextLine();
-                                b = false;
-                                if (newUsername.isEmpty()) {
-                                    System.out.println("Username can not be empty!");
-                                    b = true;
+                                try {
+                                    newUsername = (String) JOptionPane.showInputDialog(null, "Please enter the new username",
+                                            "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                    b = false;
+                                    if (newUsername.isEmpty()) {
+                                        JOptionPane.showMessageDialog(null, "Username can not be empty!",
+                                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                        b = true;
+                                    }
+                                } catch (NullPointerException e) {
+                                    displayFarewell();
+                                    return;
                                 }
                             } while (b);
                             pw.write(newUsername); // 5th send
@@ -527,7 +641,8 @@ public class LMSClient {
 
                             String promptAgain = br.readLine(); // 6 (a,b) read
                             if (promptAgain.equals("unexists")) {
-                                System.out.println("Sorry, this username already exists.\nTry another one.");
+                                JOptionPane.showMessageDialog(null, "Sorry, this username already exists.\nTry another one.",
+                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
                                 c = true;
                             } else if (promptAgain.equals("undexist")) {
                                 c = false;
@@ -535,12 +650,18 @@ public class LMSClient {
 
                         } while (c);
 
-                        String newPassword;
+                        String newPassword = "";
                         do {
-                            System.out.println("Please enter a new 6 characters password(DO NOT USE ANY COMMAS):");
-                            newPassword = scanner.nextLine();
-                            if (newPassword.length() != 6 || newPassword.indexOf(',') != -1) {
-                                System.out.println("Password should be 6 characters long and without a comma!");
+                            try {
+                                newPassword = (String) JOptionPane.showInputDialog(null, "Please enter a new 6 characters password(DO NOT USE ANY COMMAS):",
+                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                if (newPassword.length() != 6 || newPassword.indexOf(',') != -1) {
+                                    JOptionPane.showMessageDialog(null, "Password should be 6 characters long and without a comma!",
+                                            "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } catch (NullPointerException e) {
+                                displayFarewell();
+                                return;
                             }
                         } while (newPassword.length() != 6 || newPassword.indexOf(',') != -1);
                         pw.write(newPassword); //7th send
@@ -550,29 +671,36 @@ public class LMSClient {
                     }
                     String successfullyEdited = br.readLine(); //8th read
                     if (successfullyEdited.equals("editedaccount")) {
-                        System.out.println("You've successfully edited your account!");
+                        JOptionPane.showMessageDialog(null, "You've successfully edited your account!",
+                                "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                     }
 
-                    String goingBack;
-                    System.out.println("Would you like to:\n1. Go to the Main Page\n2. Exit");
-                    goingBack = scanner.nextLine();
-                    if (goingBack.equals("1")) {
-                        pw.write("gotomp"); //9a send
-                        pw.println();
-                        pw.flush();
-                        afterLogIn = "3";
-                    } else if (goingBack.equals("2")) {
-                        pw.write("exit"); //9b send
-                        pw.println();
-                        pw.flush();
+                    String goingBack = "";
+                    String[] options5 = {"Go to the Main Page", "Exit"};
+                    try {
+                        goingBack = (String) JOptionPane.showInputDialog(null, "Would you like to ...", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options5, null);
+                        if (goingBack.equals("Go to the Main Page")) {
+                            goingBack = "1";
+                            pw.write("gotomp"); //9a send
+                            pw.println();
+                            pw.flush();
+                            afterLogIn = "3";
+                        } else {
+                            goingBack = "2";
+                            pw.write("exit"); //9b send
+                            pw.println();
+                            pw.flush();
+                            displayFarewell();
+                            return;
+                        }
+                    } catch (NullPointerException e) {
                         displayFarewell();
                         return;
                     }
-
                 }
 
                 if (afterLogIn.equals("3")) {
-                    String loopingBackOrExit;
+                    String loopingBackOrExit = "";
                     do {
                         String roleOfUser = br.readLine(); //10(a,b) read
                         if (roleOfUser.equals("teacher")) {
@@ -582,17 +710,22 @@ public class LMSClient {
                             String coursesEmptyOrNot = br.readLine(); //11 (a,b) read
                             if (coursesEmptyOrNot.equals("coursesempty")) {
 
-                                String courseName;
-                                System.out.println("No courses have been added yet!");
+                                String courseName = "";
+                                JOptionPane.showMessageDialog(null, "No courses have been added yet!",
+                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                 do {
-                                    System.out.println("Please enter the name of the course you'd like to add\n" +
-                                            "(Press 0 to exit)");
-
-                                    courseName = scanner.nextLine();
-                                    if (courseName.isEmpty()) {
-                                        System.out.println("Course Name can not be empty!");
+                                    try {
+                                        courseName = (String) JOptionPane.showInputDialog(null,"Please enter the name of the course you'd like to add\n" +
+                                                "(Press 0 to exit)", "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                        if (courseName.isEmpty()) {
+                                            JOptionPane.showMessageDialog(null, "Course Name can not be empty!",
+                                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                        }
+                                    } catch (NullPointerException e) {
+                                        displayFarewell();
+                                        return;
                                     }
-                                } while(courseName.isEmpty());
+                                } while (courseName.isEmpty());
                                 if (courseName.equals("0")) {
                                     pw.write("exit"); //12 a send
                                     pw.println();
@@ -606,16 +739,17 @@ public class LMSClient {
 
                                     String courseAdded = br.readLine();//13 read
                                     if (courseAdded.equals("courseadded")) {
-                                        System.out.println("Hurray, course added!");
+                                        JOptionPane.showMessageDialog(null, "Hurray, course added!",
+                                                "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                     }
-                                    System.out.println("Would you like to:\n1. Go to a course\n2. Exit");
-                                    goToCourseExit = scanner.nextLine();
-                                    if (goToCourseExit.equals("1")){
+                                    String [] options6 = {"Go to a course", "Exit"};
+                                    goToCourseExit = (String) JOptionPane.showInputDialog(null, "Would you like to ...", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options6, null);
+                                    if (goToCourseExit.equals("Go to a course")) {
+                                        goToCourseExit = "1";
                                         pw.write("gotocourse");// 14a send
                                         pw.println();
                                         pw.flush();
-                                    } else if (goToCourseExit.equals("2")) {
-
+                                    } else if (goToCourseExit.equals("Exit")) {
                                         pw.write("exit");//14b send
                                         pw.println();
                                         pw.flush();
@@ -623,23 +757,33 @@ public class LMSClient {
 
                                 }
                             } else if (coursesEmptyOrNot.equals("coursesnotempty")) {
-                                System.out.println("Would you like to:\n1. Add a course\n2. Go to a course\n3. Exit");
-                                addGoExit = scanner.nextLine();
-                                if (addGoExit.equals("1")) {
+                                String[] options5 = {"Add a course", "Go to a course", "Exit"};
+                                try {
+                                    addGoExit = (String) JOptionPane.showInputDialog(null, "Would you like to ...", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options5, null);
+                                } catch (NullPointerException e) {
+                                    displayFarewell();
+                                    return;
+                                }
+                                if (addGoExit.equals("Add a course")) {
+                                    addGoExit = "1";
                                     pw.write("addcourse");//15a send
                                     pw.println();
                                     pw.flush();
 
-                                    String courseName;
+                                    String courseName = "";
                                     do {
-                                        System.out.println("Please enter the name of the course you'd like to add\n" +
-                                                "(Press 0 to exit)");
-
-                                        courseName = scanner.nextLine();
-                                        if (courseName.isEmpty()) {
-                                            System.out.println("Course Name can not be empty!");
+                                        try {
+                                            courseName = (String) JOptionPane.showInputDialog(null, "Please enter the name of the course you'd like to add\n" +
+                                                    "(Press 0 to exit)", "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                            if (courseName.isEmpty()) {
+                                                JOptionPane.showMessageDialog(null, "Course Name can not be empty!",
+                                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                            }
+                                        } catch (NullPointerException e) {
+                                            displayFarewell();
+                                            return;
                                         }
-                                    } while(courseName.isEmpty());
+                                    } while (courseName.isEmpty());
                                     if (courseName.equals("0")) {
                                         pw.write("exit"); //12 a send repeat
                                         pw.println();
@@ -653,28 +797,34 @@ public class LMSClient {
 
                                         String courseAdded = br.readLine();//13 read repeat
                                         if (courseAdded.equals("courseadded")) {
-                                            System.out.println("Hurray, course added!");
+                                            JOptionPane.showMessageDialog(null,"Hurray, course added!",
+                                                    "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                         }
-                                        System.out.println("Would you like to:\n1. Go to a course\n2. Exit");
-                                        goToCourseExit = scanner.nextLine();
-                                        if (goToCourseExit.equals("1")){
-                                            pw.write("gotocourse");// 14a send repeat
-                                            pw.println();
-                                            pw.flush();
-                                        } else if (goToCourseExit.equals("2")) {
-
-                                            pw.write("exit");//14b send repeat
-                                            pw.println();
-                                            pw.flush();
+                                        String[] options6 = {"Go to a course", "Exit"};
+                                        try {
+                                            goToCourseExit = (String) JOptionPane.showInputDialog(null, "Would you like to ...", "Learning Management System", JOptionPane.PLAIN_MESSAGE, null, options6, null);
+                                            if (goToCourseExit.equals("Go to a course")) {
+                                                goToCourseExit = "1";
+                                                pw.write("gotocourse");// 14a send repeat
+                                                pw.println();
+                                                pw.flush();
+                                            } else if (goToCourseExit.equals("Exit")) {
+                                                pw.write("exit");//14b send repeat
+                                                pw.println();
+                                                pw.flush();
+                                            }
+                                        } catch (NullPointerException e) {
+                                            displayFarewell();
+                                            return;
                                         }
-
                                     }
 
-                                } else if (addGoExit.equals("2")) {
+                                } else if (addGoExit.equals("Go to a course")) {
+                                    addGoExit = "2";
                                     pw.write("gotocourse"); //15b send
                                     pw.println();
                                     pw.flush();
-                                } else  {   //if (addGoExit.equals("3")) {
+                                } else {   //if (addGoExit.equals("3")) {
                                     pw.write("exit"); //15c send
                                     pw.println();
                                     pw.flush();
@@ -692,9 +842,10 @@ public class LMSClient {
                                     String course = br.readLine(); //17 read (loop)
                                     courses.add(course);
                                 }
+                                //convert this to JOptionPane
                                 System.out.println("0. exit"); //won't require number coz there will be button
                                 for (int i = 0; i < courses.size(); i++) {
-                                    System.out.printf("%d %s\n", i+1, courses.get(i));
+                                    System.out.printf("%d %s\n", i + 1, courses.get(i));
                                 }
                                 String courseMenu = scanner.nextLine();
                                 int courseOption = Integer.parseInt(courseMenu);
@@ -826,15 +977,15 @@ public class LMSClient {
                                         pw.write("editforum"); //25 b write
                                         pw.println();
                                         pw.flush();
-                                    } else if (discussionForumMenu.equals("3")){
+                                    } else if (discussionForumMenu.equals("3")) {
                                         pw.write("deleteforum"); //25c write
                                         pw.println();
                                         pw.flush();
-                                    } else if (discussionForumMenu.equals("4")){
+                                    } else if (discussionForumMenu.equals("4")) {
                                         pw.write("gotoforum"); //25d write
                                         pw.println();
                                         pw.flush();
-                                    } else if (discussionForumMenu.equals("5")){
+                                    } else if (discussionForumMenu.equals("5")) {
                                         pw.write("exit"); //25e write
                                         pw.println();
                                         pw.flush();
@@ -948,10 +1099,10 @@ public class LMSClient {
                                         }
                                         editForumNum = scanner.nextLine();
                                         w = Integer.parseInt(editForumNum);
-                                        pw.write(activeCourseDtopicss.get(w-1).getTopicTitle()); //27 send (original topictitle)
+                                        pw.write(activeCourseDtopicss.get(w - 1).getTopicTitle()); //27 send (original topictitle)
                                         pw.println();
                                         pw.flush();
-                                        pw.write(activeCourseDtopicss.get(w-1).getTopicDescription()); //28 send (original topicdescription)
+                                        pw.write(activeCourseDtopicss.get(w - 1).getTopicDescription()); //28 send (original topicdescription)
                                         pw.println();
                                         pw.flush();
 
@@ -1019,10 +1170,10 @@ public class LMSClient {
                                         }
                                         deleteForumNum = scanner.nextLine();
                                         w = Integer.parseInt(deleteForumNum);
-                                        pw.write(activeCourseDtopicss.get(w-1).getTopicTitle()); //27 send (original topictitle) repeat
+                                        pw.write(activeCourseDtopicss.get(w - 1).getTopicTitle()); //27 send (original topictitle) repeat
                                         pw.println();
                                         pw.flush();
-                                        pw.write(activeCourseDtopicss.get(w-1).getTopicDescription()); //28 send (original topicdescription) repeat
+                                        pw.write(activeCourseDtopicss.get(w - 1).getTopicDescription()); //28 send (original topicdescription) repeat
                                         pw.println();
                                         pw.flush();
 
@@ -1414,7 +1565,7 @@ public class LMSClient {
                                 return;
                             }
 
-                        } else if (roleOfUser.equals("student")){// teacher part ends here
+                        } else if (roleOfUser.equals("student")) {// teacher part ends here
 
                             //ask student for voting when he is in the discussion forum and grading (7th line) even if he's out of the discussion forum
                             String coursesOrNot = br.readLine(); //s1 (a,b) read
@@ -1629,7 +1780,6 @@ public class LMSClient {
                                                     String replierUsername = activeDTReplies.get(i).getUsername();
                                                     String replyTimestamp = activeDTReplies.get(i).getTimestamp();
                                                     String replyy = activeDTReplies.get(i).getReply();
-
 
 
                                                     System.out.printf("%d. %s (%s)\n%s\n\n", k, replierUsername,
@@ -1919,7 +2069,6 @@ public class LMSClient {
     }
 
 
-
     public static void displayFarewell() {
         System.out.println("Thank you for using the Learning Management System!\nBye! Have a nice day!");
     }
@@ -1971,7 +2120,7 @@ public class LMSClient {
     }
 
 
-    public static Replies readRepliesString (String s) {
+    public static Replies readRepliesString(String s) {
         int index;
         Replies replyObject = null;
         if (s != null && !s.isEmpty()) {
@@ -2007,7 +2156,7 @@ public class LMSClient {
         return replyObject;
     }
 
-    public static Comments readCommentsString (String s) {
+    public static Comments readCommentsString(String s) {
         int index;
         Comments commentObject = null;
         if (s != null && !s.isEmpty()) {
@@ -2055,7 +2204,7 @@ public class LMSClient {
         return commentObject;
     }
 
-    public static VotersList readVotersListString (String s) {
+    public static VotersList readVotersListString(String s) {
         int commaIndex;
         VotersList vlObject = null;
         if (s != null && !s.isEmpty()) {
@@ -2076,7 +2225,7 @@ public class LMSClient {
         return vlObject;
     }
 
-    public static Grades readGradesString (String s) {
+    public static Grades readGradesString(String s) {
         int commaIndex;
         Grades gradeObject = null;
         if (s != null && !s.isEmpty()) {
@@ -2099,7 +2248,6 @@ public class LMSClient {
         }
         return gradeObject;
     }
-
 
 
 }
