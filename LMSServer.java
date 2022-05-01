@@ -44,7 +44,11 @@ public class LMSServer implements Runnable {
                 //thread.join(); (do we use this or not?) coz if we do, it means one client will run fully and then the other, but we don't want that
             }
         } catch (IOException ioe) {
+            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
             ioe.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+            e.printStackTrace();
         }
 
     }
@@ -63,14 +67,38 @@ public class LMSServer implements Runnable {
         }
         try {
             String logInOrSignUp = br.readLine(); //1st read
+            if (logInOrSignUp.equals("exit")) {
+                synchronized (guard) {
+                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                }
+                return;
+            }
             if (logInOrSignUp.equals("signup")) {
                 String name = br.readLine(); //1a read (name)
+                if (name.equals("exit")) {
+                    synchronized (guard) {
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                    }
+                    return;
+                }
                 String role = br.readLine(); //1b read (role)
+                if (role.equals("exit")) {
+                    synchronized (guard) {
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                    }
+                    return;
+                }
                 boolean unameExists = false;
                 String username;
                 do {
                     username = br.readLine(); //1c read (username, check if its already taken)
 
+                    if (username.equals("exit")) {
+                        synchronized (guard) {
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        }
+                        return;
+                    }
                     if (users.isEmpty()) {
                         pw.write("undexist"); //1ci send
                         pw.println();
@@ -88,6 +116,12 @@ public class LMSServer implements Runnable {
                     }
                 } while (unameExists);
                 String password = br.readLine(); //1d read (password)
+                if (password.equals("exit")) {
+                    synchronized (guard) {
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                    }
+                    return;
+                }
                 User user = new User(name, role, username, password, "");
                 synchronized (guard) {
                     users.add(user); //synchronize this
@@ -121,12 +155,30 @@ public class LMSServer implements Runnable {
                 }
                 if (users.isEmpty()) {
                     String name = br.readLine(); //1a read (name)
+                    if (name.equals("exit")) {
+                        synchronized (guard) {
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        }
+                        return;
+                    }
                     String role = br.readLine(); //1b read (role)
+                    if (role.equals("exit")) {
+                        synchronized (guard) {
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        }
+                        return;
+                    }
                     boolean unameExists = false;
                     String username;
                     do {
                         username = br.readLine(); //1c read (username, check if its already taken)
 
+                        if (username.equals("exit")) {
+                            synchronized (guard) {
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            }
+                            return;
+                        }
                         if (users.isEmpty()) {
                             pw.write("undexist"); //1ci send
                             pw.println();
@@ -135,7 +187,6 @@ public class LMSServer implements Runnable {
                         } else if (usernameExists(username, users)) {
                             pw.write("unexists"); //1cii send
                             pw.println();
-                            pw.flush();
                             unameExists = true;
                         } else if (!usernameExists(username, users)) {
                             pw.write("undexist"); //1ci send
@@ -145,10 +196,15 @@ public class LMSServer implements Runnable {
                         }
                     } while (unameExists);
                     String password = br.readLine(); //1d read (password)
+                    if (password.equals("exit")) {
+                        synchronized (guard) {
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        }
+                        return;
+                    }
                     User user = new User(name, role, username, password, "");
                     synchronized (guard) {
                         users.add(user); //synchronize this
-
                         writeToUserDatabase(users);
                     }
                     pw.write("usercreated"); //1e write (user successfully created
@@ -163,6 +219,12 @@ public class LMSServer implements Runnable {
 
                     do {
                         username = br.readLine(); // 1f login username read
+                        if (username.equals("exit")) {
+                            synchronized (guard) {
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            }
+                            return;
+                        }
                         if (!usernameExists(username, users)) {
                             pw.write("undexist"); //1gi send if username doesn't exist
                             pw.println();
@@ -179,6 +241,12 @@ public class LMSServer implements Runnable {
                     boolean correctPswd = true;
                     do {
                         password = br.readLine(); //1h read (password)
+                        if (password.equals("exit")) {
+                            synchronized (guard) {
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            }
+                            return;
+                        }
                         if (checkUsernameAndPassword(username, password, users)) {
                             pw.write("correctpswd"); //1hi send (correct pswd)
                             pw.println();
@@ -224,11 +292,25 @@ public class LMSServer implements Runnable {
                         return;
                     } else if (afterLogin.equals("editaccount")) {
                         String changeDetails = br.readLine(); //4 (a,b,c) read
+                        if (changeDetails.equals("exit")) {
+                            synchronized (guard) {
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                            }
+                            this.activeUser = null;
+                            return;
+                        }
                         if (changeDetails.equals("changeusername")) {
                             String newUsername;
                             boolean b = false;
                             do {
                                 newUsername = br.readLine(); //5th read
+                                if (newUsername.equals("exit")) {
+                                    synchronized (guard) {
+                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                    }
+                                    this.activeUser = null;
+                                    return;
+                                }
                                 if (usernameExists(newUsername, users)) {
                                     pw.write("unexists"); //6a write
                                     pw.println();
@@ -253,6 +335,13 @@ public class LMSServer implements Runnable {
                             }
                         } else if (changeDetails.equals("changepassword")) {
                             String newPassword = br.readLine(); //7th read
+                            if (newPassword.equals("exit")) {
+                                synchronized (guard) {
+                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                }
+                                this.activeUser = null;
+                                return;
+                            }
                             synchronized (guard) {
                                 changePassword(this.activeUser.getUsername(), newPassword, users);
                                 writeToUserDatabase(users);
@@ -267,6 +356,13 @@ public class LMSServer implements Runnable {
                             boolean b = false;
                             do {
                                 newUsername = br.readLine(); //5th read
+                                if (newUsername.equals("exit")) {
+                                    synchronized (guard) {
+                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                    }
+                                    this.activeUser = null;
+                                    return;
+                                }
                                 if (usernameExists(newUsername, users)) {
                                     pw.write("unexists"); //6a write
                                     pw.println();
@@ -291,6 +387,13 @@ public class LMSServer implements Runnable {
                             }
 
                             String newPassword = br.readLine(); //7th read
+                            if (newPassword.equals("exit")) {
+                                synchronized (guard) {
+                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                }
+                                this.activeUser = null;
+                                return;
+                            }
                             synchronized (guard) {
                                 changePassword(this.activeUser.getUsername(), newPassword, users);
                                 writeToUserDatabase(users);
@@ -419,6 +522,14 @@ public class LMSServer implements Runnable {
                                         pw.flush();
                                     }
                                     this.activeCourse = br.readLine(); //18th read
+                                    if (this.activeCourse.equals("exit")) {
+                                        synchronized (guard) {
+                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                        }
+                                        this.activeUser = null;
+                                        this.activeCourse = null;
+                                        return;
+                                    }
                                     int counter = 0;
                                     for (int i = 0; i < discussionTopics.size(); i++) {
                                         if (discussionTopics.get(i).getCourseName().equals(activeCourse)) {
@@ -529,6 +640,14 @@ public class LMSServer implements Runnable {
                                             }
                                             String originalTopicTitle = br.readLine(); //27th read (original topic title)
                                             String originalTopicDescription = br.readLine(); //28th read (original topic description)
+                                            if (originalTopicTitle.equals("exit")) {
+                                                synchronized (guard) {
+                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                }
+                                                this.activeUser = null;
+                                                this.activeCourse = null;
+                                                return;
+                                            }
                                             String editedTopicTitle = br.readLine(); //29th read (edited topic title)
                                             String editedTopicDescription = br.readLine(); //30th read (edited topic desc)
 
@@ -609,6 +728,15 @@ public class LMSServer implements Runnable {
                                             }
                                             String originalTopicTitle = br.readLine(); //27th read (original topic title) repeat
                                             String originalTopicDescription = br.readLine(); //28th read (original topic description) repeat
+                                            if (originalTopicTitle.equals("exit")) {
+
+                                                synchronized (guard) {
+                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                }
+                                                this.activeUser = null;
+                                                this.activeCourse = null;
+                                                return;
+                                            }
 
                                             synchronized (guard) {
                                                 for (int i = 0; i < discussionTopics.size(); i++) {
@@ -664,262 +792,278 @@ public class LMSServer implements Runnable {
                                                 return;
                                             }
                                         }
-                                        if (discussionForumMenu.equals("gotoforum") || goToDFexit.equals("gotodf")) {
-                                            int c = 0;
+                                    }
+                                    if (discussionForumMenu.equals("gotoforum") || goToDFexit.equals("gotodf")) {
+                                        int c = 0;
 
-                                            for (int i = 0; i < discussionTopics.size(); i++) {
-                                                if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
-                                                    c++;
-                                                }
-                                            }
-
-
-                                            if (c == 0) {
-                                                //we want to ask the end question of looping back after this if this is the case
-                                                pw.write("nodf"); //33a send
-                                                pw.println();
-                                                pw.flush();
-                                            } else if (c > 0) {
-                                                pw.write("yesdf"); //33b send
-                                                pw.println();
-                                                pw.flush();
-                                                pw.write(String.valueOf(c)); // 34 send
-                                                pw.println();
-                                                pw.flush();
-                                                for (int i = 0; i < discussionTopics.size(); i++) {
-                                                    if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
-                                                        pw.write(discussionTopics.get(i).toString()); //24 send (loop)
-                                                        pw.println();
-                                                        pw.flush();
-                                                    }
-                                                }
-                                                String topicTitle = br.readLine(); //35 read
-                                                String topicDescription = br.readLine(); //36 read
-
-                                                int numOfReplies = 0;
-                                                for (int i = 0; i < replies.size(); i++) {
-                                                    if (replies.get(i).getDt().getTopicTitle().equals(topicTitle)) {
-                                                        if (replies.get(i).getDt().getTopicDescription().equals(topicDescription)) {
-                                                            numOfReplies++;
-                                                        }
-                                                    }
-                                                }
-
-                                                if (numOfReplies == 0) {
-                                                    //we want to ask the end question of looping back after this if this the case
-                                                    pw.write("noreplies"); // 37a send
-                                                    pw.println();
-                                                    pw.flush();
-                                                } else if (numOfReplies > 0) {
-                                                    pw.write("yesreplies"); //37b send
-                                                    pw.println();
-                                                    pw.flush();
-
-                                                    pw.write(String.valueOf(numOfReplies)); // 38 send
-                                                    pw.println();
-                                                    pw.flush();
-
-                                                    for (int i = 0; i < replies.size(); i++) {
-                                                        if (replies.get(i).getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (replies.get(i).getDt().getTopicDescription().equals(topicDescription)) {
-                                                                pw.write(replies.get(i).toString()); //39 send (loop)
-                                                                pw.println();
-                                                                pw.flush();
-                                                            }
-                                                        }
-                                                    }
-
-                                                    int numOfComments = 0;
-                                                    for (int i = 0; i < comments.size(); i++) {
-                                                        if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
-                                                                numOfComments++;
-                                                            }
-                                                        }
-                                                    }
-
-                                                    if (numOfComments == 0) {
-                                                        pw.write("nocomments"); //40a send
-                                                        pw.println();
-                                                        pw.flush();
-                                                    } else if (numOfComments > 0) {
-                                                        pw.write("yescomments"); //40b write
-                                                        pw.println();
-                                                        pw.flush();
-
-                                                        pw.write(String.valueOf(numOfComments)); //41 write
-                                                        pw.println();
-                                                        pw.flush();
-                                                        for (int i = 0; i < comments.size(); i++) {
-                                                            if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                                if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
-                                                                    pw.write(comments.get(i).toString()); //42 send (loop)
-                                                                    pw.println();
-                                                                    pw.flush();
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-
-                                                    String commentorExit = br.readLine(); //43 (a,b) read
-
-                                                    if (commentorExit.equals("exit")) {
-
-                                                        synchronized (guard) {
-
-                                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
-                                                        }
-                                                        this.activeUser = null;
-                                                        this.activeCourse = null;
-                                                        return;
-                                                    } else if (commentorExit.equals("moveahead")) {
-
-                                                    } else if (commentorExit.equals("teacherwantstocomment")) {
-                                                        pw.write(activeUser.getUsername()); //44 write
-                                                        pw.println();
-                                                        pw.flush();
-                                                        Comments teacherCommentObj = readCommentsString(br.readLine()); //45 read
-                                                        synchronized (guard) {
-                                                            comments.add(teacherCommentObj); //synchronise
-
-                                                            writeToCommentsDatabase(comments);
-                                                        }
-
-                                                        for (int i = 0; i < replies.size(); i++) {
-                                                            if (replies.get(i).getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                                if (replies.get(i).getReply().equals(teacherCommentObj.getPost().getReply())) {
-                                                                    pw.write(replies.get(i).toString()); //46 write
-                                                                    pw.println();
-                                                                    pw.flush();
-                                                                }
-                                                            }
-                                                        }
-                                                        int numOfCommentsTeacherComment = 0;
-                                                        for (int i = 0; i < comments.size(); i++) {
-                                                            if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                                if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
-                                                                    numOfCommentsTeacherComment++;
-                                                                }
-
-                                                            }
-                                                        }
-                                                        pw.write(String.valueOf(numOfCommentsTeacherComment)); //47 write
-                                                        pw.println();
-                                                        pw.flush();
-                                                        for (int i = 0; i < comments.size(); i++) {
-                                                            if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                                if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
-                                                                    pw.write(comments.get(i).toString()); //48 write (loop)
-                                                                    pw.println();
-                                                                    pw.flush();
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        //ask if teacher wants to check votes
-                                        int numOfDf = 0;
                                         for (int i = 0; i < discussionTopics.size(); i++) {
                                             if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
-                                                numOfDf++;
+                                                c++;
                                             }
                                         }
-                                        if (numOfDf == 0) {
-                                            pw.write("dontaskforvotechecking"); // 49a write
-                                            pw.println();
-                                            pw.flush();
-                                        } else if (numOfDf > 0) {
-                                            pw.write("askforvotechecking"); //49b write
-                                            pw.println();
-                                            pw.flush();
 
-                                            String checkVotesAns = br.readLine(); // 50 (a,b,c) read
-                                            if (checkVotesAns.equals("exit")) {
+
+                                        if (c == 0) {
+                                            //we want to ask the end question of looping back after this if this is the case
+                                            pw.write("nodf"); //33a send
+                                            pw.println();
+                                            pw.flush();
+                                        } else if (c > 0) {
+                                            pw.write("yesdf"); //33b send
+                                            pw.println();
+                                            pw.flush();
+                                            pw.write(String.valueOf(c)); // 34 send
+                                            pw.println();
+                                            pw.flush();
+                                            for (int i = 0; i < discussionTopics.size(); i++) {
+                                                if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
+                                                    pw.write(discussionTopics.get(i).toString()); //24 send (loop)
+                                                    pw.println();
+                                                    pw.flush();
+                                                }
+                                            }
+                                            String topicTitle = br.readLine(); //35 read
+                                            String topicDescription = br.readLine(); //36 read
+                                            if (topicTitle.equals("exit")) {
                                                 synchronized (guard) {
                                                     writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
                                                 return;
-                                            } else if (checkVotesAns.equals("teacherdoesntwanttocheckvotes")) {
+                                            }
 
-                                            } else if (checkVotesAns.equals("teacherwantstocheckvotes")) {
-
-                                                ArrayList<DiscussionTopic> activeCourseDtopics = new ArrayList<>();
-                                                for (int i = 0; i < discussionTopics.size(); i++) {
-                                                    if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
-                                                        activeCourseDtopics.add(discussionTopics.get(i));
+                                            int numOfReplies = 0;
+                                            for (int i = 0; i < replies.size(); i++) {
+                                                if (replies.get(i).getDt().getTopicTitle().equals(topicTitle)) {
+                                                    if (replies.get(i).getDt().getTopicDescription().equals(topicDescription)) {
+                                                        numOfReplies++;
                                                     }
                                                 }
-                                                pw.write(String.valueOf(activeCourseDtopics.size())); //51 write
+                                            }
+
+                                            if (numOfReplies == 0) {
+                                                //we want to ask the end question of looping back after this if this the case
+                                                pw.write("noreplies"); // 37a send
+                                                pw.println();
+                                                pw.flush();
+                                            } else if (numOfReplies > 0) {
+                                                pw.write("yesreplies"); //37b send
                                                 pw.println();
                                                 pw.flush();
 
-                                                for (int i = 0; i < activeCourseDtopics.size(); i++) {
-                                                    pw.write(activeCourseDtopics.get(i).getTopicTitle()); //52 write
-                                                    pw.println();
-                                                    pw.flush();
-                                                    pw.write(activeCourseDtopics.get(i).getTimestamp()); //53 write
-                                                    pw.println();
-                                                    pw.flush();
-                                                    pw.write(activeCourseDtopics.get(i).getTopicDescription()); //54 write
-                                                    pw.println();
-                                                    pw.flush();
+                                                pw.write(String.valueOf(numOfReplies)); // 38 send
+                                                pw.println();
+                                                pw.flush();
 
-                                                    ArrayList<Replies> currentDTReplies = new ArrayList<>();
-                                                    for (int j = 0; j < replies.size(); j++) {
-                                                        if (replies.get(j).getDt().getTopicTitle().equals(activeCourseDtopics.get(i).getTopicTitle())) {
-                                                            if (replies.get(j).getDt().getTopicDescription().equals(activeCourseDtopics.get(i).getTopicDescription())) {
-                                                                currentDTReplies.add(replies.get(j));
-                                                            }
-                                                        }
-                                                    }
-                                                    ArrayList<Replies> highestVotedRepliesArrayList = new ArrayList<>();
-                                                    ArrayList<String> highestVotedRepliesNameArrayList = new ArrayList<>();
-                                                    if (currentDTReplies.isEmpty()) {
-                                                        pw.write("noreplies"); //55a write
-                                                        pw.println();
-                                                        pw.flush();
-                                                    } else if (!currentDTReplies.isEmpty() && checkVotesAllZero(currentDTReplies)) {
-                                                        pw.write("yesrepliesbutallzero"); //55b write
-                                                        pw.println();
-                                                        pw.flush();
-                                                    } else if (!currentDTReplies.isEmpty() && !checkVotesAllZero(currentDTReplies)) {
-                                                        pw.write("yesrepliesbutnotallzero"); //55c write
-                                                        pw.println();
-                                                        pw.flush();
-
-                                                        highestVotedRepliesArrayList = highestVotes(currentDTReplies);
-                                                        for (int k = 0; k < highestVotedRepliesArrayList.size(); i++) {
-                                                            for (int l = 0; l < users.size(); l++) {
-                                                                if (highestVotedRepliesArrayList.get(k).getUsername().equals(users.get(l).getUsername())) {
-                                                                    highestVotedRepliesNameArrayList.add(users.get(l).getName());
-                                                                }
-                                                            }
-                                                        }
-                                                        pw.write(String.valueOf(highestVotedRepliesArrayList.size())); // 56 send
-                                                        pw.println();
-                                                        pw.flush();
-
-                                                        for (int m = 0; m < highestVotedRepliesNameArrayList.size(); m++) {
-                                                            pw.write(highestVotedRepliesArrayList.get(m).toString()); //57 send (loop)
-                                                            pw.println();
-                                                            pw.flush();
-
-                                                            pw.write(highestVotedRepliesNameArrayList.get(i)); //58 send (loop)
+                                                for (int i = 0; i < replies.size(); i++) {
+                                                    if (replies.get(i).getDt().getTopicTitle().equals(topicTitle)) {
+                                                        if (replies.get(i).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            pw.write(replies.get(i).toString()); //39 send (loop)
                                                             pw.println();
                                                             pw.flush();
                                                         }
-
                                                     }
                                                 }
 
+                                                int numOfComments = 0;
+                                                for (int i = 0; i < comments.size(); i++) {
+                                                    if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
+                                                        if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                            numOfComments++;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (numOfComments == 0) {
+                                                    pw.write("nocomments"); //40a send
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (numOfComments > 0) {
+                                                    pw.write("yescomments"); //40b write
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    pw.write(String.valueOf(numOfComments)); //41 write
+                                                    pw.println();
+                                                    pw.flush();
+                                                    for (int i = 0; i < comments.size(); i++) {
+                                                        if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
+                                                            if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                                pw.write(comments.get(i).toString()); //42 send (loop)
+                                                                pw.println();
+                                                                pw.flush();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                String commentorExit = br.readLine(); //43 (a,b) read
+
+                                                if (commentorExit.equals("exit")) {
+
+                                                    synchronized (guard) {
+
+                                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    }
+                                                    this.activeUser = null;
+                                                    this.activeCourse = null;
+                                                    return;
+                                                } else if (commentorExit.equals("moveahead")) {
+
+                                                } else if (commentorExit.equals("teacherwantstocomment")) {
+                                                    pw.write(activeUser.getUsername()); //44 write
+                                                    pw.println();
+                                                    pw.flush();
+                                                    Comments teacherCommentObj = readCommentsString(br.readLine()); //45 read
+                                                    synchronized (guard) {
+                                                        comments.add(teacherCommentObj); //synchronise
+
+                                                        writeToCommentsDatabase(comments);
+                                                    }
+
+                                                    for (int i = 0; i < replies.size(); i++) {
+                                                        if (replies.get(i).getUsername().equals(teacherCommentObj.getPost().getUsername())) {
+                                                            if (replies.get(i).getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                                pw.write(replies.get(i).toString()); //46 write
+                                                                pw.println();
+                                                                pw.flush();
+                                                            }
+                                                        }
+                                                    }
+                                                    int numOfCommentsTeacherComment = 0;
+                                                    for (int i = 0; i < comments.size(); i++) {
+                                                        if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
+                                                            if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                                numOfCommentsTeacherComment++;
+                                                            }
+
+                                                        }
+                                                    }
+                                                    pw.write(String.valueOf(numOfCommentsTeacherComment)); //47 write
+                                                    pw.println();
+                                                    pw.flush();
+                                                    for (int i = 0; i < comments.size(); i++) {
+                                                        if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
+                                                            if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                                pw.write(comments.get(i).toString()); //48 write (loop)
+                                                                pw.println();
+                                                                pw.flush();
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
+                                    //ask if teacher wants to check votes
+                                    int numOfDf = 0;
+                                    for (int i = 0; i < discussionTopics.size(); i++) {
+                                        if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
+                                            numOfDf++;
+                                        }
+                                    }
+                                    if (numOfDf == 0) {
+                                        pw.write("dontaskforvotechecking"); // 49a write
+                                        pw.println();
+                                        pw.flush();
+                                    } else if (numOfDf > 0) {
+                                        pw.write("askforvotechecking"); //49b write
+                                        pw.println();
+                                        pw.flush();
 
+                                        String checkVotesAns = br.readLine(); // 50 (a,b,c) read
+                                        if (checkVotesAns.equals("exit")) {
+                                            synchronized (guard) {
+                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                            }
+                                            this.activeUser = null;
+                                            this.activeCourse = null;
+                                            return;
+                                        } else if (checkVotesAns.equals("teacherdoesntwanttocheckvotes")) {
+
+                                        } else if (checkVotesAns.equals("teacherwantstocheckvotes")) {
+
+                                            ArrayList<DiscussionTopic> activeCourseDtopics = new ArrayList<>();
+                                            for (int i = 0; i < discussionTopics.size(); i++) {
+                                                if (discussionTopics.get(i).getCourseName().equals(this.activeCourse)) {
+                                                    activeCourseDtopics.add(discussionTopics.get(i));
+                                                }
+                                            }
+                                            pw.write(String.valueOf(activeCourseDtopics.size())); //51 write
+                                            pw.println();
+                                            pw.flush();
+
+                                            for (int i = 0; i < activeCourseDtopics.size(); i++) {
+                                                pw.write(activeCourseDtopics.get(i).getTopicTitle()); //52 write
+                                                pw.println();
+                                                pw.flush();
+                                                pw.write(activeCourseDtopics.get(i).getTimestamp()); //53 write
+                                                pw.println();
+                                                pw.flush();
+                                                pw.write(activeCourseDtopics.get(i).getTopicDescription()); //54 write
+                                                pw.println();
+                                                pw.flush();
+
+                                                ArrayList<Replies> currentDTReplies = new ArrayList<>();
+                                                for (int j = 0; j < replies.size(); j++) {
+                                                    if (replies.get(j).getDt().getTopicTitle().equals(activeCourseDtopics.get(i).getTopicTitle())) {
+                                                        if (replies.get(j).getDt().getTopicDescription().equals(activeCourseDtopics.get(i).getTopicDescription())) {
+                                                            currentDTReplies.add(replies.get(j));
+                                                        }
+                                                    }
+                                                }
+                                                ArrayList<Replies> highestVotedRepliesArrayList = new ArrayList<>();
+                                                //ArrayList<String> highestVotedRepliesNameArrayList = new ArrayList<>();
+                                                if (currentDTReplies.isEmpty()) {
+                                                    pw.write("noreplies"); //55a write
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (!currentDTReplies.isEmpty() && checkVotesAllZero(currentDTReplies)) {
+                                                    pw.write("yesrepliesbutallzero"); //55b write
+                                                    pw.println();
+                                                    pw.flush();
+                                                } else if (!currentDTReplies.isEmpty() && !checkVotesAllZero(currentDTReplies)) {
+                                                    pw.write("yesrepliesbutnotallzero"); //55c write
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    highestVotedRepliesArrayList = highestVotes(currentDTReplies);
+
+
+                                                    pw.write(String.valueOf(highestVotedRepliesArrayList.size())); // 56 send
+                                                    pw.println();
+                                                    pw.flush();
+
+                                                    //System.out.println(highestVotedRepliesArrayList.size());
+                                                    //System.out.println(highestVotedRepliesArrayList.get(0).toString());
+
+                                                    for (int m = 0; m < highestVotedRepliesArrayList.size(); m++) {
+                                                        pw.write(highestVotedRepliesArrayList.get(m).toString()); //57 send (loop)
+                                                        pw.println();
+                                                        pw.flush();
+
+                                                        String name = "";
+                                                        for (int k = 0; k < highestVotedRepliesArrayList.size(); k++) {
+                                                            for (int l = 0; l < users.size(); l++) {
+                                                                if (highestVotedRepliesArrayList.get(k).getUsername().equals(users.get(l).getUsername())) {
+                                                                    name = users.get(l).getName();
+                                                                }
+                                                            }
+                                                        }
+
+                                                        pw.write(name); //58 send (loop)
+                                                        pw.println();
+                                                        pw.flush();
+                                                        //System.out.println(highestVotedRepliesArrayList.get(m).toString());
+                                                        //System.out.println(name);
+                                                    }
+
+                                                }
+                                            }
+
+                                        }
+                                    }
                                 }
                                 //grading
                                 String gradingAns = br.readLine(); //59 (a,b,c) read
@@ -951,6 +1095,14 @@ public class LMSServer implements Runnable {
                                         }
 
                                         String selectedStudentUsername = br.readLine(); //63 read
+                                        if (selectedStudentUsername.equals("exit")){
+                                            synchronized (guard) {
+                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                            }
+                                            this.activeUser = null;
+                                            this.activeCourse = null;
+                                            return;
+                                        }
                                         ArrayList<Replies> selectedStudentReplies = new ArrayList<>();
                                         for (int i = 0; i < replies.size(); i++) {
                                             if (replies.get(i).getUsername().equals(selectedStudentUsername)) {
@@ -1431,7 +1583,7 @@ public class LMSServer implements Runnable {
                                                     pw.println();
                                                     pw.flush();
 
-                                                    for(int i = 0; i < studentGrades.size(); i++) {
+                                                    for (int i = 0; i < studentGrades.size(); i++) {
                                                         pw.write(studentGrades.get(i).toString()); //s33 send (loop)
                                                         pw.println();
                                                         pw.flush();
@@ -1469,6 +1621,13 @@ public class LMSServer implements Runnable {
                 }
             }
         } catch (IOException e) {
+            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+
+            e.printStackTrace();
+
+        } catch (Exception e) {
+            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+
             e.printStackTrace();
         }
         ;
@@ -2207,23 +2366,18 @@ public class LMSServer implements Runnable {
 
 //I am using isConnect to find out if the client has been connected to the server, but isConnect
 // will return true even if the client had once been connected once in the past
-// in the server class, in addition to static variables of the class, do we also synchronise the local variables?
-// we don't need to synchronise those parts where we are "accessing" the static variables, only those parts where we are changing it right? ***
-//do we use different objects to sync diff arraylists or the same one?
-//what does using diff objects to sync mean?
-// vvvv imp: object why no changes?
+
+
+
+
 //check those 2 places (with voting and grading, dtopics are empty)
 //check if you're writing to database after every edit
 //make sure to account for cross on top of panel for GUIs
 //students: voting, round variable (to check the number of current round)
-//account for cross button on top everytime, send a new code to server
 //add this.voteCount = 0; everythwere exiting
-//for places where changes are made to static variables in a for loop, do we synchronise the whole for loop, or just the statement in the for loop that makes changes
-//server shows exception when we abruptly stop client
 
-//can we call the edt multiple times using the swing.invoke method at all those places where we need a jframe?
-//can we creat jframe in the main method at those places where we need it instead of calling it on edt?
-//or can we put the entire main method in the run method of event dispatch thread? and keep creating jframes where required
+//socket.close br.close, pw.close, where to do all this? (in the exit methods and also at the end of main method?)
+
 
 
 //active dtreplies will be made everytime
