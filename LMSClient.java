@@ -1529,11 +1529,11 @@ public class LMSClient {
                                                             String s = brr.readLine();
                                                             if (s == null || s.isEmpty()) {
 
-                                                                JOptionPane.showMessageDialog(null, 
+                                                                JOptionPane.showMessageDialog(null,
                                                                         "This first line of this file is " +
                                                                                 "empty.\nPlease enter the file path " +
                                                                                 "of a non-empty file.",
-                                                                        "Learning Management System", 
+                                                                        "Learning Management System",
                                                                         JOptionPane.ERROR_MESSAGE);
 
                                                                 errorInFileImport = true;
@@ -1550,20 +1550,20 @@ public class LMSClient {
                                                             brr.close();
                                                             fr.close();
                                                         } catch (FileNotFoundException fnfe) {
-                                                            JOptionPane.showMessageDialog(null, 
+                                                            JOptionPane.showMessageDialog(null,
                                                                     "No file with this name was found.\n" +
                                                                             "Please enter the correct file path.",
-                                                                    "Learning Management System", 
+                                                                    "Learning Management System",
                                                                     JOptionPane.ERROR_MESSAGE);
                                                             errorInFileImport = true;
                                                         } catch (IOException ioe) {
                                                             ioe.printStackTrace();
 
-                                                            JOptionPane.showMessageDialog(null, 
+                                                            JOptionPane.showMessageDialog(null,
                                                                     "\nThere was an error reading your file," +
                                                                             "\nPlease enter the path name of a " +
                                                                             "valid file again",
-                                                                    "Learning Management System", 
+                                                                    "Learning Management System",
                                                                     JOptionPane.ERROR_MESSAGE);
                                                             errorInFileImport = true;
                                                         }
@@ -1578,15 +1578,19 @@ public class LMSClient {
                                             pw.println();
                                             pw.flush();
                                             if (br.readLine().equals("dfadded")) { //22 read
-                                                JOptionPane.showMessageDialog(null, "Hurray, discussion forum successfully added!",
-                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                JOptionPane.showMessageDialog(null, 
+                                                        "Hurray, discussion forum successfully added!",
+                                                        "Learning Management System", 
+                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
 
 
                                             String[] options11 = {"Go to a Discussion Forum", "Exit"};
                                             try {
                                                 goToDFexit = (String) JOptionPane.showInputDialog(null,
-                                                        "Would you like to...", "Learning Management System", JOptionPane.QUESTION_MESSAGE,
+                                                        "Would you like to...", 
+                                                        "Learning Management System", 
+                                                        JOptionPane.QUESTION_MESSAGE,
                                                         null, options11, null);
                                                 if (goToDFexit == null) {
                                                     goToDFexit = "Exit";
@@ -1627,8 +1631,11 @@ public class LMSClient {
 
                                             try {
                                                 editForumNum = (String) JOptionPane.showInputDialog(null,
-                                                        "Which Discussion Forum would you like to edit?\n\n" + discussionTopicsDisplay(activeCourseDtopicss),
-                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE, null,
+                                                        "Which Discussion Forum would you like " +
+                                                                "to edit?\n\n" + 
+                                                                discussionTopicsDisplay(activeCourseDtopicss),
+                                                        "Learning Management System", 
+                                                        JOptionPane.QUESTION_MESSAGE, null,
                                                         options12, null);
                                                 if (editForumNum == null) {
                                                     editForumNum = "exit";
@@ -1648,10 +1655,12 @@ public class LMSClient {
                                             } else {
 
                                                 w = Integer.parseInt(editForumNum);
-                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicTitle()); //27 send (original topictitle)
+                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicTitle()); 
+                                                //27 send (original topictitle)
                                                 pw.println();
                                                 pw.flush();
-                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicDescription()); //28 send (original topicdescription)
+                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicDescription()); 
+                                                //28 send (original topicdescription)
                                                 pw.println();
                                                 pw.flush();
                                             }
@@ -1661,19 +1670,26 @@ public class LMSClient {
                                             boolean promptForumAgain = false;
                                             do {
                                                 try {
-                                                    newTopicTitle = (String) JOptionPane.showInputDialog(null,
-                                                            "Please enter the edited Topic Title", "Learning Management System",
+                                                    newTopicTitle = (String) JOptionPane.showInputDialog(
+                                                            null,
+                                                            "Please enter the edited Topic Title", 
+                                                            "Learning Management System",
                                                             JOptionPane.QUESTION_MESSAGE);
                                                     promptForumAgain = false;
 
                                                     if (newTopicTitle.isEmpty()) {
-                                                        JOptionPane.showMessageDialog(null, "Forum Title can not be empty",
-                                                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                        JOptionPane.showMessageDialog(null, 
+                                                                "Forum Title can not be empty",
+                                                                "Learning Management System", 
+                                                                JOptionPane.ERROR_MESSAGE);
                                                         promptForumAgain = true;
                                                     }
                                                 } catch (NullPointerException n) {
-                                                    JOptionPane.showMessageDialog(null, "You can't exit until you edit this Discussion Forum",
-                                                            "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            "You can't exit until you edit" +
+                                                                    " this Discussion Forum",
+                                                            "Learning Management System", 
+                                                            JOptionPane.ERROR_MESSAGE);
                                                     promptForumAgain = true;
                                                 }
                                             } while (promptForumAgain);
@@ -1681,19 +1697,25 @@ public class LMSClient {
                                             promptForumAgain = false;
                                             do {
                                                 try {
-                                                    newTopicDescription = (String) JOptionPane.showInputDialog(null,
-                                                            "Please enter the edited Topic Description", "Learning Management System",
+                                                    newTopicDescription = (String) JOptionPane.showInputDialog(
+                                                            null,
+                                                            "Please enter the edited Topic Description", 
+                                                            "Learning Management System",
                                                             JOptionPane.QUESTION_MESSAGE);
                                                     promptForumAgain = false;
 
                                                     if (newTopicDescription.isEmpty()) {
-                                                        JOptionPane.showMessageDialog(null, "Forum Description can not be empty",
-                                                                "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                        JOptionPane.showMessageDialog(null, 
+                                                                "Forum Description can not be empty",
+                                                                "Learning Management System",
+                                                                JOptionPane.ERROR_MESSAGE);
                                                         promptForumAgain = true;
                                                     }
                                                 } catch (NullPointerException n) {
-                                                    JOptionPane.showMessageDialog(null, "You can't exit until you edit this Discussion Forum",
-                                                            "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            "You can't exit until you edit this Discussion Forum",
+                                                            "Learning Management System", 
+                                                            JOptionPane.ERROR_MESSAGE);
                                                     promptForumAgain = true;
                                                 }
                                             } while (promptForumAgain);
@@ -1705,14 +1727,17 @@ public class LMSClient {
                                             pw.println();
                                             pw.flush();
                                             if (br.readLine().equals("succesfullyedited")) {
-                                                JOptionPane.showMessageDialog(null, "Hurray, discussion forum successfully edited!",
-                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                JOptionPane.showMessageDialog(null, 
+                                                        "Hurray, discussion forum successfully edited!",
+                                                        "Learning Management System", 
+                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
 
                                             String[] options11 = {"Go to a Discussion Forum", "Exit"};
                                             try {
                                                 goToDFexit = (String) JOptionPane.showInputDialog(null,
-                                                        "Would you like to...", "Learning Management System", JOptionPane.QUESTION_MESSAGE,
+                                                        "Would you like to...", 
+                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE,
                                                         null, options11, null);
                                                 if (goToDFexit == null) {
                                                     goToDFexit = "Exit";
@@ -1753,9 +1778,12 @@ public class LMSClient {
                                             }
 
                                             try {
-                                                deleteForumNum = (String) JOptionPane.showInputDialog(null,
-                                                        "Which Discussion Forum would you like to delete?" + discussionTopicsDisplay(activeCourseDtopicss),
-                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE, null,
+                                                deleteForumNum = (String) JOptionPane.showInputDialog(
+                                                        null,
+                                                        "Which Discussion Forum would you like to delete?" + 
+                                                                discussionTopicsDisplay(activeCourseDtopicss),
+                                                        "Learning Management System", 
+                                                        JOptionPane.QUESTION_MESSAGE, null,
                                                         options12, null);
                                                 if (deleteForumNum == null) {
                                                     deleteForumNum = "exit";
@@ -1774,22 +1802,27 @@ public class LMSClient {
                                                 return;
                                             } else {
                                                 w = Integer.parseInt(deleteForumNum);
-                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicTitle()); //27 send (original topictitle) repeat
+                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicTitle()); 
+                                                //27 send (original topictitle) repeat
                                                 pw.println();
                                                 pw.flush();
-                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicDescription()); //28 send (original topicdescription) repeat
+                                                pw.write(activeCourseDtopicss.get(w - 1).getTopicDescription());
+                                                //28 send (original topicdescription) repeat
                                                 pw.println();
                                                 pw.flush();
                                             }
 
                                             if (br.readLine().equals("successfullydeleted")) {
-                                                JOptionPane.showMessageDialog(null, "Discussion forum successfully deleted!",
-                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                JOptionPane.showMessageDialog(null, 
+                                                        "Discussion forum successfully deleted!",
+                                                        "Learning Management System", 
+                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
                                             String[] options11 = {"Go to a Discussion Forum", "Exit"};
                                             try {
                                                 goToDFexit = (String) JOptionPane.showInputDialog(null,
-                                                        "Would you like to...", "Learning Management System", JOptionPane.QUESTION_MESSAGE,
+                                                        "Would you like to...", 
+                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE,
                                                         null, options11, null);
                                                 if (goToDFexit == null) {
                                                     goToDFexit = "Exit";
@@ -1818,9 +1851,11 @@ public class LMSClient {
                                         String dteon = br.readLine(); //33(a,b) read
 
                                         if (dteon.equals("nodf")) {
-                                            JOptionPane.showMessageDialog(null, "Sorry there are no discussion forums in this course anymore.",
+                                            JOptionPane.showMessageDialog(null, 
+                                                    "Sorry there are no discussion forums " +
+                                                            "in this course anymore.",
                                                     "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
-                                            //we want to ask the end question of looping back after this
+                                           
                                         } else if (dteon.equals("yesdf")) {
                                             int activeCoursedtsize = Integer.parseInt(br.readLine()); //34 read
                                             ArrayList<DiscussionTopic> activeCourseDtopics = new ArrayList<>();
@@ -1836,8 +1871,11 @@ public class LMSClient {
                                             }
                                             try {
                                                 dfNumString = (String) JOptionPane.showInputDialog(null,
-                                                        discussionTopicsDisplay(activeCourseDtopics) + "\nWhich Discussion Forum would you like to go to?\n",
-                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE, null, options13, null);
+                                                        discussionTopicsDisplay(activeCourseDtopics) +
+                                                                "\nWhich Discussion Forum would you like to go to?\n",
+                                                        "Learning Management System", 
+                                                        JOptionPane.QUESTION_MESSAGE, null, options13, 
+                                                        null);
 
                                                 if (dfNumString == null) {
                                                     dfNumString = "exit";
@@ -1860,7 +1898,8 @@ public class LMSClient {
                                             } else {
                                                 int dfNum = Integer.parseInt(dfNumString);
                                                 topicTitle = activeCourseDtopics.get(dfNum - 1).getTopicTitle();
-                                                topicDescription = activeCourseDtopics.get(dfNum - 1).getTopicDescription();
+                                                topicDescription = 
+                                                        activeCourseDtopics.get(dfNum - 1).getTopicDescription();
                                                 topicTimestamp = activeCourseDtopics.get(dfNum - 1).getTimestamp();
                                                 pw.write(topicTitle);//35 send
                                                 pw.println();
@@ -1872,8 +1911,11 @@ public class LMSClient {
 
                                             String repliesExistOrNot = br.readLine(); //37 (a,b) read
                                             if (repliesExistOrNot.equals("noreplies")) {
-                                                JOptionPane.showMessageDialog(null, "Sorry, there are no replies to this Discussion Forum yet!",
-                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                JOptionPane.showMessageDialog(null, 
+                                                        "Sorry, there are no replies to this " +
+                                                                "Discussion Forum yet!",
+                                                        "Learning Management System", 
+                                                        JOptionPane.INFORMATION_MESSAGE);
                                                 //we want to ask the end question of looping back after this
                                             } else if (repliesExistOrNot.equals("yesreplies")) {
                                                 ArrayList<Replies> activeDTReplies = new ArrayList<>();
@@ -1889,16 +1931,23 @@ public class LMSClient {
                                                 if (commentsExistOrNot.equals("yescomments")) {
                                                     int commentsALSize = Integer.parseInt(br.readLine()); //41 read
                                                     for (int i = 0; i < commentsALSize; i++) {
-                                                        Comments commentObject = readCommentsString(br.readLine()); //42 read (loop)
+                                                        Comments commentObject = readCommentsString(br.readLine()); 
+                                                        //42 read (loop)
                                                         activeDTComments.add(commentObject);
                                                     }
                                                 }
 
-                                                String[] options14 = {"Comment on a student's post", "Move ahead", "Exit"};
+                                                String[] options14 = 
+                                                        {"Comment on a student's post", "Move ahead", "Exit"};
                                                 String commentorExit;
                                                 try {
-                                                    commentorExit = (String) JOptionPane.showInputDialog(null, dtDisplay(activeDTReplies, activeDTComments) + "\nWould you like to...",
-                                                            "Learning Management System", JOptionPane.QUESTION_MESSAGE, null, options14, null);
+                                                    commentorExit = (String) JOptionPane.showInputDialog(
+                                                            null, 
+                                                            dtDisplay(activeDTReplies, activeDTComments) + 
+                                                                    "\nWould you like to...",
+                                                            "Learning Management System", 
+                                                            JOptionPane.QUESTION_MESSAGE, null, options14, 
+                                                            null);
                                                     if (commentorExit == null) {
                                                         commentorExit = "Exit";
                                                     }
@@ -1934,18 +1983,29 @@ public class LMSClient {
                                                     boolean askforcommentAgain = false;
                                                     do {
                                                         try {
-                                                            postNumber = (String) JOptionPane.showInputDialog(null, dtDisplay(activeDTReplies, activeDTComments) + "\nWhich post would you like to comment on?\n",
-                                                                    "Learning Management System", JOptionPane.QUESTION_MESSAGE, null, options15, null);
+                                                            postNumber = (String) JOptionPane.showInputDialog(
+                                                                    null, 
+                                                                    dtDisplay(activeDTReplies, activeDTComments)
+                                                                            + "\nWhich post would you like to " +
+                                                                            "comment on?\n",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.QUESTION_MESSAGE, null, 
+                                                                    options15, null);
 
                                                             askforcommentAgain = false;
                                                             if (postNumber == null) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add a comment",
-                                                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null,
+                                                                        "You can't exit until you add a " +
+                                                                                "comment",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.ERROR_MESSAGE);
                                                                 askforcommentAgain = true;
                                                             }
                                                         } catch (NullPointerException n) {
-                                                            JOptionPane.showMessageDialog(null, "You can't exit until you add a comment",
-                                                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                            JOptionPane.showMessageDialog(null, 
+                                                                    "You can't exit until you add a comment",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.ERROR_MESSAGE);
                                                             askforcommentAgain = true;
                                                         }
                                                     } while (askforcommentAgain);
@@ -1956,23 +2016,34 @@ public class LMSClient {
 
 
                                                         try {
-                                                            teacherComment = (String) JOptionPane.showInputDialog(null, "Please enter your comment in a single line.", "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                                            teacherComment = (String) JOptionPane.showInputDialog(
+                                                                    null, "Please enter " +
+                                                                            "your comment in a single line.", 
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.QUESTION_MESSAGE);
 
                                                             askforcommentAgain = false;
                                                             if (teacherComment == null) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add a comment",
-                                                                        "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "You can't exit until you add a " +
+                                                                                "comment",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.ERROR_MESSAGE);
                                                                 askforcommentAgain = true;
                                                             } else if (teacherComment.isEmpty()) {
-                                                                JOptionPane.showMessageDialog(null, "Comment can not be empty.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "Comment can not be empty.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 askforcommentAgain = true;
                                                             }
 
                                                         } catch (NullPointerException n) {
 
-                                                            JOptionPane.showMessageDialog(null, "You can't exit until you add a comment",
-                                                                    "Learning Management System", JOptionPane.ERROR_MESSAGE);
+                                                            JOptionPane.showMessageDialog(null, 
+                                                                    "You can't exit until you add a comment",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.ERROR_MESSAGE);
                                                             askforcommentAgain = true;
                                                         }
 
@@ -1991,13 +2062,18 @@ public class LMSClient {
                                                     String postContent = replyObj.getReply();
 
                                                     ArrayList<Comments> editedComments = new ArrayList<>();
-                                                    int numOfCommentsTeacherComment = Integer.parseInt(br.readLine()); //47 read
+                                                    int numOfCommentsTeacherComment = Integer.parseInt(br.readLine());
+                                                    //47 read
                                                     for (int i = 0; i < numOfCommentsTeacherComment; i++) {
-                                                        Comments commentObj = readCommentsString(br.readLine()); //48 read (loop)
+                                                        Comments commentObj = readCommentsString(br.readLine()); 
+                                                        //48 read (loop)
                                                         editedComments.add(commentObj);
                                                     }
 
-                                                    JOptionPane.showMessageDialog(null, commentsDisplay(editedComments) + "\n\nYour comment was successfully added!", "Learning Management System",
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            commentsDisplay(editedComments) + "\n\nYour" +
+                                                                    " comment was successfully added!", 
+                                                            "Learning Management System",
                                                             JOptionPane.INFORMATION_MESSAGE);
                                                 }
 
@@ -2011,8 +2087,11 @@ public class LMSClient {
 
                                         int checkVotesAns;
                                         try {
-                                            checkVotesAns = JOptionPane.showConfirmDialog(null, "Would you like to view the highest votes for each forum?\n",
-                                                    "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                            checkVotesAns = JOptionPane.showConfirmDialog(null, 
+                                                    "Would you like to view the highest votes for each" +
+                                                            " forum?\n",
+                                                    "Learning Management System", JOptionPane.YES_NO_OPTION,
+                                                    JOptionPane.QUESTION_MESSAGE);
                                             if (checkVotesAns == JOptionPane.CLOSED_OPTION) {
                                                 checkVotesAns = 3;
                                             }
@@ -2046,42 +2125,43 @@ public class LMSClient {
                                                 String topicTimestamp = br.readLine(); //53 read
                                                 String topicDescription = br.readLine(); //54 read
 
-                                                String topicPart = String.format("Discussion Forum Topic: %s (%s)\nDescription: %s\n\n",
+                                                String topicPart = String.format("Discussion Forum Topic:" +
+                                                                " %s (%s)\nDescription: %s\n\n",
                                                         topicTitle, topicTimestamp, stringMethod(topicDescription));
 
                                                 sb.append(topicPart);
                                                 String repliesEmptyOrNot = br.readLine();//55 (a,b,c) read
 
                                                 if (repliesEmptyOrNot.equals("noreplies")) {
-                                                    //JOptionPane.showMessageDialog(null, topicPart + "This Discussion Forum has no replies.", "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
-
+                                                    
                                                     sb.append("This Discussion Forum has no replies.\n\n");
                                                 } else if (repliesEmptyOrNot.equals("yesrepliesbutallzero")) {
 
-                                                    //JOptionPane.showMessageDialog(null, topicPart + "All the replies to this Discussion Forum currently have 0 votes.", "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
-
-                                                    sb.append("All the replies to this Discussion Forum currently have 0 votes.\n\n");
+                                                    sb.append("All the replies to this Discussion Forum " +
+                                                            "currently have 0 votes.\n\n");
                                                 } else if (repliesEmptyOrNot.equals("yesrepliesbutnotallzero")) {
                                                     ArrayList<Replies> highestVotedRepliesArrayList = new ArrayList<>();
-                                                    ArrayList<String> highestVotedRepliesNameArrayList = new ArrayList<>();
+                                                    ArrayList<String> highestVotedRepliesNameArrayList = 
+                                                            new ArrayList<>();
 
                                                     int loopRounds = Integer.parseInt(br.readLine());// 56 read
 
                                                     for (int m = 0; m < loopRounds; m++) {
-                                                        highestVotedRepliesArrayList.add(readRepliesString(br.readLine())); //58 read (loop)
-                                                        highestVotedRepliesNameArrayList.add(br.readLine()); //58 read (loop)
+                                                        highestVotedRepliesArrayList.add(readRepliesString(br.readLine())); 
+                                                        //58 read (loop)
+                                                        highestVotedRepliesNameArrayList.add(br.readLine()); 
+                                                        //58 read (loop)
                                                     }
-
-                                                    //JOptionPane.showMessageDialog(null, topicPart + votesDisplayTeacher(highestVotedRepliesArrayList, highestVotedRepliesNameArrayList),
-                                                    //   "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
-
-                                                    sb.append(votesDisplayTeacher(highestVotedRepliesArrayList, highestVotedRepliesNameArrayList));
+                                                    
+                                                    sb.append(votesDisplayTeacher(highestVotedRepliesArrayList, 
+                                                            highestVotedRepliesNameArrayList));
 
                                                 }
 
                                             }
                                             JOptionPane.showMessageDialog(null,
-                                                    sb.toString(), "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                    sb.toString(), "Learning Management System", 
+                                                    JOptionPane.INFORMATION_MESSAGE);
                                         }
                                     }
 
@@ -2089,8 +2169,10 @@ public class LMSClient {
 
                                 int gradingAns;
                                 try {
-                                    gradingAns = JOptionPane.showConfirmDialog(null, "Would you like to grade a student?\n",
-                                            "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    gradingAns = JOptionPane.showConfirmDialog(null, 
+                                            "Would you like to grade a student?\n",
+                                            "Learning Management System", JOptionPane.YES_NO_OPTION, 
+                                            JOptionPane.QUESTION_MESSAGE);
                                     if (gradingAns == JOptionPane.CLOSED_OPTION) {
                                         gradingAns = 3;
                                     }
@@ -2106,7 +2188,8 @@ public class LMSClient {
                                     String studentsEmptyOrNot = br.readLine(); //60 (a,b) read
                                     if (studentsEmptyOrNot.equals("nostudents")) {
 
-                                        JOptionPane.showMessageDialog(null, "Sorry, no students have signed up yet :(",
+                                        JOptionPane.showMessageDialog(null, "Sorry, " +
+                                                        "no students have signed up yet :(",
                                                 "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                     } else if (studentsEmptyOrNot.equals("studentsnotempty")) {
 
@@ -2120,7 +2203,8 @@ public class LMSClient {
                                         StringBuilder sb = new StringBuilder();
 
                                         for (int i = 0; i < students.size(); i++) {
-                                            String s = String.format("%d. %s (%s)\n", i + 1, students.get(i).getName(),
+                                            String s = String.format("%d. %s (%s)\n", i + 1, 
+                                                    students.get(i).getName(),
                                                     students.get(i).getUsername());
                                             sb.append(s);
                                         }
@@ -2131,9 +2215,12 @@ public class LMSClient {
 
                                         String studentChoiceString;
                                         try {
-                                            studentChoiceString = (String) JOptionPane.showInputDialog(null,
-                                                    sb.toString() + "\nWhich student would you like to grade?", "Learning Management System",
-                                                    JOptionPane.QUESTION_MESSAGE, null, options16, null);
+                                            studentChoiceString = (String) JOptionPane.showInputDialog(
+                                                    null,
+                                                    sb.toString() + "\nWhich student would you like to grade?",
+                                                    "Learning Management System",
+                                                    JOptionPane.QUESTION_MESSAGE, null, options16, 
+                                                    null);
                                             if (studentChoiceString == null) {
                                                 studentChoiceString = "exit";
                                             }
@@ -2159,7 +2246,9 @@ public class LMSClient {
                                         String postsByStudentOrNot = br.readLine(); //64 (a,b) read
                                         if (postsByStudentOrNot.equals("nopostsbythisstudent")) {
 
-                                            JOptionPane.showMessageDialog(null, "There are no posts from this student yet or a teacher has already graded them!",
+                                            JOptionPane.showMessageDialog(null, 
+                                                    "There are no posts from this student yet " +
+                                                            "or a teacher has already graded them!",
                                                     "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                         } else if (postsByStudentOrNot.equals("yespostsbythisstudent")) {
 
@@ -2168,21 +2257,31 @@ public class LMSClient {
                                             ArrayList<Grades> gradesList = new ArrayList<>();
 
                                             for (int i = 0; i < selectedStudentRepliesSize; i++) {
-                                                Replies selectedstudentReply = readRepliesString(br.readLine()); //66 read (loop)
+                                                Replies selectedstudentReply = readRepliesString(br.readLine()); 
+                                                //66 read (loop)
                                                 selectedStudentReplies.add(selectedstudentReply);
                                             }
 
                                             for (int i = 0; i < selectedStudentReplies.size(); i++) {
-                                                String s = String.format("What grade will you assign to post %d. ?\n(Please assign a point value grade out of 10 to each post and write it in decimal format up to one decimal point)\n", i + 1);
+                                                String s = String.format("What grade will you assign to post %d. ?\n" +
+                                                        "(Please assign a point value grade out of 10 to each post " +
+                                                        "and write it in decimal format up to one decimal point)\n", 
+                                                        i + 1);
                                                 double grade = 0.0;
                                                 boolean why = false;
                                                 do {
                                                     try {
-                                                        String t = (String) JOptionPane.showInputDialog(null, gradesDisplayTeacher(selectedStudentReplies) +
-                                                                s, "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                                        String t = (String) JOptionPane.showInputDialog(
+                                                                null, 
+                                                                gradesDisplayTeacher(selectedStudentReplies) +
+                                                                s, "Learning Management System", 
+                                                                JOptionPane.QUESTION_MESSAGE);
                                                         if (t == null) {
-                                                            JOptionPane.showMessageDialog(null, "You can't exit until you assign grades to this student.",
-                                                                    "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                            JOptionPane.showMessageDialog(null, 
+                                                                    "You can't exit until you " +
+                                                                            "assign grades to this student.",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.INFORMATION_MESSAGE);
                                                             why = true;
                                                         } else {
                                                             try {
@@ -2190,25 +2289,33 @@ public class LMSClient {
                                                                 why = false;
                                                                 if (grade < 0.0 || grade > 10.0) {
 
-                                                                    JOptionPane.showMessageDialog(null, "Please enter a valid input.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null, 
+                                                                            "Please enter a valid input.",
+                                                                            "Learning Management System", 
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     why = true;
                                                                 }
                                                             } catch (Exception e) {
-                                                                JOptionPane.showMessageDialog(null, "Please enter a valid input.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "Please enter a valid input.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 why = true;
                                                             }
                                                         }
                                                     } catch (NullPointerException n) {
-                                                        JOptionPane.showMessageDialog(null, "You can't exit until you assign grades to this student.",
-                                                                "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                        JOptionPane.showMessageDialog(null, 
+                                                                "You can't exit until you assign " +
+                                                                        "grades to this student.",
+                                                                "Learning Management System", 
+                                                                JOptionPane.INFORMATION_MESSAGE);
                                                         why = true;
                                                     }
                                                 } while (why);
 
                                                 Grades gradesObj = new Grades(selectedStudentReplies.get(i).getDt().
-                                                        getCourseName(), selectedStudentReplies.get(i).getDt().getTopicTitle(),
+                                                        getCourseName(), 
+                                                        selectedStudentReplies.get(i).getDt().getTopicTitle(),
                                                         selectedStudentReplies.get(i).getReply(),
                                                         selectedStudentReplies.get(i).getUsername(), grade);
                                                 gradesList.add(gradesObj);
@@ -2222,8 +2329,10 @@ public class LMSClient {
                                                 pw.println();
                                                 pw.flush();
                                             }
-                                            JOptionPane.showMessageDialog(null, "You've successfully assigned the grades!",
-                                                    "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                            JOptionPane.showMessageDialog(null, 
+                                                    "You've successfully assigned the grades!",
+                                                    "Learning Management System", 
+                                                    JOptionPane.INFORMATION_MESSAGE);
 
                                         }
 
@@ -2246,7 +2355,8 @@ public class LMSClient {
                                 String coursesOrNot = br.readLine(); //s1 (a,b) read
                                 if (coursesOrNot.equals("nocourses")) {
 
-                                    JOptionPane.showMessageDialog(null, "Sorry, no courses have been added yet.\nVisit after some time!",
+                                    JOptionPane.showMessageDialog(null, "Sorry, " +
+                                                    "no courses have been added yet.\nVisit after some time!",
                                             "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                     displayFarewell();
                                     return;
@@ -2263,7 +2373,10 @@ public class LMSClient {
                                     }
                                     String courseChoiceString = "";
                                     try {
-                                        courseChoiceString = (String) JOptionPane.showInputDialog(null, displayCourses(courses) + "\nWhich course would you like to go to?\n", "Learning Management System", JOptionPane.QUESTION_MESSAGE,
+                                        courseChoiceString = (String) JOptionPane.showInputDialog(
+                                                null, displayCourses(courses) + "\nWhich" +
+                                                        " course would you like to go to?\n", 
+                                                "Learning Management System", JOptionPane.QUESTION_MESSAGE,
                                                 null, options17, null);
                                         if (courseChoiceString == null) {
                                             courseChoiceString = "0";
@@ -2289,14 +2402,16 @@ public class LMSClient {
                                         String dTopicsOrNot = br.readLine(); //s5 (a,b) read
                                         if (dTopicsOrNot.equals("nodtopics")) {
 
-                                            JOptionPane.showMessageDialog(null, "No Discussion Forums have been added to this course yet!",
+                                            JOptionPane.showMessageDialog(null, "No " +
+                                                            "Discussion Forums have been added to this course yet!",
                                                     "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                         } else if (dTopicsOrNot.equals("yesdtopics")) {
                                             int activeCourseDTopicsSize = Integer.parseInt(br.readLine()); // s6 read
                                             ArrayList<DiscussionTopic> activeCourseDTopics = new ArrayList<>();
 
                                             for (int i = 0; i < activeCourseDTopicsSize; i++) {
-                                                DiscussionTopic dtObj = readDiscussionTopicString(br.readLine()); // s7 read(loop)
+                                                DiscussionTopic dtObj = readDiscussionTopicString(br.readLine()); 
+                                                // s7 read(loop)
                                                 activeCourseDTopics.add(dtObj);
                                             }
 
@@ -2308,8 +2423,11 @@ public class LMSClient {
 
                                             try {
                                                 dfNumString = (String) JOptionPane.showInputDialog(null,
-                                                        discussionTopicsDisplay(activeCourseDTopics) + "\nWhich Discussion Forum would you like to go to?\n",
-                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE, null, options13, null);
+                                                        discussionTopicsDisplay(activeCourseDTopics) + 
+                                                                "\nWhich Discussion Forum would you like to go to?\n",
+                                                        "Learning Management System", 
+                                                        JOptionPane.QUESTION_MESSAGE, null, options13, 
+                                                        null);
 
                                                 if (dfNumString == null) {
                                                     dfNumString = "0";
@@ -2333,9 +2451,12 @@ public class LMSClient {
                                                 pw.println();
                                                 pw.flush();
 
-                                                String topicTitle = activeCourseDTopics.get(dtChoice - 1).getTopicTitle();
-                                                String topicDescription = activeCourseDTopics.get(dtChoice - 1).getTopicDescription();
-                                                String topicTimestamp = activeCourseDTopics.get(dtChoice - 1).getTimestamp();
+                                                String topicTitle = 
+                                                        activeCourseDTopics.get(dtChoice - 1).getTopicTitle();
+                                                String topicDescription = 
+                                                        activeCourseDTopics.get(dtChoice - 1).getTopicDescription();
+                                                String topicTimestamp = 
+                                                        activeCourseDTopics.get(dtChoice - 1).getTimestamp();
 
                                                 pw.write(topicTitle); //s9 send
                                                 pw.println();
@@ -2348,13 +2469,16 @@ public class LMSClient {
                                                 String repliesExistOrNot = br.readLine(); //37 (a,b) read
                                                 if (repliesExistOrNot.equals("noreplies")) {
 
-                                                    JOptionPane.showMessageDialog(null, "Sorry, there are no replies to this Discussion Forum yet!",
-                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            "Sorry, there are no replies to this " +
+                                                                    "Discussion Forum yet!",
+                                                            "Learning Management System",
+                                                            JOptionPane.INFORMATION_MESSAGE);
 
                                                 } else if (repliesExistOrNot.equals("yesreplies")) {
                                                     ArrayList<Replies> activeDTReplies = new ArrayList<>();
                                                     ArrayList<Comments> activeDTComments = new ArrayList<>();
-                                                    int activeDTRepliesSize = Integer.parseInt(br.readLine());  //38 read
+                                                    int activeDTRepliesSize = Integer.parseInt(br.readLine());//38 read
 
                                                     for (int i = 0; i < activeDTRepliesSize; i++) {
                                                         String replyObjString = br.readLine(); //39 read (loop)
@@ -2365,21 +2489,25 @@ public class LMSClient {
                                                     if (commentsExistOrNot.equals("yescomments")) {
                                                         int commentsALSize = Integer.parseInt(br.readLine()); //41 read
                                                         for (int i = 0; i < commentsALSize; i++) {
-                                                            Comments commentObject = readCommentsString(br.readLine()); //42 read (loop)
+                                                            Comments commentObject = readCommentsString(br.readLine()); 
+                                                            //42 read (loop)
                                                             activeDTComments.add(commentObject);
                                                         }
                                                     }
 
-                                                    JOptionPane.showMessageDialog(null, dtDisplay(activeDTReplies, activeDTComments),
-                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
-
-
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            dtDisplay(activeDTReplies, activeDTComments),
+                                                            "Learning Management System", 
+                                                            JOptionPane.INFORMATION_MESSAGE);
                                                 }
                                                 int addToDF;
 
                                                 try {
-                                                    addToDF = JOptionPane.showConfirmDialog(null, "Would you like to add a post to this Discussion Forum?",
-                                                            "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                                    addToDF = JOptionPane.showConfirmDialog(null, 
+                                                            "Would you like to add a post " +
+                                                                    "to this Discussion Forum?",
+                                                            "Learning Management System", 
+                                                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                                     if (addToDF == JOptionPane.CLOSED_OPTION) {
                                                         addToDF = 3;
                                                     }
@@ -2394,8 +2522,10 @@ public class LMSClient {
                                                     pw.flush();
                                                     String activeUserUsername = br.readLine(); //s12 read
 
-                                                    JOptionPane.showMessageDialog(null, "Note: Please write the post as a single line!",
-                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            "Note: Please write the post as a single line!",
+                                                            "Learning Management System", 
+                                                            JOptionPane.INFORMATION_MESSAGE);
 
                                                     String[] options18 = {"In the text box", "Import a file for it"};
 
@@ -2403,18 +2533,27 @@ public class LMSClient {
                                                     boolean askForPostAgain = false;
                                                     do {
                                                         try {
-                                                            addPostOptions = (String) JOptionPane.showInputDialog(null, "Would you like to write the post...",
-                                                                    "Learning Management System", JOptionPane.QUESTION_MESSAGE, null, options18, null);
+                                                            addPostOptions = (String) JOptionPane.showInputDialog(
+                                                                    null, "Would you like to " +
+                                                                            "write the post...",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.QUESTION_MESSAGE, null, options18,
+                                                                    null);
 
                                                             askForPostAgain = false;
                                                             if (addPostOptions == null) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add your post.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "You can't exit until " +
+                                                                                "you add your post.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 askForPostAgain = true;
                                                             }
                                                         } catch (NullPointerException n) {
-                                                            JOptionPane.showMessageDialog(null, "You can't exit until you add your post.",
-                                                                    "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                            JOptionPane.showMessageDialog(null, 
+                                                                    "You can't exit until you add your post.",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.INFORMATION_MESSAGE);
                                                             askForPostAgain = true;
                                                         }
                                                     } while (askForPostAgain);
@@ -2425,21 +2564,33 @@ public class LMSClient {
                                                         askForPostAgain = false;
                                                         do {
                                                             try {
-                                                                newPost = (String) JOptionPane.showInputDialog(null, "Please enter your post in a single line in the Text box",
-                                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                                                newPost = (String) JOptionPane.showInputDialog(
+                                                                        null, "Please enter " +
+                                                                                "your post in a single line in " +
+                                                                                "the Text box",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.QUESTION_MESSAGE);
                                                                 askForPostAgain = false;
                                                                 if (newPost == null) {
-                                                                    JOptionPane.showMessageDialog(null, "You can't exit until you add your post.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null,
+                                                                            "You can't exit until you " +
+                                                                                    "add your post.",
+                                                                            "Learning Management System", 
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     askForPostAgain = true;
                                                                 } else if (newPost.isEmpty()) {
-                                                                    JOptionPane.showMessageDialog(null, "Post can not be empty.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null, 
+                                                                            "Post can not be empty.",
+                                                                            "Learning Management System", 
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     askForPostAgain = true;
                                                                 }
                                                             } catch (NullPointerException n) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add your post.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "You can't exit until you" +
+                                                                                " add your post.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 askForPostAgain = true;
                                                             }
                                                         } while (askForPostAgain);
@@ -2453,11 +2604,17 @@ public class LMSClient {
                                                             String f;
                                                             try {
 
-                                                                f = (String) JOptionPane.showInputDialog(null, "Please enter the file pathname.",
-                                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                                                f = (String) JOptionPane.showInputDialog(
+                                                                        null, "Please " +
+                                                                                "enter the file pathname.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.QUESTION_MESSAGE);
                                                                 if (f == null) {
-                                                                    JOptionPane.showMessageDialog(null, "You can't exit until you add your post.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null, 
+                                                                            "You can't exit until you " +
+                                                                                    "add your post.",
+                                                                            "Learning Management System",
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     errorInFileImport = true;
                                                                 } else {
                                                                     try {
@@ -2467,8 +2624,14 @@ public class LMSClient {
                                                                         String s = brr.readLine();
                                                                         if (s == null || s.isEmpty()) {
 
-                                                                            JOptionPane.showMessageDialog(null, "The first line of this file is empty.\nPlease enter the file path of a non-empty file.",
-                                                                                    "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                            JOptionPane.showMessageDialog(
+                                                                                    null, 
+                                                                                    "The first line of this " +
+                                                                                            "file is empty.\nPlease " +
+                                                                                            "enter the file path of " +
+                                                                                            "a non-empty file.",
+                                                                                    "Learning Management System", 
+                                                                                    JOptionPane.INFORMATION_MESSAGE);
                                                                             errorInFileImport = true;
                                                                         } else if (!s.isEmpty() && s != null) {
                                                                             newPost = s;
@@ -2478,20 +2641,34 @@ public class LMSClient {
                                                                         fr.close();
                                                                     } catch (FileNotFoundException fnfe) {
 
-                                                                        JOptionPane.showMessageDialog(null, "No file with this name was found.\nPlease enter the correct file path.",
-                                                                                "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                        JOptionPane.showMessageDialog(
+                                                                                null, 
+                                                                                "No file with this name was " +
+                                                                                        "found.\nPlease enter the " +
+                                                                                        "correct file path.",
+                                                                                "Learning Management System", 
+                                                                                JOptionPane.INFORMATION_MESSAGE);
                                                                         errorInFileImport = true;
                                                                     } catch (IOException ioe) {
                                                                         ioe.printStackTrace();
 
-                                                                        JOptionPane.showMessageDialog(null, "\nThere was an error reading your file, please enter the path name of a valid file again.",
-                                                                                "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                        JOptionPane.showMessageDialog(
+                                                                                null, 
+                                                                                "\nThere was an error reading" +
+                                                                                        " your file, please enter " +
+                                                                                        "the path name of a valid " +
+                                                                                        "file again.",
+                                                                                "Learning Management System", 
+                                                                                JOptionPane.INFORMATION_MESSAGE);
                                                                         errorInFileImport = true;
                                                                     }
                                                                 }
                                                             } catch (NullPointerException n) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add your post.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "You can't exit until you add" +
+                                                                                " your post.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 errorInFileImport = true;
                                                             }
 
@@ -2506,7 +2683,7 @@ public class LMSClient {
                                                     pw.flush();
 
                                                     ArrayList<Replies> activeDTReplies = new ArrayList<>();
-                                                    int activeDTRepliesSize = Integer.parseInt(br.readLine());  //38 read
+                                                    int activeDTRepliesSize = Integer.parseInt(br.readLine());//38 read
 
                                                     for (int i = 0; i < activeDTRepliesSize; i++) {
                                                         String replyObjString = br.readLine(); //39 read (loop)
@@ -2514,8 +2691,11 @@ public class LMSClient {
                                                         activeDTReplies.add(replyObject);
                                                     }
 
-                                                    JOptionPane.showMessageDialog(null, repliesDisplay(activeDTReplies) +
-                                                            "\nYour reply was successfully posted!", "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            repliesDisplay(activeDTReplies) +
+                                                            "\nYour reply was successfully posted!", 
+                                                            "Learning Management System", 
+                                                            JOptionPane.INFORMATION_MESSAGE);
 
 
                                                 } else if (addToDF == JOptionPane.NO_OPTION) {
@@ -2537,8 +2717,11 @@ public class LMSClient {
 
                                                     int commentAns;
                                                     try {
-                                                        commentAns = JOptionPane.showConfirmDialog(null, "Would you like to comment on a student post?", "Learning Management System",
-                                                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                                        commentAns = JOptionPane.showConfirmDialog(null, 
+                                                                "Would you like to comment on a student post?", 
+                                                                "Learning Management System",
+                                                                JOptionPane.YES_NO_OPTION, 
+                                                                JOptionPane.QUESTION_MESSAGE);
                                                         if (commentAns == JOptionPane.CLOSED_OPTION) {
                                                             commentAns = 3;
                                                         }
@@ -2553,7 +2736,8 @@ public class LMSClient {
                                                         String activeUserUsername = br.readLine(); //s20 read
                                                         ArrayList<Replies> activeDTReplies = new ArrayList<>();
                                                         ArrayList<Comments> activeDTComments = new ArrayList<>();
-                                                        int activeDTRepliesSize = Integer.parseInt(br.readLine());  //38 read
+                                                        int activeDTRepliesSize = Integer.parseInt(br.readLine());
+                                                        //38 read
 
                                                         for (int i = 0; i < activeDTRepliesSize; i++) {
                                                             String replyObjString = br.readLine(); //39 read (loop)
@@ -2562,9 +2746,12 @@ public class LMSClient {
                                                         }
                                                         String commentsExistOrNot = br.readLine(); //40 (a,b) read
                                                         if (commentsExistOrNot.equals("yescomments")) {
-                                                            int commentsALSize = Integer.parseInt(br.readLine()); //41 read
+                                                            int commentsALSize = Integer.parseInt(br.readLine()); 
+                                                            //41 read
                                                             for (int i = 0; i < commentsALSize; i++) {
-                                                                Comments commentObject = readCommentsString(br.readLine()); //42 read (loop)
+                                                                Comments commentObject = 
+                                                                        readCommentsString(br.readLine()); 
+                                                                //42 read (loop)
                                                                 activeDTComments.add(commentObject);
                                                             }
                                                         }
@@ -2577,18 +2764,30 @@ public class LMSClient {
                                                         boolean askforcommentagain = false;
                                                         do {
                                                             try {
-                                                                postNumber = (String) JOptionPane.showInputDialog(null, dtDisplay(activeDTReplies, activeDTComments) +
-                                                                                "\nWhich post would you like to comment on?", "Learning Management System", JOptionPane.QUESTION_MESSAGE,
+                                                                postNumber = (String) JOptionPane.showInputDialog(
+                                                                        null, 
+                                                                        dtDisplay(activeDTReplies, 
+                                                                                activeDTComments) +
+                                                                                "\nWhich post would you " +
+                                                                                "like to comment on?", 
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.QUESTION_MESSAGE,
                                                                         null, options15, null);
                                                                 askforcommentagain = false;
                                                                 if (postNumber == null) {
-                                                                    JOptionPane.showMessageDialog(null, "You can't exit until you add your comment.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null, 
+                                                                            "You can't exit until" +
+                                                                                    " you add your comment.",
+                                                                            "Learning Management System", 
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     askforcommentagain = true;
                                                                 }
                                                             } catch (NullPointerException n) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add your comment.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "You can't exit until you " +
+                                                                                "add your comment.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 askforcommentagain = true;
                                                             }
                                                         } while (askforcommentagain);
@@ -2597,25 +2796,36 @@ public class LMSClient {
                                                         askforcommentagain = false;
                                                         do {
                                                             try {
-                                                                studentComment = (String) JOptionPane.showInputDialog(null, "Please enter your comment in a single line.",
-                                                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE);
+                                                                studentComment = (String) JOptionPane.showInputDialog(
+                                                                        null, 
+                                                                        "Please enter your comment in " +
+                                                                                "a single line.",
+                                                                        "Learning Management System",
+                                                                        JOptionPane.QUESTION_MESSAGE);
                                                                 askforcommentagain = false;
                                                                 if (studentComment == null) {
-                                                                    JOptionPane.showMessageDialog(null, "You can't exit until you add your comment.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null, 
+                                                                            "You can't exit until you " +
+                                                                                    "add your comment.",
+                                                                            "Learning Management System",
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     askforcommentagain = true;
                                                                 } else if (studentComment.isEmpty()) {
                                                                     System.out.println("Comment can not be empty.");
                                                                     askforcommentagain = true;
                                                                 }
                                                             } catch (NullPointerException n) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you add your comment.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, 
+                                                                        "You can't exit until you" +
+                                                                                " add your comment.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 askforcommentagain = true;
                                                             }
                                                         } while (askforcommentagain);
 
-                                                        Replies studentReply = activeDTReplies.get(activeDTReplies.size() - postNum);
+                                                        Replies studentReply 
+                                                                = activeDTReplies.get(activeDTReplies.size() - postNum);
                                                         Comments studentCommentObj = new Comments(studentReply,
                                                                 activeUserUsername, studentComment);
 
@@ -2632,7 +2842,10 @@ public class LMSClient {
                                                             editedCommentsList.add(commentObj);
                                                         }
 
-                                                        JOptionPane.showMessageDialog(null, commentsDisplay(editedCommentsList) + "\n\nYour comment was successfully added!", "Learning Management System",
+                                                        JOptionPane.showMessageDialog(null, 
+                                                                commentsDisplay(editedCommentsList) + "\n\n" +
+                                                                        "Your comment was successfully added!", 
+                                                                "Learning Management System",
                                                                 JOptionPane.INFORMATION_MESSAGE);
 
                                                     } else if (commentAns == JOptionPane.NO_OPTION) {
@@ -2654,8 +2867,11 @@ public class LMSClient {
 
                                                     int votingAns;
                                                     try {
-                                                        votingAns = JOptionPane.showConfirmDialog(null, "Would you like to upvote any post?",
-                                                                "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                                        votingAns = JOptionPane.showConfirmDialog(null,
+                                                                "Would you like to upvote any post?",
+                                                                "Learning Management System", 
+                                                                JOptionPane.YES_NO_OPTION, 
+                                                                JOptionPane.QUESTION_MESSAGE);
                                                         if (votingAns == JOptionPane.CLOSED_OPTION) {
                                                             votingAns = 3;
                                                         }
@@ -2686,18 +2902,32 @@ public class LMSClient {
                                                         boolean askforvoteagain = false;
                                                         do {
                                                             try {
-                                                                upvotedPostString = (String) JOptionPane.showInputDialog(null, repliesDisplay(activeDTreplies) +
-                                                                                "Which post would you like to upvote for?\n(You can only upvote one post of these)\n", "Learning Management System", JOptionPane.QUESTION_MESSAGE,
+                                                                upvotedPostString = 
+                                                                        (String) JOptionPane.showInputDialog(
+                                                                                null, 
+                                                                                repliesDisplay(activeDTreplies)
+                                                                                        +
+                                                                                "Which post would you like to upvote " +
+                                                                                        "for?\n(You can only upvote " +
+                                                                                        "one post of these)\n", 
+                                                                                "Learning Management System", 
+                                                                                JOptionPane.QUESTION_MESSAGE,
                                                                         null, options15, null);
                                                                 askforvoteagain = false;
                                                                 if (upvotedPostString == null) {
-                                                                    JOptionPane.showMessageDialog(null, "You can't exit until you upvote a post.",
-                                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                    JOptionPane.showMessageDialog(null, 
+                                                                            "You can't exit until " +
+                                                                                    "you upvote a post.",
+                                                                            "Learning Management System", 
+                                                                            JOptionPane.INFORMATION_MESSAGE);
                                                                     askforvoteagain = true;
                                                                 }
                                                             } catch (NullPointerException n) {
-                                                                JOptionPane.showMessageDialog(null, "You can't exit until you upvote a post.",
-                                                                        "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null,
+                                                                        "You can't exit until you " +
+                                                                                "upvote a post.",
+                                                                        "Learning Management System", 
+                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 askforvoteagain = true;
                                                             }
                                                         } while (askforvoteagain);
@@ -2711,8 +2941,10 @@ public class LMSClient {
                                                         pw.flush();
                                                         String successfullyVotedOrNot = br.readLine();//s44 read
                                                         if (successfullyVotedOrNot.equals("successfullyvoted")) {
-                                                            JOptionPane.showMessageDialog(null, "Hurray, you've successfully voted!",
-                                                                    "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                            JOptionPane.showMessageDialog(null, 
+                                                                    "Hurray, you've successfully voted!",
+                                                                    "Learning Management System", 
+                                                                    JOptionPane.INFORMATION_MESSAGE);
                                                         }
 
                                                     } else if (votingAns == JOptionPane.NO_OPTION) {
@@ -2736,8 +2968,10 @@ public class LMSClient {
 
                                             int checkGrades;
                                             try {
-                                                checkGrades = JOptionPane.showConfirmDialog(null, "Would you like to check your grades for this course?",
-                                                        "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                                checkGrades = JOptionPane.showConfirmDialog(null, 
+                                                        "Would you like to check your grades for this course?",
+                                                        "Learning Management System", JOptionPane.YES_NO_OPTION, 
+                                                        JOptionPane.QUESTION_MESSAGE);
                                                 if (checkGrades == JOptionPane.CLOSED_OPTION) {
                                                     checkGrades = 3;
                                                 }
@@ -2753,8 +2987,12 @@ public class LMSClient {
 
                                                 if (gradedOrNot.equals("nogrades")) {
 
-                                                    JOptionPane.showMessageDialog(null, "Either you have not made any posts in this course or your teacher has not graded your work yet!",
-                                                            "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            "Either you have not made any posts in " +
+                                                                    "this course or your teacher has not " +
+                                                                    "graded your work yet!",
+                                                            "Learning Management System", 
+                                                            JOptionPane.INFORMATION_MESSAGE);
                                                 } else if (gradedOrNot.equals("yesgrades")) {
                                                     int studentGradeSize = Integer.parseInt(br.readLine()); //s32 read
                                                     ArrayList<Grades> studentGrades = new ArrayList<>();
@@ -2765,7 +3003,9 @@ public class LMSClient {
                                                         studentGrades.add(studentGrade);
                                                     }
 
-                                                    JOptionPane.showMessageDialog(null, gradesDisplayStudent(studentGrades), "Learning Management System",
+                                                    JOptionPane.showMessageDialog(null, 
+                                                            gradesDisplayStudent(studentGrades), 
+                                                            "Learning Management System",
                                                             JOptionPane.INFORMATION_MESSAGE);
                                                 }
 
@@ -2787,8 +3027,10 @@ public class LMSClient {
 
                             String[] options6 = {"Go back to the main page", "Exit"};
                             try {
-                                loopingBackOrExit = (String) JOptionPane.showInputDialog(null, "Would you like to...",
-                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE, null, options6, null);
+                                loopingBackOrExit = (String) JOptionPane.showInputDialog(null, 
+                                        "Would you like to...",
+                                        "Learning Management System", JOptionPane.QUESTION_MESSAGE, 
+                                        null, options6, null);
 
                                 if (loopingBackOrExit == null) {
                                     loopingBackOrExit = "Exit";
@@ -2809,14 +3051,16 @@ public class LMSClient {
                                 pw.flush();
                             }
 
-                        } while (loopingBackOrExit.equals("Go back to the main page")); //looping back entre menu from after login = 3
+                        } while (loopingBackOrExit.equals("Go back to the main page")); 
+                        //looping back entre menu from after login = 3
                     }
                 }
 
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "There was an error reading/writing to/from the client", "Learning Management System", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There was an error reading/writing to/from" +
+                    " the client", "Learning Management System", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -2824,7 +3068,9 @@ public class LMSClient {
 
     public static void displayFarewell() {
 
-        JOptionPane.showMessageDialog(null, "Thank you for using the Learning Management System!\nBye! Have a nice day!",
+        JOptionPane.showMessageDialog(null, "Thank you for using the " +
+                        "Learning Management System!" +
+                        "\nBye! Have a nice day!",
                 "Learning Management System - SignUp", JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -2914,7 +3160,8 @@ public class LMSClient {
     }
 
     //for when teacher wants to see highest votes
-    public static String votesDisplayTeacher(ArrayList<Replies> highestVotedRepliesArrayList, ArrayList<String> highestVotedRepliesNameArrayList) {
+    public static String votesDisplayTeacher(ArrayList<Replies> highestVotedRepliesArrayList, 
+                                             ArrayList<String> highestVotedRepliesNameArrayList) {
 
         StringBuilder sb = new StringBuilder("");
         for (int m = 0; m < highestVotedRepliesArrayList.size(); m++) {
@@ -3036,7 +3283,8 @@ public class LMSClient {
 
     public static String stringMethod(String s) {
         StringBuilder sb = new StringBuilder("");
-        char[] characters = {' ', ',', '.', '"', '-', ')', '(', ':', '/', '?', '<', '>', '[', ']', '{', ';', '_', '+', '=', '*', '&', '^', '%', '$', '#', '@', '!', '~'};
+        char[] characters = {' ', ',', '.', '"', '-', ')', '(', ':', '/', '?', '<', '>', '[', ']', 
+                '{', ';', '_', '+', '=', '*', '&', '^', '%', '$', '#', '@', '!', '~'};
         if (s.length() > 160) {
             for (int i = 159; i < s.length(); i = i) {
                 boolean dashNeeded = true;
@@ -3248,4 +3496,4 @@ public class LMSClient {
 }
 
 
-//everytime they choose to exit, do we need to close pw and br from client side?
+
