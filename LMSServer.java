@@ -44,10 +44,10 @@ public class LMSServer implements Runnable {
                 //thread.join(); (do we use this or not?) coz if we do, it means one client will run fully and then the other, but we don't want that
             }
         } catch (IOException ioe) {
-            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
             ioe.printStackTrace();
         } catch (Exception e) {
-            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
             e.printStackTrace();
         }
 
@@ -423,11 +423,11 @@ public class LMSServer implements Runnable {
                     if (afterLogin.equals("gotomainpage")) {
                         String loopingBackOrExit;
                         do {
-                            if (activeUser.getRole().equals("t")) {
+                            if (this.activeUser.getRole().equals("t")) {
                                 pw.write("teacher"); //10a send
                                 pw.println();
                                 pw.flush();
-                            } else if (activeUser.getRole().equals("s")) {
+                            } else if (this.activeUser.getRole().equals("s")) {
                                 pw.write("student"); //10b send
                                 pw.println();
                                 pw.flush();
@@ -1109,6 +1109,15 @@ public class LMSServer implements Runnable {
                                                 selectedStudentReplies.add(replies.get(i));
                                             }
                                         }
+                                        for (int i = 0; i < selectedStudentReplies.size(); i++) {
+                                            for (int j = 0; j < grades.size(); j++) {
+                                                if (selectedStudentReplies.get(i).getReply().equals(grades.get(j).getReply())) {
+                                                    if (selectedStudentReplies.get(i).getUsername().equals(grades.get(j).getUsername())) {
+                                                        selectedStudentReplies.remove(i);
+                                                    }
+                                                }
+                                            }
+                                        }
                                         if (selectedStudentReplies.isEmpty()) {
                                             pw.write("nopostsbythisstudent"); //64a  send
                                             pw.println();
@@ -1151,7 +1160,7 @@ public class LMSServer implements Runnable {
                                     return;
                                 }
 
-                            } else if (activeUser.getRole().equals("s")) {//teacher part ends here and student part begins
+                            } else if (this.activeUser.getRole().equals("s")) {//teacher part ends here and student part begins
                                 this.activeCourse = null;
                                 if (courses.isEmpty() || courses == null) {
                                     pw.write("nocourses"); //s1a send
@@ -1190,6 +1199,7 @@ public class LMSServer implements Runnable {
                                     } else {
                                         this.activeCourse = courseOrExit;
 
+                                        //System.out.println(this.activeCourse);
                                         int counter = 0;
                                         for (int j = 0; j < discussionTopics.size(); j++) {
                                             if (discussionTopics.get(j).getCourseName().equals(this.activeCourse)) {
@@ -1210,9 +1220,11 @@ public class LMSServer implements Runnable {
                                             pw.flush();
 
                                             for (int k = 0; k < discussionTopics.size(); k++) {
-                                                pw.write(discussionTopics.get(k).toString()); //s7 send (loop)
-                                                pw.println();
-                                                pw.flush();
+                                                if (discussionTopics.get(k).getCourseName().equals(this.activeCourse)) {
+                                                    pw.write(discussionTopics.get(k).toString()); //s7 send (loop)
+                                                    pw.println();
+                                                    pw.flush();
+                                                }
                                             }
 
                                             String exitOrGotodf = br.readLine(); //s8 (a,b) read
@@ -1621,12 +1633,12 @@ public class LMSServer implements Runnable {
                 }
             }
         } catch (IOException e) {
-            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
 
             e.printStackTrace();
 
         } catch (Exception e) {
-            System.out.println("The client stopped the program abruptly or there was problem reading writing to/from the server.\n\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
 
             e.printStackTrace();
         }
@@ -2367,18 +2379,14 @@ public class LMSServer implements Runnable {
 //I am using isConnect to find out if the client has been connected to the server, but isConnect
 // will return true even if the client had once been connected once in the past
 
-
-
-
 //check those 2 places (with voting and grading, dtopics are empty)
-//check if you're writing to database after every edit
-//make sure to account for cross on top of panel for GUIs
+
+//check cross on top of panel for GUIs and also cancel button
 //students: voting, round variable (to check the number of current round)
-//add this.voteCount = 0; everythwere exiting
+//add this.voteCount = 0; everyhwere exiting
 
 //socket.close br.close, pw.close, where to do all this? (in the exit methods and also at the end of main method?)
 
 
 
-//active dtreplies will be made everytime
-//set this.activeCourse= null everywhere you're exiting
+
