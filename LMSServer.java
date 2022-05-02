@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * @version May 02, 2022
  */
 
-
 public class LMSServer implements Runnable {
 
     private User activeUser;
@@ -336,9 +335,14 @@ public class LMSServer implements Runnable {
                             } while (b);
 
                             synchronized (guard) {
-                                changeUsername(this.activeUser.getUsername(), newUsername, users);
+                                changeUsername(this.activeUser.getUsername(), newUsername, users, replies, comments, grades, votersList);
                                 writeToUserDatabase(users);
+                                writeToRepliesDatabase(replies);
+                                writeToCommentsDatabase(comments);
+                                writeToGradesDatabase(grades);
+                                writeToVotersListDatabase(votersList);
                             }
+
                             for (int i = 0; i < users.size(); i++) {
                                 if (users.get(i).getUsername().equals(newUsername)) {
                                     this.activeUser = users.get(i);
@@ -388,9 +392,14 @@ public class LMSServer implements Runnable {
                             } while (b);
 
                             synchronized (guard) {
-                                changeUsername(this.activeUser.getUsername(), newUsername, users);
+                                changeUsername(this.activeUser.getUsername(), newUsername, users, replies, comments, grades, votersList);
                                 writeToUserDatabase(users);
+                                writeToRepliesDatabase(replies);
+                                writeToCommentsDatabase(comments);
+                                writeToGradesDatabase(grades);
+                                writeToVotersListDatabase(votersList);
                             }
+
                             for (int i = 0; i < users.size(); i++) {
                                 if (users.get(i).getUsername().equals(newUsername)) {
                                     this.activeUser = users.get(i);
@@ -2363,7 +2372,7 @@ public class LMSServer implements Runnable {
         }
     }
 
-    public static void changeUsername(String username, String newUsername, ArrayList<User> users) {
+    public static void changeUsername(String username, String newUsername, ArrayList<User> users, ArrayList<Replies> replies, ArrayList<Comments> comments, ArrayList<Grades> grades, ArrayList<VotersList> votersList) {
 
         int index = 0;
         for (int i = 0; i < users.size(); i++) {
@@ -2372,6 +2381,46 @@ public class LMSServer implements Runnable {
             }
         }
         users.get(index).setUsername(newUsername);
+        index = 0;
+        for (int i = 0; i < replies.size(); i++) {
+            if (replies.get(i).getUsername().equals(username)) {
+                index = i;
+            }
+        }
+        replies.get(index).setUsername(newUsername);
+
+        index = 0;
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).getUsername().equals(username)) {
+                index = i;
+            }
+        }
+        comments.get(index).setUsername(newUsername);
+
+        index = 0;
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).getPost().getUsername().equals(username)) {
+                index = i;
+            }
+        }
+        comments.get(index).getPost().setUsername(newUsername);
+
+        index = 0;
+        for (int i = 0; i < grades.size(); i++) {
+            if (grades.get(i).getUsername().equals(username)) {
+                index = i;
+            }
+        }
+        grades.get(index).setUsername(newUsername);
+
+        index = 0;
+        for (int i = 0; i < votersList.size(); i++) {
+            if (votersList.get(i).getUsername().equals(username)) {
+                index = i;
+            }
+        }
+        votersList.get(index).setUsername(newUsername);
+
     }
 
     public static void changePassword(String username, String newPassword, ArrayList<User> users) {
@@ -2386,18 +2435,4 @@ public class LMSServer implements Runnable {
     }
 
 }
-
-//I am using isConnect to find out if the client has been connected to the server, but isConnect
-// will return true even if the client had once been connected once in the past
-
-//check those 2 places (with voting and grading, dtopics are empty)
-
-//check cross on top of panel for GUIs and also cancel button
-//students: voting, round variable (to check the number of current round)
-//add this.voteCount = 0; everyhwere exiting
-
-//socket.close br.close, pw.close, where to do all this? (in the exit methods and also at the end of main method?)
-
-
-
 
