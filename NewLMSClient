@@ -160,7 +160,8 @@ public class NewLMSClient {
                 boolean checkName = false;
                 do {
                     try {
-                        name = JOptionPane.showInputDialog(null, "Please enter your first name and last name separated by a space", "User Name", JOptionPane.PLAIN_MESSAGE);
+                        name = JOptionPane.showInputDialog(null, "Please enter your full name:\n(Warning: You will not be able to " +
+                            "change your name later)", "Learning Management System - SignUp", JOptionPane.QUESTION_MESSAGE);
                         space = name.indexOf(" ");
                         checkLastname = name.substring(space + 1);
                         if (name.contains(" ")) {
@@ -354,7 +355,8 @@ public class NewLMSClient {
                     boolean checkName = false;
                     do {
                         try {
-                            name = JOptionPane.showInputDialog(null, "Please enter your first name and last name separated by a space", "User Name", JOptionPane.PLAIN_MESSAGE);
+                            name = JOptionPane.showInputDialog(null, "Please enter your full name:\n(Warning: You will not be able to " +
+                            "change your name later)", "Learning Management System - SignUp", JOptionPane.QUESTION_MESSAGE);
                             space = name.indexOf(" ");
                             checkLastname = name.substring(space + 1);
                             if (name.contains(" ")) {
