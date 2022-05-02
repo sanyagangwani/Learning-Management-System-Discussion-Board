@@ -2005,7 +2005,7 @@ Follow the example formatting exactly!
 
 This class includes a main method and menu GUI that lets the users post or reply on the discussion forum. There are two parts of the menu which are the login and sign up section and the discussion forum section. The cancel button or the cross on the top of the panel can be clicked to exit, except for a few places in the program where once a particular task has been chosen, the program cannot exit until it finishes. The detailed descriptions are written below.
 
-<h3>Account Menu</h3>
+**Account Menu**
 
 
 The menu allows the user to operate the discussion forum. The user will first be asked to login or sign up to the system. If the user chooses to login, they can type in their username and password to login. If the user chooses to sign up, they are asked if the user is a student or a teacher which cannot be changed after selection. Then the user is to provide the username and password with their real name that cannot be changed after entering. After the user has signed up or logged in, they have the option to edit or delete their account.
@@ -2021,7 +2021,7 @@ If the user is a student, they have the option to go into the course or exit. Th
 
 This class includes a main method and the menu that mainly asks the user for an action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
 
-<h3>Account Menu</h3>
+**Account Menu**
 
 
 The menu allows the user to operate the discussion forum. The client will first ask the user to login or sign up to the system. If the user chooses to sign up, the client will ask for the user’s role. If the user chooses to login, then the client asks the user to provide their username and password. After the user has signed up or logged in, they are asked for the option to edit or delete their account.
@@ -2036,7 +2036,7 @@ The user is asked to add a course to start the discussion forum if the user is a
 
 This class includes a main method and the menu that mainly manipulates the user’s action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
 
-<h3>Account Menu</h3>
+**Account Menu**
 
 
 The menu allows the user to operate the discussion forum. The server will take in the user's login or sign up information. If the user chooses to sign up, the server will assign the role for the user as either student or a teacher according to their answer. Then the server will save the username and password from the user provided through the client. If the user chooses to login, then the server will save the username and the password. After the user has signed up or logged in, the server will edit or delete the user’s account according the what they have chosen from the client.
