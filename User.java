@@ -1,6 +1,17 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Project 5
+ * <p>
+ * The class is the User class for the discussion program between
+ * teachers and students along with creating accounts. Every user, be it a student or a teacher
+ * is an object of this class.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
+
 public class User {
     private String name;
     private String role; // it will always either be t or s
@@ -57,101 +68,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-/*
-    //check if the username exists in the ArrayList
-    public static boolean usernameExists(String username, ArrayList<User> users) {
-        /*try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-            User user = (User) ois.readObject();
-            if (user == null) {
-                return false;
-            }
-            while (user != null) {
-                if (user.getUsername().equals(username)) {
-                    return true;
-                }
-                user = (User) ois.readObject();
-            }
-        } catch (ClassNotFoundException c) {
-            c.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-     /*   for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean checkUsernameAndPassword(String username, String password, ArrayList<User> users) {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-            User user = (User) ois.readObject();
-            if (user == null) {
-                return false;
-            }
-            while (user != null) {
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                    return true;
-                }
-                user = (User) ois.readObject();
-            }
-        } catch (ClassNotFoundException c) {
-            c.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-
-
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                if (users.get(i).getPassword().equals(password))
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //change username, given old username and new one
-    public void changeUsername(String username, String newUsername, ArrayList<User> users) {
-
-
-
-        int index = 0;
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                index = i;
-            }
-        }
-        users.get(index).setUsername(newUsername);
-    }
-
-    //change password given username and new password
-    public void changePassword(String username, String newPassword, ArrayList<User> users) {
-
-        int index = 0;
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                index = i;
-            }
-        }
-        users.get(index).setPassword(newPassword);
-    }
-
-
-    //delete an account
-    public void deleteAccount(String username, ArrayList<User> users) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                users.remove(i);
-            }
-        }
-    }
-    */
 
 
     public String toString() {
@@ -160,5 +76,5 @@ public class User {
 
 }
 
-//Q. what if the users don't enter anything when asked for their username? Invalid prompt right
+
 
