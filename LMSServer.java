@@ -3,6 +3,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Project 5
+ * <p>
+ * The program is the Server class for the discussion program between
+ * teachers and students along with creating accounts.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
+
+
 public class LMSServer implements Runnable {
 
     private User activeUser;
