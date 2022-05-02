@@ -2028,10 +2028,7 @@ The menu allows the user to operate the discussion forum. The client will first 
 
 **Discussion Forum Menu**
 
-The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on.
-
-
-<h2>the discussion forum.</h2>
+The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on the discussion forum.
 
 
 <h2>LMSServer</h2>
