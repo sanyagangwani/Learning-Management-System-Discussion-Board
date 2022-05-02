@@ -1,5 +1,9 @@
+<!-- Output copied to clipboard! -->
 
-## Description
+<!-- Yay, no errors, warnings, or alerts! -->
+
+<h2>Description</h2>
+
 
 The first option is to implement a learning management system discussion board. These discussion boards allow instructors to post prompts and students to reply.
 
@@ -7,14 +11,14 @@ Looking for an example? Navigate to the Brightspace discussion forums!
 
 Reminder: This program is a concurrent solution. That is, multiple users must be able to access the application at once. This also has network IO and full GUI. Users can interact with the application and utilize all the required features via the GUI. 
 
-
-## Instructions
-
-
-#### **Implementation Requirements: **
+<h2>Instructions</h2>
 
 
-##### **Core**
+<h4>**Implementation Requirements: **</h4>
+
+
+<h5>**Core**</h5>
+
 
 
 
@@ -49,8 +53,8 @@ Reminder: This program is a concurrent solution. That is, multiple users must be
 * Descriptive errors should appear as appropriate. The application should not crash under any circumstances.
 * To exit, the cancel button or cross at the top of the panel can be used to exit the program. However, certain tasks that have been started require completion before allowing the user to exit.
 
+<h5>**Selections**</h5>
 
-##### **Selections**
 
 
 
@@ -64,8 +68,8 @@ Reminder: This program is a concurrent solution. That is, multiple users must be
     * Teachers can view all the replies for a specific student on one page and assign a point value to their work. 
     * Students can view the scores they have received for the forum. 
 
+<h2>DiscussionTopic</h2>
 
-## DiscussionTopic
 
 This class constructs a discussion topic object and contains all methods necessary to manipulate and retrieve information regarding the topic.
 
@@ -74,7 +78,7 @@ This class constructs a discussion topic object and contains all methods necessa
 
 <table>
   <tr>
-   <td>Field name
+   <td>Field Name
    </td>
    <td>Field Type
    </td>
@@ -90,7 +94,7 @@ This class constructs a discussion topic object and contains all methods necessa
    </td>
    <td>private
    </td>
-   <td>Stores the name of the course which the discussion topic is tagged to.
+   <td>Stores the name of the course to which the discussion topic is tagged to.
    </td>
   </tr>
   <tr>
@@ -365,8 +369,8 @@ Follow the example formatting exactly!
 
 
 
+<h2>Replies</h2>
 
-## Replies
 
 This class constructs a reply object and contains all methods necessary to manipulate and retrieve information regarding the reply. This class can reply back to the associated discussion topic.
 
@@ -718,8 +722,8 @@ Follow the example formatting exactly!
 
 
 
+<h2>Comments</h2>
 
-## Comments
 
 This class constructs a comment object and contains all methods necessary to manipulate and retrieve information regarding the comment. This class can comment back on the replies from the same discussion topic.
 
@@ -1035,8 +1039,8 @@ Follow the example formatting exactly!
 
 
 
+<h2>User</h2>
 
-## User
 
 This class constructs a user object and contains all methods necessary to manipulate and retrieve information regarding the user.
 
@@ -1368,8 +1372,8 @@ Follow the example formatting exactly!
 </table>
 
 
+<h2>VotersList</h2>
 
-## VotersList
 
 This class constructs a voter list object  and contains all methods necessary to manipulate and retrieve information regarding the voter list.
 
@@ -1659,8 +1663,8 @@ Follow the example formatting exactly!
 
 
 
+<h2>Grades</h2>
 
-## Grades
 
 This class constructs a grade object and contains all methods necessary to manipulate and retrieve information regarding the grade.
 
@@ -1996,61 +2000,64 @@ Follow the example formatting exactly!
 
 
 
-
-## GUIs
-
-This class includes a main method and menu GUI that lets the users post or reply on the discussion forum. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
+<h2>GUIs</h2>
 
 
-### Account Menu
+This class includes a main method and menu GUI that lets the users post or reply on the discussion forum. There are two parts of the menu which are the login and sign up section and the discussion forum section. The cancel button or the cross on the top of the panel can be clicked to exit, except for a few places in the program where once a particular task has been chosen, the program cannot exit until it finishes. The detailed descriptions are written below.
 
-The menu allows the user to operate the discussion forum. The user will first be asked to login or sign up to the system. If the user chooses to login, they can type in their username and password to login. If the user chooses to sign up, they are asked if the user is a student or a teacher. Then the user is to provide the username and password. After the user has signed up or logged in, they have the option to edit or delete their account.
+<h3>Account Menu</h3>
+
+
+The menu allows the user to operate the discussion forum. The user will first be asked to login or sign up to the system. If the user chooses to login, they can type in their username and password to login. If the user chooses to sign up, they are asked if the user is a student or a teacher which cannot be changed after selection. Then the user is to provide the username and password with their real name that cannot be changed after entering. After the user has signed up or logged in, they have the option to edit or delete their account.
 
 **Discussion Forum Menu**
 
-The user can add a course to start the discussion forum if the user is a teacher. Then the user must enter the title and the description for the forum. Then the user has the option to add, delete, or edit the discussion forum. If the user is a student, they have the option to go into the course or exit. Then they can join the discussion forum to write the post, comment on the post, upvote, or check the grades. The user can only vote once per login and they will only be able to vote for the posts of the particular discussion forum they are in. If there are no posts in the discussion forum they are in, they won’t be asked to vote in the first place.
+The user can add a course to start the discussion forum if the user is a teacher. Then the user must enter the title and the description for the forum. Then the user has the option to add, delete, or edit the discussion forum. The teacher can only grade a particular post of a student only once. After the teacher has graded a particular post of a student, even other teachers can’t grade that post. The teacher can check the highest votes of each forum if the course that has been entered by the teacher.
 
+If the user is a student, they have the option to go into the course or exit. Then they can join the discussion forum to write the post, comment on the post, upvote, or check the grades. The student can only vote once per login and they will only be able to vote and check the grades for the posts of the particular discussion forum they are in. If there are no posts in the discussion forum they are in, they won’t be asked to vote in the first place.
 
-## LMSClient
+<h2>LMSClient</h2>
+
 
 This class includes a main method and the menu that mainly asks the user for an action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
 
+<h3>Account Menu</h3>
 
-### Account Menu
 
 The menu allows the user to operate the discussion forum. The client will first ask the user to login or sign up to the system. If the user chooses to sign up, the client will ask for the user’s role. If the user chooses to login, then the client asks the user to provide their username and password. After the user has signed up or logged in, they are asked for the option to edit or delete their account.
 
 **Discussion Forum Menu**
 
-
-The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on
-
-
-## the discussion forum.
+<h2>The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on</h2>
 
 
-## LMSServer
+<h2>the discussion forum.</h2>
+
+
+<h2>LMSServer</h2>
+
 
 This class includes a main method and the menu that mainly manipulates the user’s action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
 
+<h3>Account Menu</h3>
 
-### Account Menu
 
 The menu allows the user to operate the discussion forum. The server will take in the user's login or sign up information. If the user chooses to sign up, the server will assign the role for the user as either student or a teacher according to their answer. Then the server will save the username and password from the user provided through the client. If the user chooses to login, then the server will save the username and the password. After the user has signed up or logged in, the server will edit or delete the user’s account according the what they have chosen from the client.
 
 **Discussion Forum Menu**
 
-The client sets up the course given from the user through the client to start the discussion forum if the user is a teacher. Then the title and the description for the forum is set from the client input. When the user chooses options to add, delete, edit, commnet, vote, or grade on the discussion forum, the server performs the action. If the user is a student, the server operates the option to enter the course or exit according to what the student has chosen. If the student enters the course, then the server performs to write the post, comment on the post, upvote, or check the grades on the discussion forum from what the student has chosen.
+<h2>The client sets up the course given from the user through the client to start the discussion forum if the user is a teacher. Then the title and the description for the forum is set from the client input. When the user chooses options to add, delete, edit, commnet, vote, or grade on the discussion forum, the server performs the action. If the user is a student, the server operates the option to enter the course or exit according to what the student has chosen. If the student enters the course, then the server performs to write the post, comment on the post, upvote, or check the grades on the discussion forum from what the student has chosen.</h2>
 
 
-## Testing
+<h2>Testing</h2>
 
-We have included a program that will allow you to create and run output tests automatically. This will make it easier for you to verify that each possible progression through your solution is correct. Read through it.
 
-You can modify the test to test any method you like by following the same format. You can either download the program and run the main method or use the "Run" button on Vocareum to run the test. You can repeat this process for a variety of input values.
+
 
 **Submission**
 
 Suhon Choe - Submitted Report on Brightspace.
 
 Sanya Gangwani - Submitted Vocareum workspace.
+
+Akash Mullik - Submitted Presentation on Brightspace.
