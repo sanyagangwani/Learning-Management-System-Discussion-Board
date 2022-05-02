@@ -6,6 +6,18 @@ import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+/**
+ * Project 5
+ * <p>
+ * The class is the DiscussionTopic class for the discussion program between
+ * teachers and students along with creating accounts. Every discussion forum if first an 
+ * object of this class and stores the Discussion Topic Title, Description and Timestamp.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
+
+
 public class DiscussionTopic {
     private String courseName;
     private String topicTitle;
@@ -61,9 +73,5 @@ public class DiscussionTopic {
     public String toString() {
         return String.format("%s`%s`%s`%s", courseName, topicTitle, topicDescription, timestamp);
     }
-
-    /*public static void main(String[] args) {
-        DiscussionTopic dt = new DiscussionTopic("Ma 161", "ABCD", "abcefncnvlm");
-
-    }*/
+    
 }
