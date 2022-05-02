@@ -1970,7 +1970,7 @@ public class LMSClient {
                                         String postsByStudentOrNot = br.readLine(); //64 (a,b) read
                                         if (postsByStudentOrNot.equals("nopostsbythisstudent")) {
 
-                                            JOptionPane.showMessageDialog(null, "There are no posts from this student yet or you have already graded them!",
+                                            JOptionPane.showMessageDialog(null, "There are no posts from this student yet or a teacher has already graded them!",
                                                     "Learning Management System", JOptionPane.INFORMATION_MESSAGE);
                                         } else if (postsByStudentOrNot.equals("yespostsbythisstudent")) {
 
