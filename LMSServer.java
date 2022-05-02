@@ -51,13 +51,14 @@ public class LMSServer implements Runnable {
                 LMSServer lmsServer = new LMSServer(socket);
                 Thread thread = new Thread(lmsServer);
                 thread.start();
-                //thread.join(); (do we use this or not?) coz if we do, it means one client will run fully and then the other, but we don't want that
             }
         } catch (IOException ioe) {
-            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem " +
+                    "reading writing to/from the server.\n\n");
             ioe.printStackTrace();
         } catch (Exception e) {
-            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem " +
+                    "reading writing to/from the server.\n\n");
             e.printStackTrace();
         }
 
@@ -79,7 +80,7 @@ public class LMSServer implements Runnable {
             String logInOrSignUp = br.readLine(); //1st read
             if (logInOrSignUp.equals("exit")) {
                 synchronized (guard) {
-                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                 }
                 return;
             }
@@ -87,14 +88,14 @@ public class LMSServer implements Runnable {
                 String name = br.readLine(); //1a read (name)
                 if (name.equals("exit")) {
                     synchronized (guard) {
-                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                     }
                     return;
                 }
                 String role = br.readLine(); //1b read (role)
                 if (role.equals("exit")) {
                     synchronized (guard) {
-                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                     }
                     return;
                 }
@@ -105,7 +106,7 @@ public class LMSServer implements Runnable {
 
                     if (username.equals("exit")) {
                         synchronized (guard) {
-                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                         }
                         return;
                     }
@@ -128,7 +129,7 @@ public class LMSServer implements Runnable {
                 String password = br.readLine(); //1d read (password)
                 if (password.equals("exit")) {
                     synchronized (guard) {
-                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                     }
                     return;
                 }
@@ -144,7 +145,7 @@ public class LMSServer implements Runnable {
                 String logInOrExit = br.readLine();// 1f read
                 if (logInOrExit.equals("exit")) {
                     synchronized (guard) {
-                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                     }
                     this.activeUser = null;
                     return;
@@ -167,14 +168,14 @@ public class LMSServer implements Runnable {
                     String name = br.readLine(); //1a read (name)
                     if (name.equals("exit")) {
                         synchronized (guard) {
-                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                         }
                         return;
                     }
                     String role = br.readLine(); //1b read (role)
                     if (role.equals("exit")) {
                         synchronized (guard) {
-                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                         }
                         return;
                     }
@@ -185,7 +186,8 @@ public class LMSServer implements Runnable {
 
                         if (username.equals("exit")) {
                             synchronized (guard) {
-                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList,
+                                        grades);
                             }
                             return;
                         }
@@ -208,7 +210,7 @@ public class LMSServer implements Runnable {
                     String password = br.readLine(); //1d read (password)
                     if (password.equals("exit")) {
                         synchronized (guard) {
-                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                         }
                         return;
                     }
@@ -231,7 +233,8 @@ public class LMSServer implements Runnable {
                         username = br.readLine(); // 1f login username read
                         if (username.equals("exit")) {
                             synchronized (guard) {
-                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList,
+                                        grades);
                             }
                             return;
                         }
@@ -253,7 +256,8 @@ public class LMSServer implements Runnable {
                         password = br.readLine(); //1h read (password)
                         if (password.equals("exit")) {
                             synchronized (guard) {
-                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList,
+                                        grades);
                             }
                             return;
                         }
@@ -283,7 +287,7 @@ public class LMSServer implements Runnable {
                     String afterLogin = br.readLine(); //3 (a,b,c,d) read
                     if (afterLogin.equals("exit")) {
                         synchronized (guard) {
-                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
                         }
                         this.activeUser = null;
                         return;
@@ -304,7 +308,8 @@ public class LMSServer implements Runnable {
                         String changeDetails = br.readLine(); //4 (a,b,c) read
                         if (changeDetails.equals("exit")) {
                             synchronized (guard) {
-                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                        votersList, grades);
                             }
                             this.activeUser = null;
                             return;
@@ -316,7 +321,8 @@ public class LMSServer implements Runnable {
                                 newUsername = br.readLine(); //5th read
                                 if (newUsername.equals("exit")) {
                                     synchronized (guard) {
-                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                        writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                                votersList, grades);
                                     }
                                     this.activeUser = null;
                                     return;
@@ -335,7 +341,8 @@ public class LMSServer implements Runnable {
                             } while (b);
 
                             synchronized (guard) {
-                                changeUsername(this.activeUser.getUsername(), newUsername, users, replies, comments, grades, votersList);
+                                changeUsername(this.activeUser.getUsername(), newUsername, users, replies,
+                                        comments, grades, votersList);
                                 writeToUserDatabase(users);
                                 writeToRepliesDatabase(replies);
                                 writeToCommentsDatabase(comments);
@@ -352,7 +359,8 @@ public class LMSServer implements Runnable {
                             String newPassword = br.readLine(); //7th read
                             if (newPassword.equals("exit")) {
                                 synchronized (guard) {
-                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                    writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                            votersList, grades);
                                 }
                                 this.activeUser = null;
                                 return;
@@ -373,7 +381,8 @@ public class LMSServer implements Runnable {
                                 newUsername = br.readLine(); //5th read
                                 if (newUsername.equals("exit")) {
                                     synchronized (guard) {
-                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                        writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                                votersList, grades);
                                     }
                                     this.activeUser = null;
                                     return;
@@ -392,7 +401,8 @@ public class LMSServer implements Runnable {
                             } while (b);
 
                             synchronized (guard) {
-                                changeUsername(this.activeUser.getUsername(), newUsername, users, replies, comments, grades, votersList);
+                                changeUsername(this.activeUser.getUsername(), newUsername, users, replies,
+                                        comments, grades, votersList);
                                 writeToUserDatabase(users);
                                 writeToRepliesDatabase(replies);
                                 writeToCommentsDatabase(comments);
@@ -409,7 +419,8 @@ public class LMSServer implements Runnable {
                             String newPassword = br.readLine(); //7th read
                             if (newPassword.equals("exit")) {
                                 synchronized (guard) {
-                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades);
+                                    writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                            votersList, grades);
                                 }
                                 this.activeUser = null;
                                 return;
@@ -432,7 +443,8 @@ public class LMSServer implements Runnable {
                             afterLogin = "gotomainpage";
                         } else if (gotompExit.equals("exit")) {
                             synchronized (guard) {
-                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                        votersList, grades);
                             }
                             this.activeUser = null;
                             return;
@@ -471,7 +483,8 @@ public class LMSServer implements Runnable {
                                     String courseName = br.readLine(); //12 (a,b) read
                                     if (courseName.equals("exit")) {
                                         synchronized (guard) {
-                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                            writeToAllFiles(users, courses, discussionTopics, replies,
+                                                    comments, votersList, grades);
                                         }
                                         this.activeUser = null;
                                         return;
@@ -487,7 +500,8 @@ public class LMSServer implements Runnable {
                                         goToCourseExit = br.readLine(); //14 read
                                         if (goToCourseExit.equals("exit")) {
                                             synchronized (guard) {
-                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                writeToAllFiles(users, courses, discussionTopics, replies,
+                                                        comments, votersList, grades); //synchronise
                                             }
                                             this.activeUser = null;
                                             return;
@@ -499,7 +513,8 @@ public class LMSServer implements Runnable {
                                     addGoExit = br.readLine(); //15th read
                                     if (addGoExit.equals("exit")) {
                                         synchronized (guard) {
-                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                            writeToAllFiles(users, courses, discussionTopics, replies,
+                                                    comments, votersList, grades);
                                         }
                                         this.activeUser = null;
                                         return;
@@ -507,7 +522,8 @@ public class LMSServer implements Runnable {
                                         String courseName = br.readLine(); //12 (a,b) read repeat
                                         if (courseName.equals("exit")) {
                                             synchronized (guard) {
-                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                writeToAllFiles(users, courses, discussionTopics, replies,
+                                                        comments, votersList, grades);
                                             }
                                             this.activeUser = null;
                                             return;
@@ -523,7 +539,8 @@ public class LMSServer implements Runnable {
                                             goToCourseExit = br.readLine(); //14 read repeat
                                             if (goToCourseExit.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades);
                                                 }
                                                 this.activeUser = null;
                                                 return;
@@ -544,7 +561,8 @@ public class LMSServer implements Runnable {
                                     this.activeCourse = br.readLine(); //18th read
                                     if (this.activeCourse.equals("exit")) {
                                         synchronized (guard) {
-                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                            writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                                    votersList, grades); //synchronise
                                         }
                                         this.activeUser = null;
                                         this.activeCourse = null;
@@ -572,7 +590,8 @@ public class LMSServer implements Runnable {
                                         addDFAns = br.readLine(); //20 (a,b) read
                                         if (addDFAns.equals("exit")) {
                                             synchronized (guard) {
-                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                writeToAllFiles(users, courses, discussionTopics, replies,
+                                                        comments, votersList, grades);
                                             }
                                             this.activeUser = null;
                                             this.activeCourse = null;
@@ -583,7 +602,7 @@ public class LMSServer implements Runnable {
                                             DiscussionTopic newDt = readDiscussionTopicString(newDtString);
                                             synchronized (guard) {
                                                 discussionTopics.add(newDt); //synchronise
-                                                writeToDiscussionTopicsDatabase(discussionTopics);//synchronise
+                                                writeToDiscussionTopicsDatabase(discussionTopics);
                                             }
                                             counter++;
                                             pw.write("dfadded"); //22 send
@@ -614,7 +633,8 @@ public class LMSServer implements Runnable {
 
                                         if (discussionForumMenu.equals("exit")) {
                                             synchronized (guard) {
-                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                                        votersList, grades);
                                             }
                                             this.activeUser = null;
                                             this.activeCourse = null;
@@ -624,7 +644,7 @@ public class LMSServer implements Runnable {
                                             DiscussionTopic newDt = readDiscussionTopicString(newDtString);
                                             synchronized (guard) {
                                                 discussionTopics.add(newDt); //synchronise
-                                                writeToDiscussionTopicsDatabase(discussionTopics);//synchronise
+                                                writeToDiscussionTopicsDatabase(discussionTopics);
                                             }
                                             //counter++;
                                             pw.write("dfadded"); //22 send
@@ -634,7 +654,8 @@ public class LMSServer implements Runnable {
                                             goToDFexit = br.readLine(); //26 (a,b) read
                                             if (goToDFexit.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -658,39 +679,48 @@ public class LMSServer implements Runnable {
                                                     pw.flush();
                                                 }
                                             }
-                                            String originalTopicTitle = br.readLine(); //27th read (original topic title)
-                                            String originalTopicDescription = br.readLine(); //28th read (original topic description)
+                                            String originalTopicTitle = br.readLine();
+                                            //27th read (original topic title)
+                                            String originalTopicDescription = br.readLine();
+                                            //28th read (original topic description)
                                             if (originalTopicTitle.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics,
+                                                            replies, comments, votersList, grades);
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
                                                 return;
                                             }
                                             String editedTopicTitle = br.readLine(); //29th read (edited topic title)
-                                            String editedTopicDescription = br.readLine(); //30th read (edited topic desc)
+                                            String editedTopicDescription = br.readLine(); 
+                                            //30th read (edited topic desc)
 
                                             synchronized (guard) {
                                                 for (int i = 0; i < discussionTopics.size(); i++) {
-                                                    if (discussionTopics.get(i).getTopicTitle().equals(originalTopicTitle)) {
-                                                        if (discussionTopics.get(i).getTopicDescription().equals(originalTopicDescription)) {
-                                                            discussionTopics.get(i).setTopicTitle(editedTopicTitle); //synchronize
-                                                            discussionTopics.get(i).setTopicDescription(editedTopicDescription); //synchronize
+                                                    if (discussionTopics.get(i).getTopicTitle().
+                                                            equals(originalTopicTitle)) {
+                                                        if (discussionTopics.get(i).getTopicDescription().
+                                                                equals(originalTopicDescription)) {
+                                                            discussionTopics.get(i).setTopicTitle(editedTopicTitle);
+                                                            discussionTopics.get(i).
+                                                                    setTopicDescription(editedTopicDescription);
                                                         }
                                                     }
                                                 }
-                                                writeToDiscussionTopicsDatabase(discussionTopics); //synchronize
+                                                writeToDiscussionTopicsDatabase(discussionTopics);
                                             }
 
                                             synchronized (guard) {
                                                 if (!replies.isEmpty()) {
                                                     for (int i = 0; i < replies.size(); i++) {
-                                                        if (replies.get(i).getDt().getTopicTitle().equals(originalTopicTitle)) {
+                                                        if (replies.get(i).getDt().getTopicTitle().
+                                                                equals(originalTopicTitle)) {
                                                             if (replies.get(i).getDt().getTopicDescription().
                                                                     equals(originalTopicDescription)) {
                                                                 replies.get(i).getDt().setTopicTitle(editedTopicTitle);
-                                                                replies.get(i).getDt().setTopicDescription(editedTopicDescription);
+                                                                replies.get(i).getDt().
+                                                                        setTopicDescription(editedTopicDescription);
                                                             }
                                                         }
                                                     }
@@ -704,9 +734,11 @@ public class LMSServer implements Runnable {
                                                     for (int i = 0; i < comments.size(); i++) {
                                                         if (comments.get(i).getPost().getDt().getTopicTitle().
                                                                 equals(originalTopicTitle)) {
-                                                            if (comments.get(i).getPost().getDt().getTopicDescription().
+                                                            if (comments.get(i).getPost().getDt().
+                                                                    getTopicDescription().
                                                                     equals(originalTopicDescription)) {
-                                                                comments.get(i).getPost().getDt().setTopicTitle(editedTopicTitle);
+                                                                comments.get(i).getPost().getDt().
+                                                                        setTopicTitle(editedTopicTitle);
                                                                 comments.get(i).getPost().getDt().setTopicDescription
                                                                         (editedTopicDescription);
                                                             }
@@ -722,7 +754,8 @@ public class LMSServer implements Runnable {
                                             goToDFexit = br.readLine(); //26 (a,b) read
                                             if (goToDFexit.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -746,12 +779,15 @@ public class LMSServer implements Runnable {
                                                     pw.flush();
                                                 }
                                             }
-                                            String originalTopicTitle = br.readLine(); //27th read (original topic title) repeat
-                                            String originalTopicDescription = br.readLine(); //28th read (original topic description) repeat
+                                            String originalTopicTitle = br.readLine();
+                                            //27th read (original topic title) repeat
+                                            String originalTopicDescription = br.readLine();
+                                            //28th read (original topic description) repeat
                                             if (originalTopicTitle.equals("exit")) {
 
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics,
+                                                            replies, comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -760,7 +796,8 @@ public class LMSServer implements Runnable {
 
                                             synchronized (guard) {
                                                 for (int i = 0; i < discussionTopics.size(); i++) {
-                                                    if (discussionTopics.get(i).getTopicTitle().equals(originalTopicTitle)) {
+                                                    if (discussionTopics.get(i).getTopicTitle().
+                                                            equals(originalTopicTitle)) {
                                                         if (discussionTopics.get(i).getTopicDescription().
                                                                 equals(originalTopicDescription)) {
                                                             discussionTopics.remove(i);
@@ -773,7 +810,8 @@ public class LMSServer implements Runnable {
                                             synchronized (guard) {
                                                 if (!replies.isEmpty()) {
                                                     for (int i = 0; i < replies.size(); i++) {
-                                                        if (replies.get(i).getDt().getTopicTitle().equals(originalTopicTitle)) {
+                                                        if (replies.get(i).getDt().getTopicTitle().
+                                                                equals(originalTopicTitle)) {
                                                             if (replies.get(i).getDt().getTopicDescription().
                                                                     equals(originalTopicDescription)) {
                                                                 replies.remove(i);
@@ -805,7 +843,8 @@ public class LMSServer implements Runnable {
                                             goToDFexit = br.readLine(); //26 (a,b) read
                                             if (goToDFexit.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -824,7 +863,7 @@ public class LMSServer implements Runnable {
 
 
                                         if (c == 0) {
-                                            //we want to ask the end question of looping back after this if this is the case
+
                                             pw.write("nodf"); //33a send
                                             pw.println();
                                             pw.flush();
@@ -846,7 +885,8 @@ public class LMSServer implements Runnable {
                                             String topicDescription = br.readLine(); //36 read
                                             if (topicTitle.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -856,14 +896,15 @@ public class LMSServer implements Runnable {
                                             int numOfReplies = 0;
                                             for (int i = 0; i < replies.size(); i++) {
                                                 if (replies.get(i).getDt().getTopicTitle().equals(topicTitle)) {
-                                                    if (replies.get(i).getDt().getTopicDescription().equals(topicDescription)) {
+                                                    if (replies.get(i).getDt().getTopicDescription().
+                                                            equals(topicDescription)) {
                                                         numOfReplies++;
                                                     }
                                                 }
                                             }
 
                                             if (numOfReplies == 0) {
-                                                //we want to ask the end question of looping back after this if this the case
+
                                                 pw.write("noreplies"); // 37a send
                                                 pw.println();
                                                 pw.flush();
@@ -878,7 +919,8 @@ public class LMSServer implements Runnable {
 
                                                 for (int i = 0; i < replies.size(); i++) {
                                                     if (replies.get(i).getDt().getTopicTitle().equals(topicTitle)) {
-                                                        if (replies.get(i).getDt().getTopicDescription().equals(topicDescription)) {
+                                                        if (replies.get(i).getDt().getTopicDescription().
+                                                                equals(topicDescription)) {
                                                             pw.write(replies.get(i).toString()); //39 send (loop)
                                                             pw.println();
                                                             pw.flush();
@@ -888,8 +930,10 @@ public class LMSServer implements Runnable {
 
                                                 int numOfComments = 0;
                                                 for (int i = 0; i < comments.size(); i++) {
-                                                    if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                        if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                    if (comments.get(i).getPost().getDt().getTopicTitle().
+                                                            equals(topicTitle)) {
+                                                        if (comments.get(i).getPost().getDt().getTopicDescription().
+                                                                equals(topicDescription)) {
                                                             numOfComments++;
                                                         }
                                                     }
@@ -908,8 +952,10 @@ public class LMSServer implements Runnable {
                                                     pw.println();
                                                     pw.flush();
                                                     for (int i = 0; i < comments.size(); i++) {
-                                                        if (comments.get(i).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (comments.get(i).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                        if (comments.get(i).getPost().getDt().getTopicTitle().
+                                                                equals(topicTitle)) {
+                                                            if (comments.get(i).getPost().getDt().
+                                                                    getTopicDescription().equals(topicDescription)) {
                                                                 pw.write(comments.get(i).toString()); //42 send (loop)
                                                                 pw.println();
                                                                 pw.flush();
@@ -924,7 +970,8 @@ public class LMSServer implements Runnable {
 
                                                     synchronized (guard) {
 
-                                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                        writeToAllFiles(users, courses, discussionTopics,
+                                                                replies, comments, votersList, grades); //synchronise
                                                     }
                                                     this.activeUser = null;
                                                     this.activeCourse = null;
@@ -935,7 +982,8 @@ public class LMSServer implements Runnable {
                                                     pw.write(activeUser.getUsername()); //44 write
                                                     pw.println();
                                                     pw.flush();
-                                                    Comments teacherCommentObj = readCommentsString(br.readLine()); //45 read
+                                                    Comments teacherCommentObj = readCommentsString(br.readLine());
+                                                    //45 read
                                                     synchronized (guard) {
                                                         comments.add(teacherCommentObj); //synchronise
 
@@ -943,8 +991,10 @@ public class LMSServer implements Runnable {
                                                     }
 
                                                     for (int i = 0; i < replies.size(); i++) {
-                                                        if (replies.get(i).getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                            if (replies.get(i).getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                        if (replies.get(i).getUsername().equals(teacherCommentObj.
+                                                                getPost().getUsername())) {
+                                                            if (replies.get(i).getReply().equals(teacherCommentObj.
+                                                                    getPost().getReply())) {
                                                                 pw.write(replies.get(i).toString()); //46 write
                                                                 pw.println();
                                                                 pw.flush();
@@ -953,8 +1003,10 @@ public class LMSServer implements Runnable {
                                                     }
                                                     int numOfCommentsTeacherComment = 0;
                                                     for (int i = 0; i < comments.size(); i++) {
-                                                        if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                            if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                        if (comments.get(i).getPost().getUsername().
+                                                                equals(teacherCommentObj.getPost().getUsername())) {
+                                                            if (comments.get(i).getPost().getReply().
+                                                                    equals(teacherCommentObj.getPost().getReply())) {
                                                                 numOfCommentsTeacherComment++;
                                                             }
 
@@ -964,8 +1016,10 @@ public class LMSServer implements Runnable {
                                                     pw.println();
                                                     pw.flush();
                                                     for (int i = 0; i < comments.size(); i++) {
-                                                        if (comments.get(i).getPost().getUsername().equals(teacherCommentObj.getPost().getUsername())) {
-                                                            if (comments.get(i).getPost().getReply().equals(teacherCommentObj.getPost().getReply())) {
+                                                        if (comments.get(i).getPost().getUsername().
+                                                                equals(teacherCommentObj.getPost().getUsername())) {
+                                                            if (comments.get(i).getPost().getReply().
+                                                                    equals(teacherCommentObj.getPost().getReply())) {
                                                                 pw.write(comments.get(i).toString()); //48 write (loop)
                                                                 pw.println();
                                                                 pw.flush();
@@ -995,7 +1049,8 @@ public class LMSServer implements Runnable {
                                         String checkVotesAns = br.readLine(); // 50 (a,b,c) read
                                         if (checkVotesAns.equals("exit")) {
                                             synchronized (guard) {
-                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                writeToAllFiles(users, courses, discussionTopics, replies,
+                                                        comments, votersList, grades); //synchronise
                                             }
                                             this.activeUser = null;
                                             this.activeCourse = null;
@@ -1027,23 +1082,27 @@ public class LMSServer implements Runnable {
 
                                                 ArrayList<Replies> currentDTReplies = new ArrayList<>();
                                                 for (int j = 0; j < replies.size(); j++) {
-                                                    if (replies.get(j).getDt().getTopicTitle().equals(activeCourseDtopics.get(i).getTopicTitle())) {
-                                                        if (replies.get(j).getDt().getTopicDescription().equals(activeCourseDtopics.get(i).getTopicDescription())) {
+                                                    if (replies.get(j).getDt().getTopicTitle().
+                                                            equals(activeCourseDtopics.get(i).getTopicTitle())) {
+                                                        if (replies.get(j).getDt().getTopicDescription().
+                                                                equals(activeCourseDtopics.get(i).
+                                                                        getTopicDescription())) {
                                                             currentDTReplies.add(replies.get(j));
                                                         }
                                                     }
                                                 }
                                                 ArrayList<Replies> highestVotedRepliesArrayList = new ArrayList<>();
-                                                //ArrayList<String> highestVotedRepliesNameArrayList = new ArrayList<>();
                                                 if (currentDTReplies.isEmpty()) {
                                                     pw.write("noreplies"); //55a write
                                                     pw.println();
                                                     pw.flush();
-                                                } else if (!currentDTReplies.isEmpty() && checkVotesAllZero(currentDTReplies)) {
+                                                } else if (!currentDTReplies.isEmpty() &&
+                                                        checkVotesAllZero(currentDTReplies)) {
                                                     pw.write("yesrepliesbutallzero"); //55b write
                                                     pw.println();
                                                     pw.flush();
-                                                } else if (!currentDTReplies.isEmpty() && !checkVotesAllZero(currentDTReplies)) {
+                                                } else if (!currentDTReplies.isEmpty() &&
+                                                        !checkVotesAllZero(currentDTReplies)) {
                                                     pw.write("yesrepliesbutnotallzero"); //55c write
                                                     pw.println();
                                                     pw.flush();
@@ -1051,22 +1110,24 @@ public class LMSServer implements Runnable {
                                                     highestVotedRepliesArrayList = highestVotes(currentDTReplies);
 
 
-                                                    pw.write(String.valueOf(highestVotedRepliesArrayList.size())); // 56 send
+                                                    pw.write(String.valueOf(highestVotedRepliesArrayList.size()));
+                                                    // 56 send
                                                     pw.println();
                                                     pw.flush();
 
-                                                    //System.out.println(highestVotedRepliesArrayList.size());
-                                                    //System.out.println(highestVotedRepliesArrayList.get(0).toString());
 
                                                     for (int m = 0; m < highestVotedRepliesArrayList.size(); m++) {
-                                                        pw.write(highestVotedRepliesArrayList.get(m).toString()); //57 send (loop)
+                                                        pw.write(highestVotedRepliesArrayList.get(m).toString());
+                                                        //57 send (loop)
                                                         pw.println();
                                                         pw.flush();
 
                                                         String name = "";
                                                         for (int k = 0; k < highestVotedRepliesArrayList.size(); k++) {
                                                             for (int l = 0; l < users.size(); l++) {
-                                                                if (highestVotedRepliesArrayList.get(k).getUsername().equals(users.get(l).getUsername())) {
+                                                                if (highestVotedRepliesArrayList.get(k).
+                                                                        getUsername().equals(users.get(l).
+                                                                                getUsername())) {
                                                                     name = users.get(l).getName();
                                                                 }
                                                             }
@@ -1075,8 +1136,7 @@ public class LMSServer implements Runnable {
                                                         pw.write(name); //58 send (loop)
                                                         pw.println();
                                                         pw.flush();
-                                                        //System.out.println(highestVotedRepliesArrayList.get(m).toString());
-                                                        //System.out.println(name);
+
                                                     }
 
                                                 }
@@ -1115,9 +1175,10 @@ public class LMSServer implements Runnable {
                                         }
 
                                         String selectedStudentUsername = br.readLine(); //63 read
-                                        if (selectedStudentUsername.equals("exit")){
+                                        if (selectedStudentUsername.equals("exit")) {
                                             synchronized (guard) {
-                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                writeToAllFiles(users, courses, discussionTopics, replies,
+                                                        comments, votersList, grades);
                                             }
                                             this.activeUser = null;
                                             this.activeCourse = null;
@@ -1131,8 +1192,10 @@ public class LMSServer implements Runnable {
                                         }
                                         for (int i = 0; i < selectedStudentReplies.size(); i++) {
                                             for (int j = 0; j < grades.size(); j++) {
-                                                if (selectedStudentReplies.get(i).getReply().equals(grades.get(j).getReply())) {
-                                                    if (selectedStudentReplies.get(i).getUsername().equals(grades.get(j).getUsername())) {
+                                                if (selectedStudentReplies.get(i).getReply().
+                                                        equals(grades.get(j).getReply())) {
+                                                    if (selectedStudentReplies.get(i).getUsername().
+                                                            equals(grades.get(j).getUsername())) {
                                                         selectedStudentReplies.remove(i);
                                                     }
                                                 }
@@ -1173,21 +1236,24 @@ public class LMSServer implements Runnable {
 
                                 } else if (gradingAns.equals("exit")) {
                                     synchronized (guard) {
-                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                        writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                                votersList, grades); //synchronise
                                     }
                                     this.activeUser = null;
                                     this.activeCourse = null;
                                     return;
                                 }
 
-                            } else if (this.activeUser.getRole().equals("s")) {//teacher part ends here and student part begins
+                            } else if (this.activeUser.getRole().equals("s")) {
+                                //teacher part ends here and student part begins
                                 this.activeCourse = null;
                                 if (courses.isEmpty() || courses == null) {
                                     pw.write("nocourses"); //s1a send
                                     pw.println();
                                     pw.flush();
                                     synchronized (guard) {
-                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                        writeToAllFiles(users, courses, discussionTopics, replies,
+                                                comments, votersList, grades); //synchronise
                                     }
                                     this.activeUser = null;
                                     this.activeCourse = null;
@@ -1211,7 +1277,8 @@ public class LMSServer implements Runnable {
                                     String courseOrExit = br.readLine(); //s4 (a,b) read
                                     if (courseOrExit.equals("exit")) {
                                         synchronized (guard) {
-                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                            writeToAllFiles(users, courses, discussionTopics, replies,
+                                                    comments, votersList, grades); //synchronise
                                         }
                                         this.activeUser = null;
                                         this.activeCourse = null;
@@ -1250,7 +1317,8 @@ public class LMSServer implements Runnable {
                                             String exitOrGotodf = br.readLine(); //s8 (a,b) read
                                             if (exitOrGotodf.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -1262,7 +1330,8 @@ public class LMSServer implements Runnable {
                                                 int numOfReplies = 0;
                                                 for (int m = 0; m < replies.size(); m++) {
                                                     if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
-                                                        if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                        if (replies.get(m).getDt().getTopicDescription().
+                                                                equals(topicDescription)) {
                                                             numOfReplies++;
                                                         }
                                                     }
@@ -1284,7 +1353,8 @@ public class LMSServer implements Runnable {
 
                                                     for (int j = 0; j < replies.size(); j++) {
                                                         if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (replies.get(j).getDt().getTopicDescription().
+                                                                    equals(topicDescription)) {
                                                                 pw.write(replies.get(j).toString()); //39 send (loop)
                                                                 pw.println();
                                                                 pw.flush();
@@ -1293,8 +1363,10 @@ public class LMSServer implements Runnable {
                                                     }
                                                     int numOfComments = 0;
                                                     for (int k = 0; k < comments.size(); k++) {
-                                                        if (comments.get(k).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (comments.get(k).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                        if (comments.get(k).getPost().getDt().getTopicTitle().
+                                                                equals(topicTitle)) {
+                                                            if (comments.get(k).getPost().getDt().
+                                                                    getTopicDescription().equals(topicDescription)) {
                                                                 numOfComments++;
                                                             }
                                                         }
@@ -1313,9 +1385,13 @@ public class LMSServer implements Runnable {
                                                         pw.println();
                                                         pw.flush();
                                                         for (int l = 0; l < comments.size(); l++) {
-                                                            if (comments.get(l).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                                if (comments.get(l).getPost().getDt().getTopicDescription().equals(topicDescription)) {
-                                                                    pw.write(comments.get(l).toString()); //42 send (loop)
+                                                            if (comments.get(l).getPost().getDt().getTopicTitle().
+                                                                    equals(topicTitle)) {
+                                                                if (comments.get(l).getPost().getDt().
+                                                                        getTopicDescription().
+                                                                        equals(topicDescription)) {
+                                                                    pw.write(comments.get(l).toString());
+                                                                    //42 send (loop)
                                                                     pw.println();
                                                                     pw.flush();
                                                                 }
@@ -1340,7 +1416,8 @@ public class LMSServer implements Runnable {
                                                     numOfReplies = 0;
                                                     for (int m = 0; m < replies.size(); m++) {
                                                         if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (replies.get(m).getDt().getTopicDescription().
+                                                                    equals(topicDescription)) {
                                                                 numOfReplies++;
                                                             }
                                                         }
@@ -1352,7 +1429,8 @@ public class LMSServer implements Runnable {
 
                                                     for (int j = 0; j < replies.size(); j++) {
                                                         if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (replies.get(j).getDt().getTopicDescription().
+                                                                    equals(topicDescription)) {
                                                                 pw.write(replies.get(j).toString()); //39 send (loop)
                                                                 pw.println();
                                                                 pw.flush();
@@ -1365,7 +1443,8 @@ public class LMSServer implements Runnable {
 
                                                 } else if (addToDF.equals("exit")) {
                                                     synchronized (guard) {
-                                                        writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                        writeToAllFiles(users, courses, discussionTopics, replies,
+                                                                comments, votersList, grades); //synchronise
                                                     }
                                                     this.activeUser = null;
                                                     this.activeCourse = null;
@@ -1375,7 +1454,8 @@ public class LMSServer implements Runnable {
                                                 numOfReplies = 0;
                                                 for (int m = 0; m < replies.size(); m++) {
                                                     if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
-                                                        if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                        if (replies.get(m).getDt().getTopicDescription().
+                                                                equals(topicDescription)) {
                                                             numOfReplies++;
                                                         }
                                                     }
@@ -1397,8 +1477,10 @@ public class LMSServer implements Runnable {
                                                         pw.flush();
                                                         numOfReplies = 0;
                                                         for (int m = 0; m < replies.size(); m++) {
-                                                            if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
-                                                                if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (replies.get(m).getDt().getTopicTitle().
+                                                                    equals(topicTitle)) {
+                                                                if (replies.get(m).getDt().getTopicDescription().
+                                                                        equals(topicDescription)) {
                                                                     numOfReplies++;
                                                                 }
                                                             }
@@ -1409,8 +1491,10 @@ public class LMSServer implements Runnable {
                                                         pw.flush();
 
                                                         for (int j = 0; j < replies.size(); j++) {
-                                                            if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
-                                                                if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (replies.get(j).getDt().getTopicTitle().
+                                                                    equals(topicTitle)) {
+                                                                if (replies.get(j).getDt().getTopicDescription().
+                                                                        equals(topicDescription)) {
                                                                     pw.write(replies.get(j).toString()); //39 send (loop)
                                                                     pw.println();
                                                                     pw.flush();
@@ -1419,8 +1503,11 @@ public class LMSServer implements Runnable {
                                                         }
                                                         int numOfComments = 0;
                                                         for (int k = 0; k < comments.size(); k++) {
-                                                            if (comments.get(k).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                                if (comments.get(k).getPost().getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (comments.get(k).getPost().getDt().getTopicTitle().
+                                                                    equals(topicTitle)) {
+                                                                if (comments.get(k).getPost().getDt().
+                                                                        getTopicDescription().
+                                                                        equals(topicDescription)) {
                                                                     numOfComments++;
                                                                 }
                                                             }
@@ -1439,9 +1526,13 @@ public class LMSServer implements Runnable {
                                                             pw.println();
                                                             pw.flush();
                                                             for (int l = 0; l < comments.size(); l++) {
-                                                                if (comments.get(l).getPost().getDt().getTopicTitle().equals(topicTitle)) {
-                                                                    if (comments.get(l).getPost().getDt().getTopicDescription().equals(topicDescription)) {
-                                                                        pw.write(comments.get(l).toString()); //42 send (loop)
+                                                                if (comments.get(l).getPost().getDt().getTopicTitle().
+                                                                        equals(topicTitle)) {
+                                                                    if (comments.get(l).getPost().getDt().
+                                                                            getTopicDescription().
+                                                                            equals(topicDescription)) {
+                                                                        pw.write(comments.get(l).toString());
+                                                                        //42 send (loop)
                                                                         pw.println();
                                                                         pw.flush();
                                                                     }
@@ -1455,13 +1546,16 @@ public class LMSServer implements Runnable {
                                                             comments.add(studentCommentObj);
                                                             writeToCommentsDatabase(comments);
                                                         }
-                                                        String replierUsername = studentCommentObj.getPost().getUsername();
+                                                        String replierUsername = studentCommentObj.getPost().
+                                                                getUsername();
                                                         String reply = studentCommentObj.getPost().getReply();
 
                                                         int commentCounter = 0;
                                                         for (int o = 0; o < comments.size(); o++) {
-                                                            if (comments.get(o).getPost().getUsername().equals(replierUsername)) {
-                                                                if (comments.get(o).getPost().getReply().equals(reply)) {
+                                                            if (comments.get(o).getPost().getUsername().
+                                                                    equals(replierUsername)) {
+                                                                if (comments.get(o).getPost().getReply().
+                                                                        equals(reply)) {
                                                                     commentCounter++;
                                                                 }
                                                             }
@@ -1471,9 +1565,12 @@ public class LMSServer implements Runnable {
                                                         pw.flush();
 
                                                         for (int p = 0; p < comments.size(); p++) {
-                                                            if (comments.get(p).getPost().getUsername().equals(replierUsername)) {
-                                                                if (comments.get(p).getPost().getReply().equals(reply)) {
-                                                                    pw.write(comments.get(p).toString()); //s23 write(loop)
+                                                            if (comments.get(p).getPost().getUsername().
+                                                                    equals(replierUsername)) {
+                                                                if (comments.get(p).getPost().getReply().
+                                                                        equals(reply)) {
+                                                                    pw.write(comments.get(p).toString());
+                                                                    //s23 write(loop)
                                                                     pw.println();
                                                                     pw.flush();
                                                                 }
@@ -1484,7 +1581,8 @@ public class LMSServer implements Runnable {
 
                                                     } else if (commentOrNot.equals("exit")) {
                                                         synchronized (guard) {
-                                                            writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                            writeToAllFiles(users, courses, discussionTopics,
+                                                                    replies, comments, votersList, grades);
                                                         }
                                                         this.activeUser = null;
                                                         this.activeCourse = null;
@@ -1497,7 +1595,8 @@ public class LMSServer implements Runnable {
                                                     numOfReplies = 0;
                                                     for (int m = 0; m < replies.size(); m++) {
                                                         if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
-                                                            if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                            if (replies.get(m).getDt().getTopicDescription().
+                                                                    equals(topicDescription)) {
                                                                 numOfReplies++;
                                                             }
                                                         }
@@ -1513,8 +1612,10 @@ public class LMSServer implements Runnable {
 
                                                             numOfReplies = 0;
                                                             for (int m = 0; m < replies.size(); m++) {
-                                                                if (replies.get(m).getDt().getTopicTitle().equals(topicTitle)) {
-                                                                    if (replies.get(m).getDt().getTopicDescription().equals(topicDescription)) {
+                                                                if (replies.get(m).getDt().getTopicTitle().
+                                                                        equals(topicTitle)) {
+                                                                    if (replies.get(m).getDt().getTopicDescription().
+                                                                            equals(topicDescription)) {
                                                                         numOfReplies++;
                                                                     }
                                                                 }
@@ -1524,9 +1625,12 @@ public class LMSServer implements Runnable {
                                                             pw.flush();
 
                                                             for (int j = 0; j < replies.size(); j++) {
-                                                                if (replies.get(j).getDt().getTopicTitle().equals(topicTitle)) {
-                                                                    if (replies.get(j).getDt().getTopicDescription().equals(topicDescription)) {
-                                                                        pw.write(replies.get(j).toString()); //39 send (loop)
+                                                                if (replies.get(j).getDt().getTopicTitle().
+                                                                        equals(topicTitle)) {
+                                                                    if (replies.get(j).getDt().getTopicDescription().
+                                                                            equals(topicDescription)) {
+                                                                        pw.write(replies.get(j).toString());
+                                                                        //39 send (loop)
                                                                         pw.println();
                                                                         pw.flush();
                                                                     }
@@ -1536,14 +1640,20 @@ public class LMSServer implements Runnable {
                                                             Replies upvotedPost = readRepliesString(upvotedPostString);
                                                             synchronized (guard) {
                                                                 for (int i = 0; i < replies.size(); i++) {
-                                                                    if (replies.get(i).getReply().equals(upvotedPost.getReply())) {
-                                                                        if (replies.get(i).getDt().getCourseName().equals(upvotedPost.
-                                                                                getDt().getCourseName())) {
-                                                                            if (replies.get(i).getDt().getTopicTitle().equals(upvotedPost.
-                                                                                    getDt().getTopicTitle())) {
-                                                                                if (replies.get(i).getUsername().equals(upvotedPost.getUsername())) {
+                                                                    if (replies.get(i).getReply().
+                                                                            equals(upvotedPost.getReply())) {
+                                                                        if (replies.get(i).getDt().getCourseName().
+                                                                                equals(upvotedPost.
+                                                                                        getDt().getCourseName())) {
+                                                                            if (replies.get(i).getDt().getTopicTitle().
+                                                                                    equals(upvotedPost.
+                                                                                            getDt().getTopicTitle())) {
+                                                                                if (replies.get(i).getUsername().
+                                                                                        equals(upvotedPost.
+                                                                                                getUsername())) {
 
-                                                                                    replies.get(i).setVotes(replies.get(i).getVotes() + 1);
+                                                                                    replies.get(i).setVotes(replies.
+                                                                                            get(i).getVotes() + 1);
 
                                                                                 }
                                                                             }
@@ -1553,7 +1663,8 @@ public class LMSServer implements Runnable {
                                                                 writeToRepliesDatabase(replies);
                                                             }
 
-                                                            VotersList vlObject = new VotersList(upvotedPost.getDt().getCourseName(),
+                                                            VotersList vlObject = new VotersList(upvotedPost.getDt().
+                                                                    getCourseName(),
                                                                     upvotedPost.getDt().getTopicTitle(),
                                                                     upvotedPost.getReply(), activeUser.getUsername());
                                                             synchronized (guard) {
@@ -1565,11 +1676,13 @@ public class LMSServer implements Runnable {
                                                             pw.println();
                                                             pw.flush();
 
-                                                        } else if (studentWantsToVote.equals("studentdoesntwanttovote")) {
+                                                        } else if (studentWantsToVote.
+                                                                equals("studentdoesntwanttovote")) {
 
                                                         } else if (studentWantsToVote.equals("exit")) {
                                                             synchronized (guard) {
-                                                                writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                                writeToAllFiles(users, courses, discussionTopics,
+                                                                        replies, comments, votersList, grades);
                                                             }
                                                             this.activeUser = null;
                                                             this.activeCourse = null;
@@ -1596,7 +1709,8 @@ public class LMSServer implements Runnable {
                                                 ArrayList<Grades> studentGrades = new ArrayList<>();
                                                 for (int i = 0; i < grades.size(); i++) {
                                                     if (grades.get(i).getCourseName().equals(activeCourse)) {
-                                                        if (grades.get(i).getUsername().equals(activeUser.getUsername())) {
+                                                        if (grades.get(i).getUsername().equals(activeUser.
+                                                                getUsername())) {
                                                             studentGrades.add(grades.get(i));
                                                         }
                                                     }
@@ -1626,7 +1740,8 @@ public class LMSServer implements Runnable {
 
                                             } else if (checkGradesOrNot.equals("exit")) {
                                                 synchronized (guard) {
-                                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                                    writeToAllFiles(users, courses, discussionTopics, replies,
+                                                            comments, votersList, grades); //synchronise
                                                 }
                                                 this.activeUser = null;
                                                 this.activeCourse = null;
@@ -1641,24 +1756,28 @@ public class LMSServer implements Runnable {
                             loopingBackOrExit = br.readLine(); //69 (a,b) read
                             if (loopingBackOrExit.equals("exit")) {
                                 synchronized (guard) {
-                                    writeToAllFiles(users, courses, discussionTopics, replies, comments, votersList, grades); //synchronise
+                                    writeToAllFiles(users, courses, discussionTopics, replies, comments,
+                                            votersList, grades);
                                 }
                                 this.activeUser = null;
                                 this.activeCourse = null;
                                 return;
                             }
 
-                        } while (loopingBackOrExit.equals("loopback")); //looping back entre menu from after login = go to main page
+                        } while (loopingBackOrExit.equals("loopback"));
+                        //looping back entre menu from after login = go to main page
                     }
                 }
             }
         } catch (IOException e) {
-            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem reading " +
+                    "writing to/from the server.\n\n");
 
             e.printStackTrace();
 
         } catch (Exception e) {
-            System.out.println("\nThe client stopped the program abruptly or there was problem reading writing to/from the server.\n\n");
+            System.out.println("\nThe client stopped the program abruptly or there was problem reading " +
+                    "writing to/from the server.\n\n");
 
             e.printStackTrace();
         }
@@ -2372,7 +2491,9 @@ public class LMSServer implements Runnable {
         }
     }
 
-    public static void changeUsername(String username, String newUsername, ArrayList<User> users, ArrayList<Replies> replies, ArrayList<Comments> comments, ArrayList<Grades> grades, ArrayList<VotersList> votersList) {
+    public static void changeUsername(String username, String newUsername, ArrayList<User> users,
+                                      ArrayList<Replies> replies, ArrayList<Comments> comments,
+                                      ArrayList<Grades> grades, ArrayList<VotersList> votersList) {
 
         int index = 0;
         for (int i = 0; i < users.size(); i++) {
