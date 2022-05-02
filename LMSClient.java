@@ -225,7 +225,10 @@ public class LMSClient {
                             username = JOptionPane.showInputDialog(null, "Please enter a username",
                                     "Learning Management System", JOptionPane.QUESTION_MESSAGE);
                             d = false;
-                            if (username.isEmpty()) {
+                            if (username == null) {
+                                username = "exit";
+                                d = false;
+                            } else if (username.isEmpty()) {
                                 JOptionPane.showMessageDialog(null, "Username can not be blank! Try again.",
                                         "Learning Management System - SignUp", JOptionPane.ERROR_MESSAGE);
                                 d = true;
@@ -270,7 +273,10 @@ public class LMSClient {
                         password = JOptionPane.showInputDialog(null, "Please enter a 6 characters password(DO NOT USE ANY COMMAS):",
                                 "Learning Management System", JOptionPane.QUESTION_MESSAGE);
                         pswdRePrompt = false;
-                        if (password.length() != 6 || password.indexOf(',') != -1) {
+                        if (password == null) {
+                            password = "exit";
+                            pswdRePrompt = false;
+                        } else if (password.length() != 6 || password.indexOf(',') != -1) {
                             JOptionPane.showMessageDialog(null, "Password should be 6 characters long and without a comma!",
                                     "Learning Management System - SignUp", JOptionPane.ERROR_MESSAGE);
                             pswdRePrompt = true;
@@ -294,7 +300,7 @@ public class LMSClient {
 
                     if (br.readLine().equals("usercreated")) { //1e read
                         JOptionPane.showMessageDialog(null, "Hurray, account successfully created!",
-                                "Learning Management System - SignUp", JOptionPane.ERROR_MESSAGE);
+                                "Learning Management System - SignUp", JOptionPane.INFORMATION_MESSAGE);
                     }
 
 
@@ -964,8 +970,8 @@ public class LMSClient {
                                     }
 
                                     String[] options7 = new String[courses.size()];
-                                    for (int i = 0; i < courses.size(); i++) {
-                                        options[i] = String.valueOf(i + 1);
+                                    for (int i = 0; i < options7.length; i++) {
+                                        options7[i] = String.valueOf(i + 1);
                                     }
                                     String courseMenu;
                                     try {
@@ -1378,7 +1384,7 @@ public class LMSClient {
                                             String editForumNum;
                                             int w = 0;
                                             String[] options12 = new String[activeCourseDtopicss.size()];
-                                            for (int i = 0; i < activeCourseDtopicss.size(); i++) {
+                                            for (int i = 0; i < options12.length; i++) {
                                                 options12[i] = String.valueOf(i + 1);
                                             }
 
@@ -1809,7 +1815,7 @@ public class LMSClient {
 
                                 int gradingAns;
                                 try {
-                                    gradingAns = JOptionPane.showConfirmDialog(null, "Would you like to view the highest votes for each forum?\n",
+                                    gradingAns = JOptionPane.showConfirmDialog(null, "Would you like to grade a student?\n",
                                             "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                                 } catch (NullPointerException n) {
@@ -1851,6 +1857,9 @@ public class LMSClient {
                                             studentChoiceString = (String) JOptionPane.showInputDialog(null,
                                                     sb.toString() + "\nWhich student would you like to grade?", "Learning Management System",
                                                     JOptionPane.QUESTION_MESSAGE, null, options16, null);
+                                            if (studentChoiceString == null) {
+                                                studentChoiceString = "exit";
+                                            }
                                         } catch (NullPointerException n) {
                                             studentChoiceString = "exit";
                                         }
@@ -2081,6 +2090,7 @@ public class LMSClient {
                                                 try {
                                                     addToDF = JOptionPane.showConfirmDialog(null, "Would you like to add a post to this Discussion Forum?",
                                                             "Learning Management System", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
                                                 } catch (NullPointerException n) {
                                                     addToDF = 3;
                                                 }
