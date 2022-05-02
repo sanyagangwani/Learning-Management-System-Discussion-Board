@@ -1,10 +1,11 @@
+
 ## Description
 
-The first option is to implement a learning management system discussion board. These discussion boards allow instructors to post prompts and students replying with their responses. 
+The first option is to implement a learning management system discussion board. These discussion boards allow instructors to post prompts and students to reply.
 
 Looking for an example? Navigate to the Brightspace discussion forums!
 
-Reminder: This program is a concurrent solution. That is, multiple users must be able to access the application at once. This also has network IO and full GUI. Users are able to interact with the application and utilize all the required features via the GUI. 
+Reminder: This program is a concurrent solution. That is, multiple users must be able to access the application at once. This also has network IO and full GUI. Users can interact with the application and utilize all the required features via the GUI. 
 
 
 ## Instructions
@@ -33,13 +34,19 @@ Reminder: This program is a concurrent solution. That is, multiple users must be
 * Teachers
     * Teachers can create, edit, and delete discussion forums.
     * Teachers can reply to student responses.
-    * Teachers can grade student posts only once. Once a student post has been graded, another teacher can no longer grade that same post.
+    * Teachers can grade student posts only once. Once a student's post has been graded, another teacher can no longer grade that same post.
     * If a course has discussion forums, teachers are requested to check the highest votes of each discussion forum
 * Students
     * Students can create replies to discussion forums. 
     * Students can reply to other students in their posts. 
-    * Students can vote once per login session for another student post.
-    * Students can check their grade only in the courses they are currently in
+    * Students can vote once per login session for another student's post.
+    * Students can check their grades only in the courses they are currently in
+* The application must support simultaneous use by multiple users over a network. New content should appear as users add it. 
+* All user interactions must be GUI-based. 
+    * Note: You are NOT permitted to keep the keyboard (System.in) and the screen (System.out) implementation in your solution. 
+    * Functionality for the GUI must meet or exceed the functionality of the keyboard (System.in) and the screen (System.out) interface implemented in Project 4. 
+* Data must persist regardless of whether or not a user is connected. If a user disconnects and reconnects, their data should still be present. 
+* Descriptive errors should appear as appropriate. The application should not crash under any circumstances.
 * To exit, the cancel button or cross at the top of the panel can be used to exit the program. However, certain tasks that have been started require completion before allowing the user to exit.
 
 
@@ -47,10 +54,6 @@ Reminder: This program is a concurrent solution. That is, multiple users must be
 
 
 
-* File imports.
-    * All file imports must occur as a prompt to enter the file path.  
-    * Teachers can import a file with the discussion topic to create a new discussion forum. 
-    * Students can import a file with their reply to a forum to post a response. 
 * Voting
     * Teachers can view a dashboard that lists the most popular replies to each forum by votes.
         * Data will appear with the student's name and vote count. 
@@ -1991,6 +1994,9 @@ Follow the example formatting exactly!
 </table>
 
 
+
+
+
 ## GUIs
 
 This class includes a main method and menu GUI that lets the users post or reply on the discussion forum. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
@@ -2017,7 +2023,10 @@ The menu allows the user to operate the discussion forum. The client will first 
 **Discussion Forum Menu**
 
 
-The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on the discussion forum.
+The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on
+
+
+## the discussion forum.
 
 
 ## LMSServer
