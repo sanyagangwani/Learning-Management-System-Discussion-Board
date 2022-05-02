@@ -1,3 +1,14 @@
+/**
+ * Project 5
+ * <p>
+ * The class is the VotersList class for the discussion program between
+ * teachers and students along with creating accounts. Every time a student votes for a post, a new VotersList
+ * object is created.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
+
 public class VotersList {
     private String courseName;
     private String topicTitle;
