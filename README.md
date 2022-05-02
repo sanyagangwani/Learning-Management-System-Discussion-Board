@@ -2045,12 +2045,6 @@ The menu allows the user to operate the discussion forum. The server will take i
 
 The client sets up the course given from the user through the client to start the discussion forum if the user is a teacher. Then the title and the description for the forum is set from the client input. When the user chooses options to add, delete, edit, commnet, vote, or grade on the discussion forum, the server performs the action. If the user is a student, the server operates the option to enter the course or exit according to what the student has chosen. If the student enters the course, then the server performs to write the post, comment on the post, upvote, or check the grades on the discussion forum from what the student has chosen.
 
-
-<h2>Testing</h2>
-
-
-
-
 **Submission**
 
 Suhon Choe - Submitted Report on Brightspace.
