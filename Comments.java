@@ -5,6 +5,17 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+/**
+ * Project 5
+ * <p>
+ * The class is the Comments class for the discussion program between
+ * teachers and students along with creating accounts. Every comment added by a student or a teacher
+ * is an object of this class.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
+
 public class Comments {
     private Replies post;
     private String username;
@@ -59,8 +70,10 @@ public class Comments {
 
 
     public String toString() {
-        return String.format("%s`%s`%s`%s`%s`%s`%s`%s`%s`%s`%s", this.post.getDt().getCourseName(), this.post.getDt().getTopicTitle(),
+        return String.format("%s`%s`%s`%s`%s`%s`%s`%s`%s`%s`%s", this.post.getDt().getCourseName(), 
+                this.post.getDt().getTopicTitle(),
                 this.post.getDt().getTopicDescription(), this.post.getDt().getTimestamp(), this.post.getUsername(),
-                this.post.getTimestamp(), this.post.getReply(), String.valueOf(this.post.getVotes()), this.username, this.timestamp, this.comment);
+                this.post.getTimestamp(), this.post.getReply(), String.valueOf(this.post.getVotes()), 
+                this.username, this.timestamp, this.comment);
     }
 }
