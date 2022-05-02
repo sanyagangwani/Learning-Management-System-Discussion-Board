@@ -1,5 +1,15 @@
+/**
+ * Project 5
+ * <p>
+ * The class is the Grades class for the discussion program between
+ * teachers and students along with creating accounts. Every time a teacher grades a student's post, 
+ * a new grade object is created.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
 public class Grades {
-
+    
     private String courseName;
     private String topicTitle;
     private String reply;
