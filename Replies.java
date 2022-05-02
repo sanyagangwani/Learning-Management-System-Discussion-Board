@@ -5,6 +5,16 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+/**
+ * Project 5
+ * <p>
+ * The class is the Replies class for the discussion program between
+ * teachers and students along with creating accounts. Every post added by a student is an object of this class.
+ *
+ * @author Sanya Gangwani, Dhruv Shah, Akash Mullick, Amo Bai, Suhon Choe
+ * @version May 02, 2022
+ */
+
 public class Replies {
     private DiscussionTopic dt;
     private String username;
@@ -70,7 +80,8 @@ public class Replies {
 
 
     public String toString() {
-        return String.format("%s`%s`%s`%s`%s`%s`%s`%s", this.dt.getCourseName(),this.dt.getTopicTitle(),this.dt.getTopicDescription(),
+        return String.format("%s`%s`%s`%s`%s`%s`%s`%s", this.dt.getCourseName(), this.dt.getTopicTitle(),
+                this.dt.getTopicDescription(),
                 this.dt.getTimestamp(), this.username, this.timestamp, this.reply, String.valueOf(this.votes));
     }
 }
