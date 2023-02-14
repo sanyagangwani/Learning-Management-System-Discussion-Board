@@ -1,72 +1,44 @@
-<!-- Output copied to clipboard! -->
-
-<!-- Yay, no errors, warnings, or alerts! -->
-
-<h2>Description</h2>
+**Account Menu**
 
 
-The first option is to implement a learning management system discussion board. These discussion boards allow instructors to post prompts and students to reply.
+The menu allows the user to operate the discussion forum. The user will first be asked to login or sign up to the system. If the user chooses to login, they can type in their username and password to login. If the user chooses to sign up, they are asked if the user is a student or a teacher which cannot be changed after selection. Then the user is to provide the username and password with their real name that cannot be changed after entering. After the user has signed up or logged in, they have the option to edit or delete their account.
 
-Looking for an example? Navigate to the Brightspace discussion forums!
+**Discussion Forum Menu**
 
-Reminder: This program is a concurrent solution. That is, multiple users must be able to access the application at once. This also has network IO and full GUI. Users can interact with the application and utilize all the required features via the GUI. 
+The user can add a course to start the discussion forum if the user is a teacher. Then the user must enter the title and the description for the forum. Then the user has the option to add, delete, or edit the discussion forum. The teacher can only grade a particular post of a student only once. After the teacher has graded a particular post of a student, even other teachers can’t grade that post. The teacher can check the highest votes of each forum if the course that has been entered by the teacher.
 
-<h2>Instructions</h2>
+If the user is a student, they have the option to go into the course or exit. Then they can join the discussion forum to write the post, comment on the post, upvote, or check the grades. The student can only vote once per login and they will only be able to vote and check the grades for the posts of the particular discussion forum they are in. If there are no posts in the discussion forum they are in, they won’t be asked to vote in the first place.
 
-
-<h4>**Implementation Requirements: **</h4>
-
-
-<h5>**Core**</h5>
+<h2>LMSClient</h2>
 
 
+This class includes a main method and the menu that mainly asks the user for an action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
+
+**Account Menu**
 
 
-* Data must persist regardless of whether or not a user is connected. If a user disconnects and reconnects, their data should still be present. 
-* Descriptive errors should appear as appropriate. For example, if someone tries to log in with an invalid account. The application should not crash under any circumstances. 
-* Users can create, edit, and delete accounts for themselves.
-    * The attributes you collect as part of account creation are up to you. 
-    * Users should be required to either create an account or sign in before gaining access to the application. 
-    * Whichever identifier you maintain for the user must be unique. 
-    * During account creation, a user will specify their role. 
-* Discussion Forums
-    * Any number of discussion forums may be added to a course. 
-    * The forum topic must be listed at the top of the forum page. 
-    * Replies will be listed below the topic with the newest appearing first. 
-        * Comments on replies will appear beneath each reply. 
-    * All created text content must display a timestamp, including the forum topic and any replies. 
-* Teachers
-    * Teachers can create, edit, and delete discussion forums.
-    * Teachers can reply to student responses.
-    * Teachers can grade student posts only once. Once a student's post has been graded, another teacher can no longer grade that same post.
-    * If a course has discussion forums, teachers are requested to check the highest votes of each discussion forum
-* Students
-    * Students can create replies to discussion forums. 
-    * Students can reply to other students in their posts. 
-    * Students can vote once per login session for another student's post.
-    * Students can check their grades only in the courses they are currently in
-* The application must support simultaneous use by multiple users over a network. New content should appear as users add it. 
-* All user interactions must be GUI-based. 
-    * Note: You are NOT permitted to keep the keyboard (System.in) and the screen (System.out) implementation in your solution. 
-    * Functionality for the GUI must meet or exceed the functionality of the keyboard (System.in) and the screen (System.out) interface implemented in Project 4. 
-* Data must persist regardless of whether or not a user is connected. If a user disconnects and reconnects, their data should still be present. 
-* Descriptive errors should appear as appropriate. The application should not crash under any circumstances.
-* To exit, the cancel button or cross at the top of the panel can be used to exit the program. However, certain tasks that have been started require completion before allowing the user to exit.
+The menu allows the user to operate the discussion forum. The client will first ask the user to login or sign up to the system. If the user chooses to sign up, the client will ask for the user’s role. If the user chooses to login, then the client asks the user to provide their username and password. After the user has signed up or logged in, they are asked for the option to edit or delete their account.
 
-<h5>**Selections**</h5>
+**Discussion Forum Menu**
+
+The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on the discussion forum.
 
 
+<h2>LMSServer</h2>
 
 
-* Voting
-    * Teachers can view a dashboard that lists the most popular replies to each forum by votes.
-        * Data will appear with the student's name and vote count. 
-        * Teachers can choose to sort the dashboard.
-    * Students can vote on replies with an upvote button.
-        * Students should only be able to vote once. 
-* Grading
-    * Teachers can view all the replies for a specific student on one page and assign a point value to their work. 
-    * Students can view the scores they have received for the forum. 
+This class includes a main method and the menu that mainly manipulates the user’s action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
+
+**Account Menu**
+
+
+The menu allows the user to operate the discussion forum. The server will take in the user's login or sign up information. If the user chooses to sign up, the server will assign the role for the user as either student or a teacher according to their answer. Then the server will save the username and password from the user provided through the client. If the user chooses to login, then the server will save the username and the password. After the user has signed up or logged in, the server will edit or delete the user’s account according the what they have chosen from the client.
+
+**Discussion Forum Menu**
+
+The client sets up the course given from the user through the client to start the discussion forum if the user is a teacher. Then the title and the description for the forum is set from the client input. When the user chooses options to add, delete, edit, commnet, vote, or grade on the discussion forum, the server performs the action. If the user is a student, the server operates the option to enter the course or exit according to what the student has chosen. If the student enters the course, then the server performs to write the post, comment on the post, upvote, or check the grades on the discussion forum from what the student has chosen.
+
+
 
 <h2>DiscussionTopic</h2>
 
@@ -2005,50 +1977,3 @@ Follow the example formatting exactly!
 
 This class includes a main method and menu GUI that lets the users post or reply on the discussion forum. There are two parts of the menu which are the login and sign up section and the discussion forum section. The cancel button or the cross on the top of the panel can be clicked to exit, except for a few places in the program where once a particular task has been chosen, the program cannot exit until it finishes. The detailed descriptions are written below.
 
-**Account Menu**
-
-
-The menu allows the user to operate the discussion forum. The user will first be asked to login or sign up to the system. If the user chooses to login, they can type in their username and password to login. If the user chooses to sign up, they are asked if the user is a student or a teacher which cannot be changed after selection. Then the user is to provide the username and password with their real name that cannot be changed after entering. After the user has signed up or logged in, they have the option to edit or delete their account.
-
-**Discussion Forum Menu**
-
-The user can add a course to start the discussion forum if the user is a teacher. Then the user must enter the title and the description for the forum. Then the user has the option to add, delete, or edit the discussion forum. The teacher can only grade a particular post of a student only once. After the teacher has graded a particular post of a student, even other teachers can’t grade that post. The teacher can check the highest votes of each forum if the course that has been entered by the teacher.
-
-If the user is a student, they have the option to go into the course or exit. Then they can join the discussion forum to write the post, comment on the post, upvote, or check the grades. The student can only vote once per login and they will only be able to vote and check the grades for the posts of the particular discussion forum they are in. If there are no posts in the discussion forum they are in, they won’t be asked to vote in the first place.
-
-<h2>LMSClient</h2>
-
-
-This class includes a main method and the menu that mainly asks the user for an action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
-
-**Account Menu**
-
-
-The menu allows the user to operate the discussion forum. The client will first ask the user to login or sign up to the system. If the user chooses to sign up, the client will ask for the user’s role. If the user chooses to login, then the client asks the user to provide their username and password. After the user has signed up or logged in, they are asked for the option to edit or delete their account.
-
-**Discussion Forum Menu**
-
-The user is asked to add a course to start the discussion forum if the user is a teacher. Then the user is asked to enter the title and the description for the forum. Then the user is asked for the options to add, delete, edit, comment, vote, or grade on the discussion forum. If the user is a student, they are asked for the option to enter the course or exit. If they enter the course, then the user is asked to write the post, comment on the post, upvote, or check the grades on the discussion forum.
-
-
-<h2>LMSServer</h2>
-
-
-This class includes a main method and the menu that mainly manipulates the user’s action. There are two parts of the menu which are the login and sign up section and the discussion forum section. The detailed descriptions are written below.
-
-**Account Menu**
-
-
-The menu allows the user to operate the discussion forum. The server will take in the user's login or sign up information. If the user chooses to sign up, the server will assign the role for the user as either student or a teacher according to their answer. Then the server will save the username and password from the user provided through the client. If the user chooses to login, then the server will save the username and the password. After the user has signed up or logged in, the server will edit or delete the user’s account according the what they have chosen from the client.
-
-**Discussion Forum Menu**
-
-The client sets up the course given from the user through the client to start the discussion forum if the user is a teacher. Then the title and the description for the forum is set from the client input. When the user chooses options to add, delete, edit, commnet, vote, or grade on the discussion forum, the server performs the action. If the user is a student, the server operates the option to enter the course or exit according to what the student has chosen. If the student enters the course, then the server performs to write the post, comment on the post, upvote, or check the grades on the discussion forum from what the student has chosen.
-
-<h2>Submission</h2>
-
-Suhon Choe - Submitted Report on Brightspace.
-
-Sanya Gangwani - Submitted Vocareum workspace.
-
-Akash Mullik - Submitted Presentation on Brightspace.
